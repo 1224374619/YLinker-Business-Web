@@ -13,5 +13,6 @@ module.exports = {
         .set('utils',resolve('src/utils'))
         .set('apis',resolve('src/apis'))
         .set('store',resolve('src/store'))
+        .set('theme',resolve('src/theme'))
   }
 }
