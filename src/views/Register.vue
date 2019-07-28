@@ -86,7 +86,7 @@ export default {
       this.$router.push({ path: 'login' });
     },
     gotoUserPrivacyLicenseUI() {
-      window.open('/user-license');
+      window.open(this.$router.resolve({ name: 'user-license' }).href, '_blank');
     }
   }
 }
