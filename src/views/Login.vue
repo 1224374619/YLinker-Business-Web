@@ -15,7 +15,7 @@
             <password-input v-model="form.password" />
           </el-form-item>
           <el-form-item>
-            <el-button class="full" type="primary" @click="onSubmit">立即登录</el-button>
+            <el-button class="full" type="primary" @click="onSignin">立即登录</el-button>
           </el-form-item>
         </el-form>
         <p class="adjunctive">
@@ -28,62 +28,62 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+import { Action } from 'vuex-class';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 import PasswordInput from 'components/password-input.vue';
-import { signin } from 'apis/account';
-import { mapMutations } from 'vuex';
-import { DONE_LOGIN } from 'store/mutation-types';
+import { signin } from '@/apis/account';
+import { DONE_LOGIN } from '@/store/mutation-types';
 
-export default {
-  name: 'login',
+@Component({
   components: {
     CustomizedFooter,
     CustomizedNav,
     PasswordInput,
   },
-  data() {
-    return {
-      form: {
-        tel: '',
-        password: ''
-      },
-      rules: {
-        tel: [
-          { required: true, message: '请输入登录手机号', trigger: 'blur' },
-          { type: 'number', message: '手机号必须为数字值', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入登录密码', trigger: 'blur' },
-        ]
-      }
-    }
-  },
-  methods: {
-    ...mapMutations([
-      DONE_LOGIN,
-    ]),
-    onSubmit() {
-      this.$refs['form'].validate(async (valid) => {
-        if (valid) {
-          // submit form;
-          const res = await signin({ ...this.form });
-          if (res.result) {
-            this[DONE_LOGIN]();
-          }
-        } else {
-          return false;
+})
+export default class Home extends Vue {
+  @Action(DONE_LOGIN) doneLogin: any
+
+  form: object = {
+    tel: '',
+    password: '',
+  };
+
+  rules: object = {
+    tel: [
+      { required: true, message: '请输入登录手机号', trigger: 'blur' },
+      { type: 'number', message: '手机号必须为数字值', trigger: 'blur' },
+    ],
+    password: [
+      { required: true, message: '请输入登录密码', trigger: 'blur' },
+    ],
+  };
+
+  onSignin() {
+    const ref: any = this.$refs.form;
+    ref.validate(async (valid: boolean) => {
+      if (valid) {
+        // submit form;
+        const res = await signin({ ...this.form });
+        if (res.data.result) {
+          this.doneLogin();
         }
-      });
-    },
-    gotoRegisterUI() {
-      this.$router.push({ path: 'register' });
-    },
-    gotoResetPwdUI() {
-      this.$router.push({ path: 'reset-password' });
-    }
-  }
+        return true;
+      }
+      return false;
+    });
+  };
+
+  gotoRegisterUI() {
+    this.$router.push({ path: 'register' });
+  };
+
+  gotoResetPwdUI() {
+    this.$router.push({ path: 'reset-password' });
+  };
 }
 </script>
 
@@ -121,5 +121,5 @@ export default {
             justify-content space-around
             margin-left 80px
           span
-            font-size 20px 
+            font-size 20px
 </style>

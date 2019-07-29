@@ -44,19 +44,18 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'customized-footer',
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+
+@Component({
   props: {
     showSimple: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
-  data() {
-    return {}
-  }
-}
+})
+export default class CustomizedFooter extends Vue {}
 </script>
 
 <style lang="stylus" scoped>

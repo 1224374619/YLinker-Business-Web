@@ -9,7 +9,7 @@
           <p>重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重</p>
           <p>重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重</p>
           <p>重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重重中之重</p>
-          
+
         </div>
         <el-button class="btn" type="primary" @click="close">关闭</el-button>
       </div>
@@ -18,26 +18,22 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 
-export default {
-  name: 'user-license',
+@Component({
   components: {
     CustomizedFooter,
     CustomizedNav,
   },
-  data() {
-    return {
-     
-    }
-  },
-  methods: {
-    close() {
-      window.close();
-    },
-  }
+})
+export default class UserLicense extends Vue {
+  /* eslint-disable */ 
+  close() {
+    window.close();
+  };
 }
 </script>
 
@@ -77,5 +73,5 @@ export default {
             font-size 12px
         .btn
           width 270px
-        
+
 </style>

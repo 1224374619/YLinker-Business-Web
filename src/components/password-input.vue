@@ -7,33 +7,32 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'passwordInput',
+<script lang="ts">
+import { Vue, Component, Watch } from 'vue-property-decorator';
+@Component({
   props: {
     placeholder: {
       type: String,
-      default: '请输入登录密码（6-24位数字和字母）'
-    }
-  },
-  data() {
-    return {
-      type: 'password',
-      input: '',
-    }
-  },
-  methods: {
-    toggleTType() {
-      this.type = 'text';
+      default: '请输入登录密码（6-24位数字和字母）',
     },
-    togglePType() {
-      this.type = 'password';
-    }
   },
-  watch: {
-    input() {
-      this.$emit('input', this.input);
-    }
+})
+export default class PasswordInput extends Vue {
+  type: string = 'password';
+
+  input: string = '';
+
+  toggleTType() {
+    this.type = 'text';
+  };
+
+  togglePType() {
+    this.type = 'password';
+  };
+
+  @Watch('input', { immediate: true, deep: true })
+  function(val: string, oldVal: string) {
+    this.$emit('input', this.input);
   }
 }
 </script>

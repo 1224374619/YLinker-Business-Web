@@ -29,55 +29,53 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 import Captcha from 'components/captcha.vue';
 import PasswordInput from 'components/password-input.vue';
 
-export default {
-  name: 'resetpwd',
+@Component({
   components: {
     CustomizedFooter,
     CustomizedNav,
     Captcha,
     PasswordInput,
   },
-  data() {
-    return {
-      form: {
-        tel: '',
-        password: '',
-        confirmPassword: '',
-        captcha: '',
-      },
-      rules: {
-        tel: [
-          { required: true, message: '请输入登录手机号', trigger: 'blur' },
-          { type: 'number', message: '手机号必须为数字值', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入新登录密码', trigger: 'blur' },
-        ],
-        'confirm-password': [
-          { required: true, message: '请再次输入新登录密码', trigger: 'blur' },
-        ],
-        captcha: [
-          { required: true, message: '请输入验证码', trigger: 'blur' },
-        ]
+})
+export default class ResetPassword extends Vue {
+  form = {
+    tel: '',
+    password: '',
+    confirmPassword: '',
+    captcha: '',
+  };
+
+  rules = {
+    tel: [
+      { required: true, message: '请输入登录手机号', trigger: 'blur' },
+      { type: 'number', message: '手机号必须为数字值', trigger: 'blur' },
+    ],
+    password: [
+      { required: true, message: '请输入新登录密码', trigger: 'blur' },
+    ],
+    'confirm-password': [
+      { required: true, message: '请再次输入新登录密码', trigger: 'blur' },
+    ],
+    captcha: [
+      { required: true, message: '请输入验证码', trigger: 'blur' },
+    ],
+  };
+
+  onSubmit() {
+    const ref: any = this.$refs.form;
+    ref.validate((valid: boolean) => {
+      if (valid) {
+        // submit;
       }
-    }
-  },
-  methods: {
-    onSubmit() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          // submit;
-        } else {
-          return false;
-        }
-      });
-    },
+      return false;
+    });
   }
 }
 </script>
@@ -113,11 +111,11 @@ export default {
             justify-content space-between
             margin-left 5px
           span
-            font-size 20px 
+            font-size 20px
 </style>
 
 <style lang="stylus">
   .resetpwd-container
-    .el-form-item__content 
+    .el-form-item__content
       text-align left
 </style>

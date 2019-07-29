@@ -12,26 +12,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 
-export default {
-  name: 'reset-result',
+@Component({
   components: {
     CustomizedFooter,
     CustomizedNav,
   },
-  data() {
-    return {
-     
-    }
-  },
-  methods: {
-    gotoLoginUI() {
-      this.$router.push({ path: 'login' });
-    },
-  }
+})
+export default class ResetResult extends Vue {
+  gotoLoginUI() {
+    this.$router.push({ path: 'login' });
+  };
 }
 </script>
 
@@ -67,5 +62,5 @@ export default {
           font-size 16px
         .btn
           width 270px
-        
+
 </style>

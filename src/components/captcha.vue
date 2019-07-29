@@ -5,38 +5,38 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component, Watch } from 'vue-property-decorator';
+
 const captchaLabel = '获取验证码';
 const countNumber = 60;
 
-export default {
-  name: 'captcha',
-  data() {
-    return {
-      frozen: false,
-      counter: countNumber,
-      captchaInput: '',
-      captchaStatusText: captchaLabel,
-    }
-  },
-  methods: {
-    getCaptcha() {
-      this.frozen = true;
-      const handler = setInterval(() => {
-        this.captchaStatusText = `${captchaLabel}(${--this.counter}s)`;
-        if (this.counter === 0) {
-          clearInterval(handler);
-          this.counter = countNumber;
-          this.captchaStatusText = captchaLabel;
-          this.frozen = false;
-        }
-      }, 1000);
-    }
-  },
-  watch: {
-    captchaInput() {
-      this.$emit('input', this.captchaInput);
-    }
+@Component({})
+export default class Captcha extends Vue {
+  frozen: boolean = false;
+
+  counter: number = countNumber;
+
+  captchaInput: string = '';
+
+  captchaStatusText: string = captchaLabel;
+
+  getCaptcha() {
+    this.frozen = true;
+    const handler = setInterval(() => {
+      this.captchaStatusText = `${captchaLabel}(${--this.counter}s)`;
+      if (this.counter === 0) {
+        clearInterval(handler);
+        this.counter = countNumber;
+        this.captchaStatusText = captchaLabel;
+        this.frozen = false;
+      }
+    }, 1000);
+  };
+
+  @Watch('captchaInput', { immediate: true, deep: true })
+  function(val: string, oldVal: string) {
+    this.$emit('input', this.captchaInput);
   }
 }
 </script>

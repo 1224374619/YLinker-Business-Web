@@ -29,35 +29,35 @@
     </nav>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
 import { mapState } from 'vuex';
+import { RootState } from '@/store/root-states';
 
-export default {
-  name: 'customized-nav',
+@Component({
   props: {
     ctlHideMenus: {
       type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {}
+      default: false,
+    },
   },
   computed: mapState({
-    hasLogin (state) {
+    hasLogin(state: RootState) {
       return state.hasLogin;
-    }
+    },
   }),
-  methods: {
-    gotoHomeUI() {
-      this.$router.push({ path: '/' });
-    },
-    gotoLoginUI() {
-      this.$router.push({ path: 'login' });
-    },
-    gotoRegisterUI() {
-      this.$router.push({ path: 'register' });
-    },
+})
+export default class CustomizedNav extends Vue {
+  gotoHomeUI() {
+    this.$router.push({ path: '/' });
+  }
+
+  gotoLoginUI() {
+    this.$router.push({ path: 'login' });
+  }
+
+  gotoRegisterUI() {
+    this.$router.push({ path: 'register' });
   }
 }
 </script>
@@ -116,7 +116,7 @@ export default {
               border-radius 50%
           .btn-set
             margin 0 15px
-            button 
+            button
               cursor pointer
               font-size 15px
               background none
