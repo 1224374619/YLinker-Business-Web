@@ -1,25 +1,24 @@
 <template>
   <nav>
       <div class="nav-body">
-        <img @click="gotoHomeUI" :src="require('../assets/images/logo.png')" />
+        <img @click="gotoHomeUI" :src="require('@/assets/images/logo.png')" />
         <div class="menu">
           <div class="group" v-if="!ctlHideMenus">
-            <router-link to="/">首页</router-link>
-            <router-link to="/occupations">职位</router-link>
-            <router-link to="/resumes">简历</router-link>
-            <router-link to="/contact-us">联系我们</router-link>
+            <router-link to="/home">首页</router-link>
+            <router-link to="/resume">简历管理</router-link>
+            <router-link to="/occupation">岗位管理</router-link>
+            <router-link to="/enterprise/info">企业中心</router-link>
           </div>
           <div class="btn-set" v-if="!hasLogin">
             <button @click="gotoLoginUI">登录</button>
             <button @click="gotoRegisterUI">注册</button>
           </div>
           <div class="user-operations" v-else>
-            <el-dropdown placement="bottom-start" @command="dealMenuClick">
+            <el-dropdown placement="bottom-start" @command="handleMenuClick">
               <img :src="placeholder" />
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>个人信息</el-dropdown-item>
-                <el-dropdown-item>我的简历</el-dropdown-item>
-                <el-dropdown-item>账号设置</el-dropdown-item>
+                <el-dropdown-item command="/account/basic">账号管理</el-dropdown-item>
+                <el-dropdown-item command="/about/contact">联系我们</el-dropdown-item>
                 <el-dropdown-item divided command="logout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -53,11 +52,20 @@ export default class CustomizedNav extends Vue {
   }
 
   gotoLoginUI() {
-    this.$router.push({ path: 'login' });
+    this.$router.push({ path: '/login' });
   }
 
   gotoRegisterUI() {
-    this.$router.push({ path: 'register' });
+    this.$router.push({ path: '/register' });
+  }
+
+  handleMenuClick(command: string) {
+    if (command === 'logout') {
+      // clean session and logout;
+      
+    } else {
+      this.$router.push({ path: command });
+    }
   }
 }
 </script>
@@ -66,7 +74,6 @@ export default class CustomizedNav extends Vue {
   nav
       z-index 100
       background-color #1f368d
-      box-shadow 0px 1px 9px #ccc
       width 100%
       position fixed
       top 0
@@ -99,7 +106,7 @@ export default class CustomizedNav extends Vue {
             flex 1
             margin 0 50px
             a
-              width 100px
+              width 150px
               color white
               text-decoration none
               display flex

@@ -103,7 +103,7 @@ export default class Home extends Vue {
     this.isLogin = true;
   }
 
-  dealMenuClick(command: String) {
+  dealMenuClick(command: string) {
     if (command === 'logout') {
       this.isLogin = false;
     }

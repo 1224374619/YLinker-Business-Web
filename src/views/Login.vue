@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { Action } from 'vuex-class';
+import { Mutation } from 'vuex-class';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 import PasswordInput from 'components/password-input.vue';
@@ -45,7 +45,7 @@ import { DONE_LOGIN } from '@/store/mutation-types';
   },
 })
 export default class Home extends Vue {
-  @Action(DONE_LOGIN) doneLogin: any
+  @Mutation(DONE_LOGIN) doneLogin: any
 
   form: object = {
     tel: '',
@@ -67,10 +67,14 @@ export default class Home extends Vue {
     ref.validate(async (valid: boolean) => {
       if (valid) {
         // submit form;
+        /*
         const res = await signin({ ...this.form });
         if (res.data.result) {
           this.doneLogin();
         }
+        */
+        this.doneLogin();
+        this.$router.push({ path: '/enterprise/info' });
         return true;
       }
       return false;
@@ -78,12 +82,13 @@ export default class Home extends Vue {
   };
 
   gotoRegisterUI() {
-    this.$router.push({ path: 'register' });
+    this.$router.push({ path: '/register' });
   };
 
   gotoResetPwdUI() {
-    this.$router.push({ path: 'reset-password' });
+    this.$router.push({ path: '/reset-password' });
   };
+  
 }
 </script>
 

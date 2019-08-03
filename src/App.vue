@@ -16,4 +16,18 @@ html, body
   -moz-osx-font-smoothing grayscale
   text-align center
   color #2c3e50
+.el-tooltip
+  span
+    border-radius 50%
+    background-color #000
+    color #fff
+    display inline-block
+    width 15px
+    height 15px
+    cursor pointer
+    font-size 12px
+    text-align center
+    line-height 15px
 </style>
+
+
