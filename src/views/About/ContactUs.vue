@@ -23,7 +23,7 @@
             <el-input type="textarea" :rows="4" v-model="form.comment" placeholder="请输入留言内容"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" class="full" @click="onSubmit">提交</el-button>
+            <el-button type="primary" class="full main" @click="onSubmit">提交</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -89,7 +89,7 @@ export default class ContactUs extends Vue {
         text-align left 
         margin 30px 0px 10px
       .form
-        padding 20px
+        padding 10px
         width 520px
         button.full
           width 100%

@@ -16,7 +16,7 @@
               <el-button type="text">?</el-button>
             </el-tooltip>
           </span>
-          <el-button size="small" @click="enterpriseInfoEditMode = true" v-if="!enterpriseInfoEditMode">编辑</el-button>
+          <el-button size="small" class="edit-btn main" @click="enterpriseInfoEditMode = true" v-if="!enterpriseInfoEditMode">编辑</el-button>
         </p>
         <div class="display" v-if="!enterpriseInfoEditMode">
           <ul>
@@ -138,14 +138,14 @@
             </el-upload>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">保存</el-button>
+            <el-button type="primary" class="main" @click="onSubmit">保存</el-button>
             <el-button @click="enterpriseInfoEditMode = false">取消</el-button>
           </el-form-item>
           <span class="line"></span>
         </el-form>
         <p class="header">
           <span class="title">联系人信息</span>
-          <el-button size="small" @click="contactInfoEditMode = true" v-if="!contactInfoEditMode">编辑</el-button>
+          <el-button size="small" class="edit-btn main" @click="contactInfoEditMode = true" v-if="!contactInfoEditMode">编辑</el-button>
         </p>
         <div class="display" v-if="!contactInfoEditMode">
           <ul>
@@ -182,7 +182,7 @@
             <el-input v-model="form.email" placeholder="请输入联系邮箱"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">保存</el-button>
+            <el-button type="primary" class="main" @click="onSubmit">保存</el-button>
             <el-button @click="contactInfoEditMode = false">取消</el-button>
           </el-form-item>
         </el-form>
@@ -267,11 +267,13 @@ export default class EnterpriseInfo extends Vue {
   .enterprise-info-container
     display flex
     flex-direction column
+    margin-top 20px
     .nav
       position relative
       flex 0 0 70px
     .body
       display flex
+      width 85%
       justify-content center
       flex-direction column
       flex 1
@@ -292,8 +294,7 @@ export default class EnterpriseInfo extends Vue {
           p
             margin-left 20px
       .form
-        padding 20px
-        width 520px
+        padding 10px
         .display
           ul
             list-style none
@@ -323,6 +324,8 @@ export default class EnterpriseInfo extends Vue {
             margin-left 5px
             margin-top 40px
             font-weight bold
+            button.edit-btn
+              height 35px
             &:first-child
               margin-top 10px
             .title
@@ -330,7 +333,7 @@ export default class EnterpriseInfo extends Vue {
               vertical-align middle
               margin-right 3px
           span
-            font-size 20px
+            font-size 22px
 </style>
 
 <style lang="stylus">

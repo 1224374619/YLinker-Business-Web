@@ -1,6 +1,6 @@
 <template>
   <div class="passwordInput">
-    <el-input class="input" :type="type" v-model="input" :placeholder="placeholder"></el-input>
+    <el-input prefix-icon="el-icon-goods" class="input" :type="type" v-model="input" :placeholder="placeholder"></el-input>
     <span v-if="input" @mousedown="toggleTType" @mouseup="togglePType">
       <img :src="require('../assets/images/eye.png')" />
     </span>

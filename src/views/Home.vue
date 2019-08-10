@@ -1,10 +1,8 @@
 <template>
   <div class="home">
-    <customized-nav />
-    <div class="content">
-      首页
-    </div>
-    <customized-footer />
+    <div @click="redirectToResume">简历管理</div>
+    <div @click="redirectToOccupation">岗位管理</div>
+    <div @click="redirectToEnterprise">企业中心</div>
   </div>
 </template>
 
@@ -20,120 +18,38 @@ import CustomizedNav from 'components/customized-nav.vue';
   },
 })
 export default class Home extends Vue {
-  priactiveTabName: string = 'recommend';
-
-  isLogin: boolean = false;
-
-  showLoginModal: boolean = false;
-
-  showRegisterModal: boolean = false;
-
-  showForgetPwdModal: boolean = false;
-
-  loginForm: object = {
-    username: '',
-    password: '',
-  };
-
-  registerForm: object = {
-    email: '',
-    captcha: '',
-    password: '',
-  };
-
-  resetPwdForm: object = {
-    email: '',
-    captcha: '',
-    newPassword: '',
-  };
-
-  options: object[] = [{
-    value: '101',
-    label: '江苏省',
-    children: [{
-      value: '10101',
-      label: '南京',
-    }, {
-      value: '10102',
-      label: '苏州',
-    }, {
-      value: '10103',
-      label: '无锡',
-    }, {
-      value: '10104',
-      label: '常州',
-    }, {
-      value: '10105',
-      label: '南通',
-    }, {
-      value: '10106',
-      label: '泰州',
-    }, {
-      value: '10107',
-      label: '扬州',
-    }, {
-      value: '10108',
-      label: '盐城',
-    }, {
-      value: '10109',
-      label: '镇江',
-    }, {
-      value: '10110',
-      label: '盐城',
-    }, {
-      value: '10111',
-      label: '宿迁',
-    }, {
-      value: '10112',
-      label: '淮安',
-    }, {
-      value: '10113',
-      label: '徐州',
-    }, {
-      value: '10114',
-      label: '连云港',
-    }],
-  }];
-
-  searchKey: string = '';
-
-  doLogin() {
-    // request;
-    this.showLoginModal = false;
-    this.isLogin = true;
+  redirectToResume() {
+    this.$router.push({ path: '/resume' });
   }
 
-  dealMenuClick(command: string) {
-    if (command === 'logout') {
-      this.isLogin = false;
-    }
+  redirectToOccupation() {
+    this.$router.push({ path: '/occupation' });
   }
 
-  doLogot() {
-    this.isLogin = false;
-  }
-
-  redirectToSearchResult() {
-    this.$router.push({ path: '/search' });
-  }
-
-  companyScrolling() {
-    const holder: any = this.$refs['company-holder'];
-    if (holder && document.body.clientWidth === (holder.scrollWidth - holder.scrollLeft)) {
-      holder.scrollLeft = 0;
-    }
-    holder.scrollLeft += 1;
-    requestAnimationFrame(this.companyScrolling);
-  }
-
-  mounted() {
-    this.companyScrolling();
+  redirectToEnterprise() {
+    this.$router.push({ path: '/enterprise' });
   }
 }
 </script>
 
 <style lang="stylus" scoped>
   .home
-    margin-top 70px
-
+    display flex
+    justify-content left 
+    padding 0 200px
+    div
+      width 200px
+      height 200px
+      background-color rgba(0, 0, 0, .6)
+      display flex
+      justify-content center
+      align-items center
+      font-size 25px
+      cursor pointer
+      margin 35px
+      transition all 0.5s
+      box-shadow 0px 1px 6px 0px rgba(22,28,39,0.50)
+      color white
+      &:hover
+        opacity 0.8
 </style>

@@ -1,31 +1,27 @@
 <template>
   <div class="resetpwd-container">
-    <customized-nav class="nav" :ctlHideMenus="true" />
-    <div class="body">
-      <div class="form">
-        <p class="header">
-          <span>重置密码</span>
-        </p>
-        <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-          <el-form-item label="手机号" prop="tel">
-            <el-input v-model.number="form.tel" placeholder="请输入登录手机号"></el-input>
-          </el-form-item>
-          <el-form-item label="验证码" prop="captcha">
-            <captcha v-model="form.captcha" />
-          </el-form-item>
-          <el-form-item label="新密码" prop="password">
-            <password-input v-model="form.password" :placeholder="'请输入新密码（6-24位数字和字母）'" />
-          </el-form-item>
-          <el-form-item label="确认密码" prop="confirm-password">
-            <password-input v-model="form.confirmPassword"  :placeholder="'请再次输入新密码'" />
-          </el-form-item>
-          <el-form-item>
-            <el-button class="full" type="primary" @click="onSubmit">重置密码</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+    <div class="form">
+      <p class="header">
+        <span>重置密码</span>
+      </p>
+      <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+        <el-form-item label="手机号" prop="tel">
+          <el-input v-model.number="form.tel" placeholder="请输入登录手机号"></el-input>
+        </el-form-item>
+        <el-form-item label="验证码" prop="captcha">
+          <captcha v-model="form.captcha" />
+        </el-form-item>
+        <el-form-item label="新密码" prop="password">
+          <password-input v-model="form.password" :placeholder="'请输入新密码（6-24位数字和字母）'" />
+        </el-form-item>
+        <el-form-item label="确认密码" prop="confirm-password">
+          <password-input v-model="form.confirmPassword"  :placeholder="'请再次输入新密码'" />
+        </el-form-item>
+        <el-form-item>
+          <el-button class="full main" type="primary" @click="onSubmit">重置密码</el-button>
+        </el-form-item>
+      </el-form>
     </div>
-    <customized-footer :showSimple="true" />
   </div>
 </template>
 
@@ -82,36 +78,31 @@ export default class ResetPassword extends Vue {
 
 <style lang="stylus" scoped>
   .resetpwd-container
-    height 100%
+    flex 1
     display flex
-    flex-direction column
-    .nav
-      position relative
-    .body
-      display flex
-      align-items center
-      justify-content center
-      flex 1
-      position relative
-      background url('../assets/images/background.jpg')
-      background-size cover
-      .form
-        padding 40px
-        width 380px
-        height 400px
-        background-color white
-        border-radius 3px
-        button.full
-          width 100%
-        p
-          display flex
-          flex-direction row
-          margin-bottom 20px
-          &.header
-            justify-content space-between
-            margin-left 5px
-          span
-            font-size 20px
+    align-items center
+    justify-content center
+    .form
+      padding 30px
+      width 504px
+      height 430px
+      background-color white
+      border-radius 5px
+      box-sizing border-box
+      transform translate(0, -70px)
+      button.full
+        width 100%
+      p
+        display flex
+        flex-direction row
+        margin-bottom 20px
+        &.header
+          justify-content space-between
+        &.adjunctive
+          justify-content space-around
+          margin-left 80px
+        span
+          font-size 20px
 </style>
 
 <style lang="stylus">

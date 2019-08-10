@@ -36,28 +36,93 @@ export default new Router({
       component: () => import(/* webpackChunkName: "user-license" */ './views/UserLicense.vue'),
     },
     {
+      path: '/occupation',
+      name: 'occupation',
+      redirect: '/occupation/info',
+      component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/index.vue'),
+      children: [
+        {
+          path: 'info',
+          name: 'occupation-info',
+          component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationInfo.vue'),
+        },
+        {
+          path: 'add',
+          name: 'occupation-add',
+          component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/Add.vue'),
+        },
+      ],
+    },
+    {
+      path: '/resume',
+      name: 'resume',
+      redirect: '/resume/info',
+      component: () => import(/* webpackChunkName: "resume" */ './views/Resume/index.vue'),
+      children: [
+        {
+          path: 'info',
+          name: 'resume-info',
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/ResumeInfo.vue'),
+        },
+        {
+          path: 'blacklist',
+          name: 'resume-blacklist',
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/BlackList.vue'),
+        },
+        {
+          path: 'talent',
+          name: 'resume-talent',
+          redirect: '/resume/talent/info',
+        },
+        {
+          path: 'talent/:id(\\d+)',
+          name: 'resume-talent-detail',
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/TalentDetail.vue'),
+        },
+        {
+          path: 'talent/info',
+          name: 'resume-talent-info',
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/TalentInfo.vue'),
+        },
+        {
+          path: 'talent/collection',
+          name: 'resume-talent-collection',
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/TalentCollection.vue'),
+        },
+        {
+          path: 'talent/downloaded',
+          name: 'resume-talent-downloaded',
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/TalentDownloaded.vue'),
+        },
+      ],
+    },
+    {
       path: '/enterprise',
-      name: 'enterprise-info',
+      name: 'enterprise',
+      redirect: '/enterprise/info',
       component: () => import(/* webpackChunkName: "enterprise" */ './views/Enterprise/index.vue'),
       children: [
         {
           path: 'info',
-          component: () => import(/* webpackChunkName: "enterprise-info" */ './views/Enterprise/EnterpriseInfo.vue'),
+          name: 'enterprise-info',
+          component: () => import(/* webpackChunkName: "enterprise" */ './views/Enterprise/EnterpriseInfo.vue'),
         },
       ],
     },
     {
       path: '/about',
-      name: 'about-us',
+      name: 'about',
       component: () => import(/* webpackChunkName: "about" */ './views/About/index.vue'),
       children: [
         {
           path: 'intro',
-          component: () => import(/* webpackChunkName: "about-intro" */ './views/About/AboutUs.vue'),
+          name: 'about-intro',
+          component: () => import(/* webpackChunkName: "about" */ './views/About/AboutUs.vue'),
         },
         {
           path: 'contact',
-          component: () => import(/* webpackChunkName: "about-contact" */ './views/About/ContactUs.vue'),
+          name: 'about-contact',
+          component: () => import(/* webpackChunkName: "about" */ './views/About/ContactUs.vue'),
         },
       ],
     },
@@ -68,11 +133,13 @@ export default new Router({
       children: [
         {
           path: 'basic',
-          component: () => import(/* webpackChunkName: "account-basic" */ './views/Account/Basic.vue'),
+          name: 'account-basic',
+          component: () => import(/* webpackChunkName: "account" */ './views/Account/Basic.vue'),
         },
         {
           path: 'reset-password',
-          component: () => import(/* webpackChunkName: "account-resetpwd" */ './views/Account/ResetPassword.vue'),
+          name: 'account-reset-password',
+          component: () => import(/* webpackChunkName: "account" */ './views/Account/ResetPassword.vue'),
         },
       ],
     },
@@ -82,7 +149,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "enterprise-info-update" */ './views/EnterpriseInfoUpdate.vue'),
     },
     {
-      path: '/enterprise/update/result',
+      path: '/enterprise/update-result',
       name: 'enterprise-info-update-result',
       component: () => import(/* webpackChunkName: "enterprise-info-update-result" */ './views/EnterpriseRegisterResult.vue'),
     },

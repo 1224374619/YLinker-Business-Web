@@ -1,29 +1,28 @@
 <template>
   <div class="enterprise">
-    <customized-nav class="nav"/>
-    <div class="body">
-      <el-container>
-        <el-aside width="200px">
-          <el-menu
-            :router="true"
-            :default-active="activedMenu"
-            class="el-menu">
-            <el-menu-item :index="route.path" v-for="(route, index) in subRoutes" :key="index">
-                <i class="el-icon-menu"></i>
-                <span slot="title">{{ route.label }}</span>
-            </el-menu-item>
-            </el-menu>
-        </el-aside>
-        <el-main>
-          <el-breadcrumb separator="/">
-            <el-breadcrumb-item>您的位置：企业中心</el-breadcrumb-item>
-            <el-breadcrumb-item v-for="(route, index) in subRoutes" :key="index" :to="{ path: route.path }" v-if="currentRoute === route.path">{{ route.label }}</el-breadcrumb-item>
-          </el-breadcrumb>
-          <router-view/>
-        </el-main>
-      </el-container>
-    </div>
-    <customized-footer :showSimple="true" />
+    <el-container>
+      <el-aside width="177px">
+        <el-menu
+          :router="true"
+          @select="toggleActivedMenu"
+          :default-active="activedMenu"
+          class="el-menu">
+          <el-menu-item :index="route.path" v-for="(route, index) in subRoutes" :key="index">
+              <i class="el-icon-menu"></i>
+              <span slot="title">{{ route.label }}</span>
+          </el-menu-item>
+          </el-menu>
+      </el-aside>
+      <el-main>
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item>您的位置：企业中心</el-breadcrumb-item>
+          <template v-for="(route, index) in subRoutes">
+            <el-breadcrumb-item :key="index" :to="{ path: route.path }" v-if="currentRoute === route.path">{{ route.label }}</el-breadcrumb-item>
+          </template>
+        </el-breadcrumb>
+        <router-view/>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
@@ -61,40 +60,44 @@ export default class Enterprise extends Vue {
 
   subRoutes = subRoutes;
 
-  mounted() {
-    this.currentRoute = this.$route.path;
+  syncRoute(source: string) {
+    this.currentRoute = source;
     this.activedMenu = this.currentRoute;
+  }
+
+  mounted() {
+    // init state;
+    this.syncRoute(this.$route.path);
+  }
+
+  updated() {
+    // update state;
+    this.syncRoute(this.$route.path);
+  }
+
+  toggleActivedMenu(e: string) {
+    this.syncRoute(e);
   }
 }
 </script>
 
 <style lang="stylus" scoped>
   .enterprise
-    height 100%
-    display flex
-    flex-direction column
-    .nav
-      position relative
-      flex 0 0 70px
-    .body
-      display flex
-      justify-content center
-      flex 1
-      position relative
-      background-color #f0f0f0
-      margin auto
-      width 1280px
-      aside
-        background-color white
-        margin-right 10px
-      main
-        background-color white
+    margin-bottom 10px
+    aside
+      background-color white
+      margin-right 10px
+      ul
+        text-align left 
+    main
+      background-color white
 </style>
 
 <style lang="stylus">
   .enterprise
-    li.is-active
-      border-right solid 3px #1f368d
+    li.el-menu-item.is-active
+      border-left solid 3px #1f368d
+      background-color rgba(31, 54, 141, 0.15);
     .el-menu
       border none
 </style>

@@ -1,14 +1,10 @@
 <template>
   <div class="reset-result-container">
-    <customized-nav class="nav" :ctlHideMenus="true" />
-    <div class="body">
-      <div class="form">
-        <i class="el-icon-success"></i>
-        <p>密码重置成功，请重新登录</p>
-        <el-button class="btn" type="primary" @click="gotoLoginUI">重新登录</el-button>
-      </div>
+    <div class="form">
+      <i class="el-icon-success"></i>
+      <p>密码重置成功，请重新登录</p>
+      <el-button class="btn main" type="primary" @click="gotoLoginUI">重新登录</el-button>
     </div>
-    <customized-footer :showSimple="true" />
   </div>
 </template>
 
@@ -32,35 +28,27 @@ export default class ResetResult extends Vue {
 
 <style lang="stylus" scoped>
   .reset-result-container
-    height 100%
+    flex 1
     display flex
-    flex-direction column
-    .nav
-      position relative
-    .body
+    align-items center
+    justify-content center
+    .form
+      padding 80px
+      width 437px
+      height 340px
+      background-color white
+      box-sizing border-box
+      border-radius 3px
       display flex
+      flex-direction column
+      justify-content space-around
       align-items center
-      justify-content center
-      flex 1
-      position relative
-      background url('../assets/images/background.jpg')
-      background-size cover
-      .form
-        padding 40px
-        width 470px
-        height 260px
-        background-color white
-        border-radius 3px
-        display flex
-        flex-direction column
-        justify-content space-around
-        align-items center
-        i
-          color #7ED321
-          font-size 60px
-        p
-          font-size 16px
-        .btn
-          width 270px
+      i
+        color #7ED321
+        font-size 60px
+      p
+        font-size 19px
+      .btn
+        width 270px
 
 </style>

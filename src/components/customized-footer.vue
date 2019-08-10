@@ -61,9 +61,9 @@ export default class CustomizedFooter extends Vue {}
 <style lang="stylus" scoped>
   .footer
     background-color #f0f0f0
+    width 100%
     .appendix
       display flex
-      width 1280px
       margin auto
       padding 70px 150px 20px
       flex-direction row
@@ -85,4 +85,6 @@ export default class CustomizedFooter extends Vue {}
       font-size 12px
       color #999
       padding 10px 0
+      margin auto
+      background-color white
 </style>

@@ -1,35 +1,31 @@
 <template>
   <div class="register-container">
-    <customized-nav class="nav" :ctlHideMenus="true" />
-    <div class="body">
-      <div class="form">
-        <p class="header">
-          <span>企业用户注册</span>
-          <el-button type="text">个人用户</el-button>
-        </p>
-        <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-          <el-form-item label="手机号" prop="tel">
-            <el-input v-model.number="form.tel" placeholder="请输入登录手机号"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <password-input v-model="form.password" />
-          </el-form-item>
-          <el-form-item label="验证码" prop="captcha">
-            <captcha v-model="form.captcha" />
-          </el-form-item>
-          <el-form-item prop="checkLicense">
-            <el-checkbox v-model="form.checkLicense">我已同意<el-button type="text" @click="gotoUserPrivacyLicenseUI">《用户协议及隐私策略》</el-button></el-checkbox>
-          </el-form-item>
-          <el-form-item>
-            <el-button class="full" type="primary" @click="onSubmit" :disabled="!form.checkLicense">立即注册</el-button>
-          </el-form-item>
-        </el-form>
-        <p class="adjunctive">
-          <el-button type="text" @click="gotoLoginUI">立即登录</el-button>
-        </p>
-      </div>
+    <div class="form">
+      <p class="header">
+        <span>企业用户注册</span>
+        <el-button type="text">个人用户</el-button>
+      </p>
+      <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+        <el-form-item label="手机号" prop="tel">
+          <el-input v-model.number="form.tel" placeholder="请输入登录手机号"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <password-input v-model="form.password" />
+        </el-form-item>
+        <el-form-item label="验证码" prop="captcha">
+          <captcha v-model="form.captcha" />
+        </el-form-item>
+        <el-form-item prop="checkLicense">
+          <el-checkbox v-model="form.checkLicense">我已同意<el-button type="text" @click="gotoUserPrivacyLicenseUI">《用户协议及隐私策略》</el-button></el-checkbox>
+        </el-form-item>
+        <el-form-item>
+          <el-button class="full main" type="primary" @click="onSubmit" :disabled="!form.checkLicense">立即注册</el-button>
+        </el-form-item>
+      </el-form>
+      <p class="adjunctive">
+        <el-button type="text" @click="gotoLoginUI">立即登录</el-button>
+      </p>
     </div>
-    <customized-footer :showSimple="true" />
   </div>
 </template>
 
@@ -91,39 +87,31 @@ export default class Register extends Vue {
 
 <style lang="stylus" scoped>
   .register-container
-    height 100%
+    flex 1
     display flex
-    flex-direction column
-    .nav
-      position relative
-    .body
-      flex 1
-      position relative
-      background url('../assets/images/background.jpg')
-      background-size cover
-      .form
-        padding 40px
-        width 380px
-        height 400px
-        background-color white
-        border-radius 3px
-        position absolute
-        right 150px
-        top 120px
-        button.full
-          width 100%
-        p
-          display flex
-          flex-direction row
-          margin-bottom 20px
-          &.header
-            justify-content space-between
-            margin-left 5px
-          &.adjunctive
-            justify-content space-around
-            margin-left 80px
-          span
-            font-size 20px
+    align-items center
+    justify-content center
+    .form
+      padding 30px
+      width 504px
+      height 480px
+      background-color white
+      border-radius 5px
+      box-sizing border-box
+      transform translate(0, -70px)
+      button.full
+        width 100%
+      p
+        display flex
+        flex-direction row
+        margin-bottom 20px
+        &.header
+          justify-content space-between
+        &.adjunctive
+          justify-content space-around
+          margin-left 80px
+        span
+          font-size 20px
 </style>
 
 <style lang="stylus">

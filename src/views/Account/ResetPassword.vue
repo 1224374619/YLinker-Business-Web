@@ -17,7 +17,7 @@
             <password-input v-model="form.confirmPassword"  :placeholder="'请再次输入新密码'" />
           </el-form-item>
           <el-form-item>
-            <el-button class="full" type="primary" @click="onSubmit">重置密码</el-button>
+            <el-button class="full main" type="primary" @click="onSubmit">重置密码</el-button>
           </el-form-item>
         </el-form>
       </div>

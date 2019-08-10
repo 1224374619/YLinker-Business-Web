@@ -1,14 +1,10 @@
 <template>
   <div class="enterprise-register-result-container">
-    <customized-nav class="nav"/>
-    <div class="body">
-      <div class="container">
-        <i class="el-icon-success"></i>
-        <p>注册成功</p>
-        <span>即将跳转至企业信息页</span>
-      </div>
+    <div class="container">
+      <i class="el-icon-success"></i>
+      <p>注册成功</p>
+      <span>即将跳转至企业信息页</span>
     </div>
-    <customized-footer :showSimple="true" />
   </div>
 </template>
 
@@ -33,35 +29,28 @@ export default class EnterpriseRegisterResult extends Vue {
 
 <style lang="stylus" scoped>
   .enterprise-register-result-container
-    height 100%
+    flex 1
     display flex
-    flex-direction column
-    .nav
-      position relative
-      flex 0 0 70px
-    .body
+    align-items center
+    justify-content center
+    .container
+      padding 80px
+      width 437px
+      height 340px
+      box-sizing border-box
+      background-color white
+      box-shadow 0px 2px 2px rgba(0,0,0,.1)
+      border-radius 3px
       display flex
+      flex-direction column
+      justify-content space-around
       align-items center
-      justify-content center
-      flex 1
-      position relative
-      .container
-        padding 40px
-        width 370px
-        height 160px
-        background-color white
-        box-shadow 0px 2px 2px rgba(0,0,0,.1)
-        border-radius 3px
-        display flex
-        flex-direction column
-        justify-content space-around
-        align-items center
-        i
-          color #7ED321
-          font-size 60px
-        p
-          font-size 20px
-        span
-          font-size 14px
-          color grey
+      i
+        color #7ED321
+        font-size 60px
+      p
+        font-size 19px
+      span
+        font-size 14px
+        color grey
 </style>

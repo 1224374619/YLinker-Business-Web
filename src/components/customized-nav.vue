@@ -7,7 +7,7 @@
             <router-link to="/home">首页</router-link>
             <router-link to="/resume">简历管理</router-link>
             <router-link to="/occupation">岗位管理</router-link>
-            <router-link to="/enterprise/info">企业中心</router-link>
+            <router-link to="/enterprise">企业中心</router-link>
           </div>
           <div class="btn-set" v-if="!hasLogin">
             <button @click="gotoLoginUI">登录</button>
@@ -72,65 +72,64 @@ export default class CustomizedNav extends Vue {
 
 <style lang="stylus" scoped>
   nav
-      z-index 100
-      background-color #1f368d
-      width 100%
-      position fixed
-      top 0
+    z-index 100
+    background-color #1f368d
+    width 100%
+    position fixed
+    top 0
+    display flex
+    flex-direction row
+    height 70px
+    align-content center
+    align-items center
+    .nav-body
       display flex
       flex-direction row
-      height 70px
-      align-content center
       align-items center
-      .nav-body
+      margin auto
+      width 1280px
+      height 100%
+      img
+        height 40
+        margin 0 20px
+        cursor pointer
+      .menu
         display flex
-        flex-direction row
-        align-items center
-        margin auto
-        width 1280px
-        min-width 1024px
+        flex 1
         height 100%
-        img
-          height 40
-          margin 0 20px
-          cursor pointer
-        .menu
+        justify-content flex-end
+        align-items center
+        .group
           display flex
-          flex 1
           height 100%
-          justify-content flex-end
-          align-items center
-          .group
-            display flex
-            height 100%
+          flex 1
+          margin 0 100px
+          a
             flex 1
-            margin 0 50px
-            a
-              width 150px
-              color white
-              text-decoration none
-              display flex
-              align-items center
-              justify-content center
-              &.router-link-active
-                color #6EC5D2
-                border-bottom solid 3px #6EC5D2
-          .user-operations
+            color white
+            text-decoration none
+            display flex
+            align-items center
+            justify-content center
+            &.router-link-active
+              color #6EC5D2
+              border-bottom solid 3px #6EC5D2
+        .user-operations
+          cursor pointer
+          img
+            width 50px
+            height 50px
+            border-radius 50%
+        .btn-set
+          margin 0 15px
+          button
             cursor pointer
-            img
-              width 50px
-              height 50px
-              border-radius 50%
-          .btn-set
-            margin 0 15px
-            button
-              cursor pointer
-              font-size 15px
-              background none
+            font-size 15px
+            background none
+            border none
+            padding 0 13px
+            border-right solid 1px lightgrey
+            color white
+            &:last-child
               border none
-              padding 0 13px
-              border-right solid 1px lightgrey
-              color white
-              &:last-child
-                border none
 </style>

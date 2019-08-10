@@ -1,32 +1,28 @@
 <template>
-  <div class="contact">
-    <customized-nav class="nav"/>
-    <div class="body">
-      <el-container>
-        <el-aside width="200px">
-          <el-menu
-            @select="toggleActivedMenu"
-            :router="true"
-            :default-active="activedMenu"
-            class="el-menu">
-            <el-menu-item :index="route.path" v-for="(route, index) in subRoutes" :key="index">
-                <i :class="route.icon"></i>
-                <span slot="title">{{ route.label }}</span>
-            </el-menu-item>
-            </el-menu>
-        </el-aside>
-        <el-main>
-          <el-breadcrumb separator="/">
-            <el-breadcrumb-item>您的位置：关于我们</el-breadcrumb-item>
-            <template v-for="(route, index) in subRoutes">
-              <el-breadcrumb-item :key="index" :to="{ path: route.path }" v-if="currentRoute === route.path">{{ route.label }}</el-breadcrumb-item>
-            </template>
-          </el-breadcrumb>
-          <router-view/>
-        </el-main>
-      </el-container>
-    </div>
-    <customized-footer :showSimple="true" />
+  <div class="about">
+    <el-container>
+      <el-aside width="177px">
+        <el-menu
+          @select="toggleActivedMenu"
+          :router="true"
+          :default-active="activedMenu"
+          class="el-menu">
+          <el-menu-item :index="route.path" v-for="(route, index) in subRoutes" :key="index">
+              <i :class="route.icon"></i>
+              <span slot="title">{{ route.label }}</span>
+          </el-menu-item>
+          </el-menu>
+      </el-aside>
+      <el-main>
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item>您的位置：关于我们</el-breadcrumb-item>
+          <template v-for="(route, index) in subRoutes">
+            <el-breadcrumb-item :key="index" :to="{ path: route.path }" v-if="currentRoute === route.path">{{ route.label }}</el-breadcrumb-item>
+          </template>
+        </el-breadcrumb>
+        <router-view/>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
@@ -86,33 +82,23 @@ export default class Contact extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-  .contact
-    height 100%
-    display flex
-    flex-direction column
-    .nav
-      position relative
-      flex 0 0 70px
-    .body
-      display flex
-      justify-content center
-      flex 1
-      position relative
-      background-color #f0f0f0
-      margin auto
-      width 1280px
-      aside
-        background-color white
-        margin-right 10px
-      main
-        background-color white
-        padding 30px 40px
+  .about
+    margin-bottom 10px
+    aside
+      background-color white
+      margin-right 10px
+      ul
+        text-align left 
+    main
+      background-color white
+      padding 30px 40px
 </style>
 
 <style lang="stylus">
-  .enterprise
-    li.is-active
-      border-right solid 3px #1f368d
+  .about
+    li.el-menu-item.is-active
+      border-left solid 3px #1f368d
+      background-color rgba(31, 54, 141, 0.15);
     .el-menu
       border none
 </style>
