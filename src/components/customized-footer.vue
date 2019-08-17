@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="copyright">
-      <p>©2019 银领人才网 | 沪ICP备xxxxxxx号-1</p>
+      <p>Copyright © 2019 (银领人才网) All Right Reserved | 沪ICP备xxxxxxx号-1</p>
     </div>
   </div>
 </template>

@@ -49,7 +49,7 @@ export default new Router({
         {
           path: 'add',
           name: 'occupation-add',
-          component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/Add.vue'),
+          component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationAdd.vue'),
         },
       ],
     },
@@ -106,6 +106,16 @@ export default new Router({
           path: 'info',
           name: 'enterprise-info',
           component: () => import(/* webpackChunkName: "enterprise" */ './views/Enterprise/EnterpriseInfo.vue'),
+        },
+        {
+          path: 'user',
+          name: 'enterprise-user',
+          component: () => import(/* webpackChunkName: "enterprise" */ './views/Enterprise/EnterpriseUser.vue'),
+        },
+        {
+          path: 'bill',
+          name: 'enterprise-bill',
+          component: () => import(/* webpackChunkName: "enterprise" */ './views/Enterprise/EnterpriseBill.vue'),
         },
       ],
     },

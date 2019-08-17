@@ -15,7 +15,7 @@
       </el-aside>
       <el-main>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item>您的位置：岗位管理</el-breadcrumb-item>
+          <el-breadcrumb-item>您的位置：职位管理</el-breadcrumb-item>
           <template v-for="(route, index) in subRoutes">
             <el-breadcrumb-item :key="index" :to="{ path: route.path }" v-if="currentRoute === route.path">{{ route.label }}</el-breadcrumb-item>
           </template>
@@ -38,10 +38,10 @@ declare type routeType = {
 
 const subRoutes: routeType[] = [{
   path: '/occupation/info',
-  label: '岗位总览',
+  label: '职位总览',
 }, {
   path: '/occupation/add',
-  label: '新增岗位',
+  label: '新增职位',
 }];
 
 @Component({
@@ -80,10 +80,10 @@ export default class Enterprise extends Vue {
 
 <style lang="stylus" scoped>
   .occupation
-    margin-bottom 10px
+    margin-bottom 20px
     aside
       background-color white
-      margin-right 10px
+      margin-right 20px
       ul
         text-align left 
     main
@@ -95,7 +95,7 @@ export default class Enterprise extends Vue {
   .occupation
     li.el-menu-item.is-active
       border-left solid 3px #1f368d
-      background-color rgba(31, 54, 141, 0.15);
+      background-color #D6E6FF
     .el-menu
       border none
 </style>

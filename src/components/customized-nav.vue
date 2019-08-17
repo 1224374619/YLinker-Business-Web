@@ -4,10 +4,18 @@
         <img @click="gotoHomeUI" :src="require('@/assets/images/logo.png')" />
         <div class="menu">
           <div class="group" v-if="!ctlHideMenus">
-            <router-link to="/home">首页</router-link>
-            <router-link to="/resume">简历管理</router-link>
-            <router-link to="/occupation">岗位管理</router-link>
-            <router-link to="/enterprise">企业中心</router-link>
+            <router-link to="/home">
+              <span>首页</span>
+            </router-link>
+            <router-link to="/resume">
+              <span>简历管理</span>
+            </router-link>
+            <router-link to="/occupation">
+              <span>职位管理</span>
+            </router-link>
+            <router-link to="/enterprise">
+              <span>企业中心</span>
+            </router-link>
           </div>
           <div class="btn-set" v-if="!hasLogin">
             <button @click="gotoLoginUI">登录</button>
@@ -73,7 +81,7 @@ export default class CustomizedNav extends Vue {
 <style lang="stylus" scoped>
   nav
     z-index 100
-    background-color #1f368d
+    background-color #16376e
     width 100%
     position fixed
     top 0
@@ -112,8 +120,15 @@ export default class CustomizedNav extends Vue {
             align-items center
             justify-content center
             &.router-link-active
-              color #6EC5D2
-              border-bottom solid 3px #6EC5D2
+              background-color white
+              color #16376e
+              span
+                width 80%
+                height 100%
+                border-bottom solid 3px #16376e
+                display flex
+                justify-content center
+                align-items center
         .user-operations
           cursor pointer
           img

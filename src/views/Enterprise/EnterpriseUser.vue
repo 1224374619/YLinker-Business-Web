@@ -1,24 +1,33 @@
 <template>
-  <div class="resume-blacklist">
-    <board class="board" title="黑名单">
+  <div class="enterprise-user">
+    <el-dialog width="450px" center title="新增用户" :visible.sync="addUserDialogVisible">
+      <el-form :model="addUserForm" label-width="60px">
+        <el-form-item label="姓名">
+          <el-input v-model="addUserForm.username" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model="addUserForm.tel" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="角色">
+          <span>普通用户</span>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addUserDialogVisible = false">取消</el-button>
+        <el-button type="primary main" @click="doConfirmAddUser">确定</el-button>
+      </div>
+    </el-dialog>
+    <board class="board" title="用户列表">
       <div class="filters">
-        <el-form :inline="true" :model="filters" class="form" label-width="70px">
+        <el-form :inline="true" :model="filters" class="form" label-width="120px">
           <div class="fields">
-            <el-form-item label="姓名">
+            <el-form-item label="用户姓名/手机号">
               <el-input v-model="input" placeholder="请输入内容"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号">
-              <el-input v-model="input" placeholder="请输入内容"></el-input>
-            </el-form-item>
-            <el-form-item label="投递职位">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option value="1">工程师</el-option>
-              </el-select>
             </el-form-item>
           </div>
           <div class="operations">
             <el-form-item>
-              <el-button @click="onSearch">重置</el-button>
+              <el-button @click="addUserDialogVisible = true">新增</el-button>
               <el-button type="primary main" @click="onSearch">查询</el-button>
             </el-form-item>
           </div>
@@ -33,48 +42,27 @@
         </el-table-column>
         <el-table-column
           prop="name"
-          width="50"
-          label="性别">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          width="80"
-          label="年龄">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="工作年限">
-        </el-table-column>
-        <el-table-column
-          prop="address"
           width="120"
-          label="海外工作经历">
+          label="手机号">
         </el-table-column>
         <el-table-column
           prop="address"
-          label="现居地">
+          width="100"
+          label="角色">
         </el-table-column>
-         <el-table-column
+        <el-table-column
           prop="address"
-          label="学历">
+          label="权限">
         </el-table-column>
-         <el-table-column
+        <el-table-column
           prop="address"
-          label="投递职位">
-        </el-table-column>
-         <el-table-column
-          prop="address"
-          label="简历状态">
-        </el-table-column>
-         <el-table-column
-          prop="address"
-          label="投递时间">
+          label="注册时间">
         </el-table-column>
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">移除黑名单</el-button>
+            <el-button type="text" size="small">编辑</el-button>
+            <el-button type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -102,10 +90,18 @@ import Board from 'components/board.vue';
     Board,
   },
 })
-export default class OccupationInfo extends Vue {
+export default class EnterpriseUser extends Vue {
   filters: object = {
     occupationName: ''
   };
+
+  addUserForm: object = {
+    username: '',
+    tel: '',
+    role: ''
+  };
+
+  addUserDialogVisible: boolean = false;
 
   onlineTableData: any = [];
 
@@ -115,13 +111,15 @@ export default class OccupationInfo extends Vue {
 
   onSearch() {}
 
+  doConfirmAddUser() {}
+
   mounted() {
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-  .resume-blacklist
+  .enterprise-user
     display flex
     margin-top 30px
     .board

@@ -83,10 +83,10 @@ export default class Enterprise extends Vue {
 
 <style lang="stylus" scoped>
   .enterprise
-    margin-bottom 10px
+    margin-bottom 20px
     aside
       background-color white
-      margin-right 10px
+      margin-right 20px
       ul
         text-align left 
     main
@@ -97,7 +97,7 @@ export default class Enterprise extends Vue {
   .enterprise
     li.el-menu-item.is-active
       border-left solid 3px #1f368d
-      background-color rgba(31, 54, 141, 0.15);
+      background-color #D6E6FF
     .el-menu
       border none
 </style>

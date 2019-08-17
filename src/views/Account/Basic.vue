@@ -1,24 +1,6 @@
 <template>
   <div class="account-basic">
-    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-        <el-form :model="form">
-            <el-form-item label="活动名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="活动区域" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false">确定</el-button>
-        </div>
-    </el-dialog>
-    <div class="body">
-      <h1>基本信息</h1>
+    <board class="body" title="基本信息">
       <div class="content">
         <div class="avatar">
           <img :src="require('../../assets/images/company1.jpg')" />
@@ -49,14 +31,19 @@
             </el-form>
         </div>
       </div>
-    </div>
+    </board>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import Board from 'components/board.vue';
 
-@Component({})
+@Component({
+  components: {
+    Board,
+  },
+})
 export default class AccountBasic extends Vue {
   form: object = {
     comment: '',
@@ -105,6 +92,7 @@ export default class AccountBasic extends Vue {
   .account-basic
     display flex
     flex-direction column
+    margin-top 30px
     .nav
       position relative
       flex 0 0 70px
@@ -124,10 +112,6 @@ export default class AccountBasic extends Vue {
           img
             border-radius 50%
             width 100px
-      h1
-        font-size 20px
-        text-align left 
-        margin 30px 0px 10px
       .form
         padding 20px
         width 520px

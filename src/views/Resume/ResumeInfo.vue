@@ -1,7 +1,7 @@
 <template>
   <div class="resume-info-container">
     <div class="left">
-      <board title="岗位看板">
+      <board title="职位看板">
         <ul>
           <li>
             <span>本日新增</span>
@@ -13,11 +13,11 @@
           </li>
         </ul>
       </board>
-      <board class="list" title="岗位列表">
+      <board class="list" title="职位列表">
         <div class="filters">
           <el-form :inline="true" :model="filters" class="form">
             <div class="fields">
-              <el-form-item label="岗位名称">
+              <el-form-item label="职位名称">
                 <el-autocomplete
                   v-model="filters.occupationName"
                   :fetch-suggestions="querySearchAsync"
@@ -36,12 +36,12 @@
           </el-form>
         </div>
         <el-tabs v-model="activedTabName" type="card" @tab-click="handleClick">
-          <el-tab-pane label="已上线岗位" name="online">
+          <el-tab-pane label="已上线职位" name="online">
             <el-table
               :data="onlineTableData">
               <el-table-column
                 prop="date"
-                label="岗位名称">
+                label="职位名称">
               </el-table-column>
               <el-table-column
                 prop="name"
@@ -73,6 +73,7 @@
               </el-table-column>
             </el-table>
             <el-pagination
+              background
               class="pagination"
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
@@ -83,7 +84,7 @@
               :total="400">
             </el-pagination>
           </el-tab-pane>
-          <el-tab-pane label="已下线岗位" name="checking">已下线岗位</el-tab-pane>
+          <el-tab-pane label="已下线职位" name="checking">已下线职位</el-tab-pane>
         </el-tabs>
       </board>
     </div>
@@ -142,8 +143,8 @@ export default class OccupationInfo extends Vue {
     const div: any = this.$refs['chart'];
     const chart = new G2.Chart({
       container: div,
-      width: 270, 
-      height: 300 
+      width: 230, 
+      height: 230 
     });
 
     chart.source(data);
@@ -160,7 +161,7 @@ export default class OccupationInfo extends Vue {
 <style lang="stylus" scoped>
   .resume-info-container
     display flex
-    margin-top 20px
+    margin-top 30px
     .left
       flex 5
       margin-right 15px

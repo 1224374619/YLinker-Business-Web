@@ -1,7 +1,6 @@
 <template>
   <div class="account-reset-password">
-    <div class="body">
-      <h1>重置密码</h1>
+    <board class="body">
       <div class="form">
         <el-form ref="form" :rules="rules" :model="form" label-width="80px">
           <el-form-item label="手机号" prop="tel">
@@ -21,7 +20,7 @@
           </el-form-item>
         </el-form>
       </div>
-    </div>
+    </board>
   </div>
 </template>
 
@@ -29,9 +28,11 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Captcha from 'components/captcha.vue';
 import PasswordInput from 'components/password-input.vue';
+import Board from 'components/board.vue';
 
 @Component({
   components: {
+    Board,
     Captcha,
     PasswordInput,
   },
@@ -76,6 +77,7 @@ export default class AccountResetPassword extends Vue {
   .account-reset-password
     display flex
     flex-direction column
+    margin-top 30px
     .nav
       position relative
       flex 0 0 70px
@@ -86,10 +88,6 @@ export default class AccountResetPassword extends Vue {
       flex 1
       position relative
       background-color white
-      h1
-        font-size 20px
-        text-align left 
-        margin 30px 0px 10px
       .form
         padding 20px
         width 520px

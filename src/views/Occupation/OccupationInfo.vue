@@ -1,7 +1,7 @@
 <template>
   <div class="occupation-info-container">
     <div class="left">
-      <board title="岗位看板">
+      <board title="职位看板">
         <ul>
           <li>
             <span>已上线</span>
@@ -25,10 +25,10 @@
           </li>
         </ul>
       </board>
-      <board title="岗位列表">
+      <board title="职位列表">
         <div class="filters">
           <el-form :inline="true" :model="filters" class="demo-form-inline">
-            <el-form-item label="招聘岗位">
+            <el-form-item label="招聘职位">
               <el-autocomplete
                 v-model="filters.occupationName"
                 :fetch-suggestions="querySearchAsync"
@@ -37,7 +37,7 @@
               ></el-autocomplete>
             </el-form-item>
             <span>
-              <el-form-item label="招聘岗位">
+              <el-form-item label="招聘职位">
                 <el-autocomplete
                   v-model="filters.occupationName"
                   :fetch-suggestions="querySearchAsync"
@@ -61,7 +61,7 @@
               :data="onlineTableData">
               <el-table-column
                 prop="date"
-                label="岗位名称">
+                label="职位名称">
               </el-table-column>
               <el-table-column
                 prop="name"
@@ -69,7 +69,7 @@
               </el-table-column>
               <el-table-column
                 prop="address"
-                label="岗位性质">
+                label="职位性质">
               </el-table-column>
               <el-table-column
                 prop="address"
@@ -93,6 +93,7 @@
               </el-table-column>
             </el-table>
             <el-pagination
+              background
               class="pagination"
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
@@ -169,8 +170,8 @@ export default class OccupationInfo extends Vue {
     const div: any = this.$refs['chart'];
     const chart = new G2.Chart({
       container: div,
-      width: 270, 
-      height: 300 
+      width: 230, 
+      height: 230 
     });
 
     chart.source(data);
@@ -187,7 +188,7 @@ export default class OccupationInfo extends Vue {
 <style lang="stylus" scoped>
   .occupation-info-container
     display flex
-    margin-top 20px
+    margin-top 30px
     .left
       flex 5
       margin-right 15px

@@ -1,18 +1,18 @@
 <template>
   <div class="occupation-add">
     <div class="body">
-      <h1>新增岗位</h1>
+      <h1>新增职位</h1>
       <div class="form">
         <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-          <el-form-item label="岗位名称" prop="comment">
-            <el-input v-model="form.comment" placeholder="请输入岗位名称"></el-input>
+          <el-form-item label="职位名称" prop="comment">
+            <el-input v-model="form.comment" placeholder="请输入职位名称"></el-input>
           </el-form-item>
           <el-form-item label="工作性质" prop="comment">
              <el-select v-model="value" placeholder="请选择">
                 <el-option value="1">实习</el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="岗位分类" prop="comment">
+          <el-form-item label="职位分类" prop="comment">
              <el-select v-model="value" placeholder="请选择">
                 <el-option value="1">技术</el-option>
             </el-select>
@@ -48,7 +48,7 @@
           <el-form-item label="地址详情" prop="comment">
             <el-input type="textarea" :rows="4" v-model="form.comment" placeholder="请输入留言内容"></el-input>
           </el-form-item>
-          <el-form-item label="岗位描述" prop="comment">
+          <el-form-item label="职位描述" prop="comment">
             <el-input type="textarea" :rows="4" v-model="form.comment" placeholder="请输入留言内容"></el-input>
           </el-form-item>
           <el-form-item label="任职要求" prop="comment">

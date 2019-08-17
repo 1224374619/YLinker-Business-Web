@@ -267,7 +267,7 @@ export default class EnterpriseInfo extends Vue {
   .enterprise-info-container
     display flex
     flex-direction column
-    margin-top 20px
+    margin-top 30px
     .nav
       position relative
       flex 0 0 70px

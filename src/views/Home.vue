@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div @click="redirectToResume">简历管理</div>
-    <div @click="redirectToOccupation">岗位管理</div>
+    <div @click="redirectToOccupation">职位管理</div>
     <div @click="redirectToEnterprise">企业中心</div>
   </div>
 </template>

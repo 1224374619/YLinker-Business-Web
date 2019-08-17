@@ -29,8 +29,8 @@ export default class Board extends Vue {
   display flex
   border-radius 4px
   flex-direction column
-  box-shadow 0px 1px 6px 0px rgba(22,28,39,0.20)
-  margin 20px 0
+  box-shadow 0px 2px 12px 0px rgba(0,0,0,0.06)
+  margin 10px 0
   .header
     height 50px
     background-color #f1f7ff
@@ -41,5 +41,7 @@ export default class Board extends Vue {
     color #1f368d
     font-size 16px
   .body
-    padding 10px
+    padding 20px
+  &:first-child
+    margin-top 0
 </style>

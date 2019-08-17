@@ -110,6 +110,7 @@
             </el-table-column>
           </el-table>
           <el-pagination
+            background
             class="pagination"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -162,12 +163,12 @@ export default class OccupationInfo extends Vue {
 <style lang="stylus" scoped>
   .talent-downloaded
     display flex
-    margin-top 20px
+    margin-top 30px
     .board
       width 100%
       padding-bottom 30px
       .filters
-        margin 20px
+        margin 20px 0
         .form
           display flex
           flex-direction column

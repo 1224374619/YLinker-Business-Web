@@ -37,6 +37,7 @@
         </el-table-column>
       </el-table>
       <el-pagination
+        background
         class="pagination"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -86,7 +87,7 @@ export default class OccupationInfo extends Vue {
 <style lang="stylus" scoped>
   .resume-blacklist
     display flex
-    margin-top 20px
+    margin-top 30px
     .board
       width 100%
       padding-bottom 30px
