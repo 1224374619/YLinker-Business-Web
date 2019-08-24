@@ -1,5 +1,5 @@
 <template>
-  <div class="talent-downloaded">
+  <div class="resume-downloaded">
     <board class="board" title="已下载简历">
       <div class="filters">
         <el-form :inline="true" :model="filters" class="form" label-width="70px">
@@ -140,7 +140,7 @@ import Board from 'components/board.vue';
     Board,
   },
 })
-export default class OccupationInfo extends Vue {
+export default class ResumeDownloaded extends Vue {
   filters: object = {
     occupationName: ''
   };
@@ -161,7 +161,7 @@ export default class OccupationInfo extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-  .talent-downloaded
+  .resume-downloaded
     display flex
     margin-top 30px
     .board

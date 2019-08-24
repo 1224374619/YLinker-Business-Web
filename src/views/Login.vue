@@ -48,13 +48,20 @@ export default class Home extends Vue {
     password: '',
   };
 
+  phoneValidator = (rule: any, value: any, callback: any) => {
+    if (value === '') {
+      callback(new Error('请再次输入密码'));
+    } else {
+      callback();
+    }
+  };
+
   rules: object = {
     tel: [
-      { required: true, message: '请输入登录手机号', trigger: 'blur' },
-      { type: 'number', message: '手机号必须为数字值', trigger: 'blur' },
+      { validator: this.phoneValidator, trigger: 'blur' },
     ],
     password: [
-      { required: true, message: '请输入登录密码', trigger: 'blur' },
+      { validator: this.phoneValidator, trigger: 'blur' },
     ],
   };
 

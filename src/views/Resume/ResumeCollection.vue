@@ -1,5 +1,5 @@
 <template>
-  <div class="resume-blacklist">
+  <div class="resume-collection">
     <board class="board" :title="`收藏夹（${collectionCount}）`">
       <el-table
         @selection-change="handleSelectionChange"
@@ -64,7 +64,7 @@ import Board from 'components/board.vue';
     Board,
   },
 })
-export default class OccupationInfo extends Vue {
+export default class ResumeCollection extends Vue {
   collectionCount: number = 10;
 
   collectionPay: number = 10;
@@ -85,7 +85,7 @@ export default class OccupationInfo extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-  .resume-blacklist
+  .resume-collection
     display flex
     margin-top 30px
     .board

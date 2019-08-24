@@ -1,6 +1,6 @@
 <template>
-  <div class="talent-downloaded">
-    <board class="board" title="平台人才库">
+  <div class="resume-enterprise">
+    <board class="board" title="企业人才库">
       <div class="filters">
         <el-form :inline="true" :model="filters" class="form">
           <div class="fields">
@@ -178,7 +178,7 @@ import Board from 'components/board.vue';
     Board,
   },
 })
-export default class OccupationInfo extends Vue {
+export default class ResumeEnterprise extends Vue {
   filters: object = {
     occupationName: ''
   };
@@ -199,13 +199,13 @@ export default class OccupationInfo extends Vue {
   handleExportResumes() {}
 
   inspectResumeDetail() {
-    this.$router.push({ path: '/resume/talent/1' });
+    this.$router.push({ path: '/resume/1' });
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-  .talent-downloaded
+  .resume-enterprise
     display flex
     margin-top 30px
     .board
@@ -226,7 +226,7 @@ export default class OccupationInfo extends Vue {
 </style>
 
 <style lang="stylus">
-  .talent-downloaded
+  .resume-enterprise
     .fields
       .el-form-item__content
         width 150px

@@ -60,22 +60,22 @@ const subRoutes: routeTypeAdvanced[] = [{
   path: '/resume/info',
   label: '简历总览',
 }, {
-  path: '/resume/blacklist',
-  label: '黑名单',
-}, {
-  path: '/resume/talent',
+  path: '/resume/enterprise',
   label: '企业人才库',
+}, {
+  path: '/resume/platform',
+  label: '平台人才库',
   children: [{
-    path: '/resume/talent/info',
-    label: '详情',
-  },{
-    path: '/resume/talent/collection',
+    path: '/resume/platform/collection',
     label: '收藏夹',
   }, {
-    path: '/resume/talent/downloaded',
+    path: '/resume/platform/downloaded',
     label: '已下载简历',
   }]
-},];
+}, {
+  path: '/resume/blacklist',
+  label: '黑名单',
+}, ];
 
 @Component({
   components: {

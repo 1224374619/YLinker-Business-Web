@@ -171,7 +171,13 @@ export default class OccupationInfo extends Vue {
     const chart = new G2.Chart({
       container: div,
       width: 230, 
-      height: 230 
+      height: 150,
+      padding: {
+        top: 15,
+        right: 10,
+        bottom: 35,
+        left: 35,
+      }
     });
 
     chart.source(data);
@@ -195,6 +201,7 @@ export default class OccupationInfo extends Vue {
       .pagination
         margin-top 20px
       ul
+        margin 0
         list-style none
         display flex
         justify-content space-around
@@ -204,14 +211,17 @@ export default class OccupationInfo extends Vue {
           display flex
           flex-direction column
           span:first-child
+            line-height 27px
             color #666
             font-size 14px
           span:last-child
+            line-height 33px
             font-size 24px
             color #17376e
     .right
-      flex 2
+      flex 0 0 240px
       ul
+        margin 5px 0
         list-style none
         display flex
         justify-content space-around

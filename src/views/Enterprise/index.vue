@@ -44,7 +44,7 @@ const subRoutes: routeType[] = [{
   label: '用户管理',
 }, {
   path: '/enterprise/bill',
-  label: '账单管理',
+  label: '企业账单',
 }];
 
 @Component({

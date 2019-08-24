@@ -1,5 +1,5 @@
 <template>
-  <div class="resume-blacklist">
+  <div class="resume-detail">
     <board class="board" title="简历详情">
       <div class="resume">
         <div class="head">
@@ -192,7 +192,7 @@ import Board from 'components/board.vue';
     Board,
   },
 })
-export default class OccupationInfo extends Vue {
+export default class ResumeDetail extends Vue {
 
 
   created() {
@@ -203,7 +203,7 @@ export default class OccupationInfo extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-  .resume-blacklist
+  .resume-detail
     display flex
     margin-top 30px
     .board
@@ -303,7 +303,4 @@ export default class OccupationInfo extends Vue {
                   color #666
                   &:after
                     content: '：'
-        
-      
-
 </style>

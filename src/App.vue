@@ -88,6 +88,25 @@ button.main
   color white !important
   &:hover
     opacity .9
+.el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li
+  background-color white
+  border 0.7px solid rgba(0,0,0,0.15)
+.el-table th>.cell
+  font-size 13px
+.upload
+  .el-upload 
+    border 1px dashed #d9d9d9
+    border-radius 6px
+    cursor pointer
+    position relative
+    overflow hidden
+    height 100px
+    width 100px
+    display flex
+    justify-content center
+    align-items center
+  .el-upload:hover
+    border-color #409EFF
 </style>
 
 

@@ -2,21 +2,13 @@
   <div class="enterprise-info-container">
     <div class="body">
       <div class="head">
-        <img src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/28bb3690b4369bf2bec008f213614668_121_121.jpg" />
-        <div>
-          <p>企业信息完整度</p>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="70"></el-progress>
-        </div>
+        <p>企业信息完整度</p>
+        <el-progress :text-inside="true" :stroke-width="15" :percentage="70"></el-progress>
       </div>
       <div class="form">
         <p class="header">
-          <span>
-            <span class="title">企业信息</span>
-            <el-tooltip effect="dark" content="企业名称，纳税人识别号及营业执照更改后，系统将重新进行审核，部分功能将不可用。" placement="right-start">
-              <el-button type="text">?</el-button>
-            </el-tooltip>
-          </span>
-          <el-button size="small" class="edit-btn main" @click="enterpriseInfoEditMode = true" v-if="!enterpriseInfoEditMode">编辑</el-button>
+          <span class="title">基本信息</span>
+          <el-button class="edit-btn main" @click="enterpriseInfoEditMode = true" v-if="!enterpriseInfoEditMode">编辑</el-button>
         </p>
         <div class="display" v-if="!enterpriseInfoEditMode">
           <ul>
@@ -58,7 +50,7 @@
             </li>
           </ul>
         </div>
-        <el-form ref="form" :rules="rules" :model="form" label-width="120px" v-else>
+        <el-form class="form-container" ref="form" :rules="rules" :model="form" label-width="140px" v-else>
           <el-form-item label="企业名称" prop="enterprise">
             <el-input v-model="form.enterprise" placeholder="请输入企业名称"></el-input>
           </el-form-item>
@@ -117,44 +109,93 @@
             <el-upload
               :on-success="dealWithUploadLicense"
               class="upload"
-              drag
               action="https://jsonplaceholder.typicode.com/posts/">
               <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip">支持图片格式：png、jpg、jpeg，最大不超过 2M。</div>
+              <div class="el-upload__tip" slot="tip">支持图片格式：png、jpg、jpeg，最大不超过 3M。</div>
               <div class="el-upload__tip" slot="tip">为了尽快通过审核，请上传真实合法且清晰的执照图片。</div>
             </el-upload>
           </el-form-item>
-          <el-form-item label="上传营业执照" prop="license">
+          <div class="operations">
+            <el-button type="primary" class="main" @click="onSubmit">保存</el-button>
+            <el-button @click="enterpriseInfoEditMode = false">取消</el-button>
+          </div>
+        </el-form>
+        <span class="line"></span>
+
+        <p class="header">
+          <span class="title">企业审核信息</span>
+          <el-button class="edit-btn main" @click="enterpriseRegisterInfoEditMode = true" v-if="!enterpriseRegisterInfoEditMode">编辑</el-button>
+        </p>
+        <div class="display" v-if="!enterpriseRegisterInfoEditMode">
+          <ul>
+            <li>
+              <span>企业名称：</span>
+              <span></span>
+            </li>
+            <li>
+              <span>企业注册地：</span>
+              <span></span>
+            </li>
+            <li>
+              <span>统一社会信用代码：</span>
+              <span></span>
+            </li>
+            <li>
+              <span>企业类别：</span>
+              <span></span>
+            </li>
+            <li>
+              <span>证件原件照片：</span>
+              <span></span>
+            </li>
+          </ul>
+        </div>
+        <el-form class="form-container"  ref="form" :rules="rules" :model="form" label-width="140px" v-else>
+          <el-form-item label="企业名称" prop="name">
+            <el-input v-model="form.name" placeholder="企业名称"></el-input>
+          </el-form-item>
+          <el-form-item label="企业注册地" prop="location">
+            <el-cascader
+              class="search-picker"
+              placeholder="请选择企业注册地"
+              :options="citiesConstant"
+              v-model="form.location">
+            </el-cascader>
+          </el-form-item>
+          <el-form-item label="统一社会信用代码" prop="tel">
+            <el-input maxlength="11" v-model.number="form.tel" placeholder="请输入统一社会信用代码"></el-input>
+          </el-form-item>
+          <el-form-item label="企业类别" prop="enterpriseType">
+            <el-select v-model="value" placeholder="请选择企业类别">
+              <el-option :value="0">互联网</el-option>
+              <el-option :value="1">机械制造</el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="上传证件原件照片" prop="license">
             <el-upload
               :on-success="dealWithUploadLicense"
               class="upload"
-              drag
               action="https://jsonplaceholder.typicode.com/posts/">
               <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip">支持图片格式：png、jpg、jpeg，最大不超过 2M。</div>
-              <div class="el-upload__tip" slot="tip">为了尽快通过审核，请上传真实合法且清晰的执照图片。</div>
+              <div class="el-upload__tip" slot="tip">最多上传5张图片；支持图片格式：png、jpg、jpeg、gif，最大不超过3M。</div>
+              <div class="el-upload__tip" slot="tip">提示：确保企业名称与提交审核公司一致；如为复印件、黑白扫描件，需加盖企业公章；<br>不可使用屏幕截图或翻拍照片提交审核；上传图片不可有与银领人才网无关的标注或水印；<br>不可使用电子版营业执照提交审核；所上传证照照片，信息需清晰完整。</div>
+              <div class="el-upload__tip alert" slot="tip">企业营业执照仅用审核，不会向第三方透露，请放心上传！</div>
             </el-upload>
           </el-form-item>
-          <el-form-item>
+          <div class="operations">
             <el-button type="primary" class="main" @click="onSubmit">保存</el-button>
-            <el-button @click="enterpriseInfoEditMode = false">取消</el-button>
-          </el-form-item>
-          <span class="line"></span>
+            <el-button @click="enterpriseRegisterInfoEditMode = false">取消</el-button>
+          </div>
         </el-form>
+        <span class="line"></span>
         <p class="header">
           <span class="title">联系人信息</span>
-          <el-button size="small" class="edit-btn main" @click="contactInfoEditMode = true" v-if="!contactInfoEditMode">编辑</el-button>
+          <el-button class="edit-btn main" @click="contactInfoEditMode = true" v-if="!contactInfoEditMode">编辑</el-button>
         </p>
         <div class="display" v-if="!contactInfoEditMode">
           <ul>
             <li>
               <span>联系人姓名：</span>
-              <span></span>
-            </li>
-            <li>
-              <span>职位：</span>
               <span></span>
             </li>
             <li>
@@ -167,13 +208,9 @@
             </li>
           </ul>
         </div>
-        <el-form ref="form" :rules="rules" :model="form" label-width="120px" v-else>
-          
+        <el-form class="form-container"  ref="form" :rules="rules" :model="form" label-width="140px" v-else>
           <el-form-item label="联系人姓名" prop="name">
             <el-input v-model="form.name" placeholder="请输入联系人姓名"></el-input>
-          </el-form-item>
-          <el-form-item label="职位" prop="occupation">
-            <el-input v-model="form.occupation" placeholder="请输入职位"></el-input>
           </el-form-item>
           <el-form-item label="联系电话" prop="tel">
             <el-input maxlength="11" v-model.number="form.tel" placeholder="请输入联系电话"></el-input>
@@ -181,10 +218,10 @@
           <el-form-item label="联系邮箱" prop="email">
             <el-input v-model="form.email" placeholder="请输入联系邮箱"></el-input>
           </el-form-item>
-          <el-form-item>
+          <div class="operations">
             <el-button type="primary" class="main" @click="onSubmit">保存</el-button>
             <el-button @click="contactInfoEditMode = false">取消</el-button>
-          </el-form-item>
+          </div>
         </el-form>
       </div>
     </div>
@@ -220,6 +257,8 @@ export default class EnterpriseInfo extends Vue {
   enterpriseInfoEditMode: boolean = false;
 
   contactInfoEditMode: boolean = false;
+
+  enterpriseRegisterInfoEditMode: boolean = false;
 
   rules: object = {
     serialNumber: [
@@ -281,20 +320,15 @@ export default class EnterpriseInfo extends Vue {
       background-color white
       margin auto
       .head
-        display flex
-        flex-direction row
-        img
-          width 100px
-          height 100px
-        div
-          flex 1
-          text-align left
-          margin 0 20px
-          font-size 13px
-          p
-            margin-left 20px
+        width 240px
+        text-align left
+        font-size 14px
+        margin 20px 0 20px 15px
       .form
         padding 10px
+        .form-container
+          .operations
+            text-align right 
         .display
           ul
             list-style none
@@ -302,17 +336,17 @@ export default class EnterpriseInfo extends Vue {
             font-size 14px
             padding 0
             li
-              margin 20px 0
+              margin 40px 0
               display flex
               span:first-child
-                flex 0 0 100px
+                flex 0 0 130px
                 text-align right
         .line
           width 100%
           height 1px
           display inline-block
           background lightgrey
-          margin 10px 0
+          margin 20px 0
         button.full
           width 100%
         p
@@ -321,17 +355,13 @@ export default class EnterpriseInfo extends Vue {
           margin-bottom 20px
           &.header
             justify-content space-between
-            margin-left 5px
-            margin-top 40px
+            margin 10px 0 30px 5px
             font-weight bold
-            button.edit-btn
-              height 35px
-            &:first-child
-              margin-top 10px
             .title
               display inline-block
               vertical-align middle
               margin-right 3px
+              line-height 38px
           span
             font-size 22px
 </style>
@@ -339,10 +369,14 @@ export default class EnterpriseInfo extends Vue {
 <style lang="stylus">
   .enterprise-info-container
     .el-form-item__content
+      width 240px
       text-align left
     .el-upload__tip
+      min-width 600px
+      font-size 14px
+      color #999
       margin 10px 0
-      line-height 1
-    .el-select, .el-cascader
-      width 100%
+      line-height 1.4
+      &.alert
+        color #faad14
 </style>
