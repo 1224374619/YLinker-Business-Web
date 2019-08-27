@@ -140,10 +140,8 @@ export default class OccupationInfo extends Vue {
 <style lang="stylus" scoped>
   .container
     display flex
-    margin-top 30px
     width 1280px
     background-color white
-    margin auto
     padding 20px
     margin-bottom 20px
     flex-direction column

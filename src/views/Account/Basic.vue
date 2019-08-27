@@ -1,6 +1,6 @@
 <template>
   <div class="account-basic">
-    <el-dialog center title="更换手机号" :visible.sync="dialogChangeTelVisible" width="25%">
+    <el-dialog center title="更换手机号" :visible.sync="dialogChangeTelVisible" width="30%">
       <el-form :model="form" label-width="60px">
         <el-form-item label="手机号" :label-width="formLabelWidth">
           <el-input v-model="form.name" auto-complete="off"></el-input>
@@ -14,7 +14,7 @@
         <el-button type="primary main" @click="dialogFormVisible = false">确定</el-button>
       </div>
     </el-dialog>
-    <el-dialog center title="更换绑定邮箱" :visible.sync="dialogChangeMailVisible" width="25%">
+    <el-dialog center title="更换绑定邮箱" :visible.sync="dialogChangeMailVisible" width="30%">
       <el-form :model="form" label-width="70px">
         <el-form-item label="邮箱账号" :label-width="formLabelWidth">
           <el-input v-model="form.name" auto-complete="off"></el-input>
@@ -28,7 +28,7 @@
         <el-button type="primary main" @click="dialogFormVisible = false">确定</el-button>
       </div>
     </el-dialog>
-     <el-dialog center title="更换头像" :visible.sync="dialogChangeAvatarVisible" width="25%">
+     <el-dialog center title="更换头像" :visible.sync="dialogChangeAvatarVisible" width="30%">
       <el-upload
         class="avatar-uploader"
         action="https://jsonplaceholder.typicode.com/posts/"
