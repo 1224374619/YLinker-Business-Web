@@ -43,8 +43,10 @@ export default class Captcha extends Vue {
 
 <style lang="stylus" scoped>
 .captcha
+  display flex
   .input
-    width 110px
+    flex 1
   .btn
+    width 145px
     margin-left 10px
 </style>

@@ -2,7 +2,7 @@
   <div class="resume-downloaded">
     <board class="board" title="已下载简历">
       <div class="filters">
-        <el-form :inline="true" :model="filters" class="form" label-width="70px">
+        <el-form :inline="true" :model="filters" class="form">
           <div class="fields">
             <el-form-item label="求职意向">
               <el-autocomplete
@@ -167,15 +167,14 @@ export default class ResumeDownloaded extends Vue {
     .board
       width 100%
       padding-bottom 30px
-      .filters
-        margin 20px 0
-        .form
-          display flex
-          flex-direction column
-          .fields
-            text-align left 
-          .operations
-            text-align right 
+      .filters .form
+        display flex
+        flex-direction column
+        margin 5px 10px 20px
+        .fields
+          text-align left 
+        .operations
+          text-align right 
       .pagination
         margin-top 15px
         text-align right 

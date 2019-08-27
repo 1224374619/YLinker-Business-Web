@@ -9,12 +9,14 @@
           class="el-menu">
           <template v-for="(route, index) in subRoutes">
             <el-menu-item :index="route.path" :key="index" v-if="!route.children">
-              <i class="el-icon-menu"></i>
+              <span class="icon" v-html="route.icon" v-if="route.icon"></span>
+              <i class="el-icon-menu" v-else></i>
               <span slot="title">{{ route.label }}</span>
             </el-menu-item>
             <el-submenu :index="route.label" :key="index" v-else>
               <template slot="title">
-                <i class="el-icon-location"></i>
+                <span class="icon" v-html="route.icon" v-if="route.icon"></span>
+                <i class="el-icon-menu" v-else></i>
                 <span>{{ route.label }}</span>
               </template>
               <el-menu-item-group>
@@ -50,9 +52,11 @@ import CustomizedNav from 'components/customized-nav.vue';
 declare type routeTypeAdvanced = {
   path?: string,
   label: string,
+  icon?: string,
   children?: {
     path: string,
     label: string,
+    icon?: string,
   }[],
 };
 
@@ -62,10 +66,14 @@ const subRoutes: routeTypeAdvanced[] = [{
 }, {
   path: '/resume/enterprise',
   label: '企业人才库',
+  icon: ''
 }, {
-  path: '/resume/platform',
   label: '平台人才库',
+  icon: '&#xe609;',
   children: [{
+    path: '/resume/platform',
+    label: '简历详情',
+  }, {
     path: '/resume/platform/collection',
     label: '收藏夹',
   }, {
@@ -75,6 +83,7 @@ const subRoutes: routeTypeAdvanced[] = [{
 }, {
   path: '/resume/blacklist',
   label: '黑名单',
+  icon: '&#xe604;'
 }, ];
 
 @Component({
@@ -115,12 +124,14 @@ export default class Enterprise extends Vue {
   .occupation
     margin-bottom 20px
     aside
+      overflow hidden
       background-color white
       margin-right 20px
       ul
         text-align left 
     main
       background-color white
+      width 1083px
       
 </style>
 

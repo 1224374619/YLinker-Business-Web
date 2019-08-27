@@ -6,6 +6,10 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
+      path: '/',
+      redirect: '/home'
+    },
+    {
       path: '/home',
       name: 'home',
       component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
@@ -19,6 +23,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: () => import(/* webpackChunkName: "register" */ './views/Register.vue'),
+    },
+    {
+      path: '/notifications',
+      name: 'notifications',
+      component: () => import(/* webpackChunkName: "notifications" */ './views/Notifications.vue'),
     },
     {
       path: '/reset-password',
@@ -78,6 +87,11 @@ export default new Router({
           path: 'enterprise',
           name: 'resume-enterprise',
           component: () => import(/* webpackChunkName: "resume" */ './views/Resume/ResumeEnterprise.vue'),
+        },
+        {
+          path: 'platform',
+          name: 'resume-platform',
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/ResumePlatform.vue'),
         },
         {
           path: 'platform/collection',

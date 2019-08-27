@@ -8,8 +8,9 @@
           :default-active="activedMenu"
           class="el-menu">
           <el-menu-item :index="route.path" v-for="(route, index) in subRoutes" :key="index">
-              <i class="el-icon-menu"></i>
-              <span slot="title">{{ route.label }}</span>
+            <span class="icon" v-html="route.icon" v-if="route.icon"></span>
+            <i class="el-icon-menu" v-else></i>
+            <span slot="title">{{ route.label }}</span>
           </el-menu-item>
           </el-menu>
       </el-aside>
@@ -33,18 +34,22 @@ import CustomizedNav from 'components/customized-nav.vue';
 
 declare type routeType = {
   path: string,
-  label: string
+  label: string,
+  icon?: string,
 };
 
 const subRoutes: routeType[] = [{
   path: '/enterprise/info',
   label: '信息管理',
+  icon: '&#xe60a;',
 }, {
   path: '/enterprise/user',
   label: '用户管理',
+  icon: '&#xe612;',
 }, {
   path: '/enterprise/bill',
   label: '企业账单',
+  icon: '&#xe60b;',
 }];
 
 @Component({
@@ -85,6 +90,7 @@ export default class Enterprise extends Vue {
   .enterprise
     margin-bottom 20px
     aside
+      overflow hidden
       background-color white
       margin-right 20px
       ul
@@ -97,7 +103,7 @@ export default class Enterprise extends Vue {
   .enterprise
     li.el-menu-item.is-active
       border-left solid 3px #1f368d
-      background-color #D6E6FF
+      background-color #d6e6ff
     .el-menu
       border none
 </style>

@@ -22,6 +22,53 @@
             <button @click="gotoRegisterUI">注册</button>
           </div>
           <div class="user-operations" v-else>
+            <el-popover
+              ref="popover"
+              placement="bottom"
+              width="360"
+              v-model="showPopver"
+              trigger="click">
+              <div class="nav-popover-content">
+                <div class="messages">
+                  <ul>
+                    <li @click="gotoNotiUI">
+                      <span>职位【产品经理】已上线</span>
+                      <span>今天 10:00</span>
+                    </li>
+                    <li @click="gotoNotiUI">
+                      <span>职位【产品经理】已上线</span>
+                      <span>今天 10:00</span>
+                    </li>
+                    <li @click="gotoNotiUI">
+                      <span>职位【产品经理】已上线</span>
+                      <span>今天 10:00</span>
+                    </li>
+                    <li @click="gotoNotiUI">
+                      <span>职位【产品经理】已上线</span>
+                      <span>今天 10:00</span>
+                    </li>
+                    <li @click="gotoNotiUI">
+                      <span>职位【产品经理】已上线</span>
+                      <span>今天 10:00</span>
+                    </li>
+                    <li @click="gotoNotiUI">
+                      <span>职位【产品经理】已上线</span>
+                      <span>今天 10:00</span>
+                    </li>
+                    <li @click="gotoNotiUI">
+                      <span>职位【产品经理】已上线</span>
+                      <span>今天 10:00</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="footer">
+                  <el-button type="primary main">全部标记已读</el-button>
+                </div>
+              </div>
+            </el-popover>
+            <el-badge :value="12" class="item" v-popover:popover>
+              <i class="el-icon-bell"></i>
+            </el-badge>
             <el-dropdown placement="bottom-start" @command="handleMenuClick">
               <img :src="placeholder" />
               <el-dropdown-menu slot="dropdown">
@@ -55,6 +102,13 @@ import { RootState } from '@/store/root-states';
   }),
 })
 export default class CustomizedNav extends Vue {
+  showPopver: boolean = false;
+
+  gotoNotiUI() {
+    this.$router.push({ path: '/notifications' });
+    this.showPopver = false;
+  }
+
   gotoHomeUI() {
     this.$router.push({ path: '/' });
   }
@@ -130,7 +184,14 @@ export default class CustomizedNav extends Vue {
                 justify-content center
                 align-items center
         .user-operations
-          cursor pointer
+          display flex
+          justify-content space-between
+          align-items center
+          width 160px
+          i
+            font-size 23px
+            color white
+            cursor pointer
           img
             width 50px
             height 50px
@@ -147,4 +208,39 @@ export default class CustomizedNav extends Vue {
             color white
             &:last-child
               border none
+</style>
+
+<style lang="stylus">
+.nav-popover-content
+  width 100%
+  display flex
+  flex-direction column
+  .messages
+    flex 1
+    margin-bottom 10px
+    border-bottom solid 1px #999
+    ul
+      list-style none
+      padding 0
+      max-height 170px
+      overflow-y scroll
+      li
+        height 34px
+        display flex
+        padding 0 10px
+        justify-content space-between
+        align-items center
+        cursor pointer
+        transition all .3s
+        font-size 12px
+        &:hover
+          color #17376e
+          background #edf4ff
+  .footer
+    display flex
+    flex 0 0 47px
+    align-items center
+    justify-content center
+    text-align center
+
 </style>

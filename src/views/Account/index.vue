@@ -8,7 +8,8 @@
           :default-active="activedMenu"
           class="el-menu">
           <el-menu-item :index="route.path" v-for="(route, index) in subRoutes" :key="index">
-              <i :class="route.icon"></i>
+              <span class="icon" v-html="route.icon" v-if="route.icon"></span>
+              <i class="el-icon-menu" v-else></i>
               <span slot="title">{{ route.label }}</span>
           </el-menu-item>
           </el-menu>
@@ -32,17 +33,16 @@ import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 
 declare type routeType = {
-  icon: string,
+  icon?: string,
   path: string,
   label: string
 };
 
 const subRoutes: routeType[] = [{
-  icon: 'el-icon-info',
   path: '/account/basic',
   label: '基本信息',
 }, {
-  icon: 'el-icon-refresh',
+  icon: '&#xe616;',
   path: '/account/reset-password',
   label: '重置密码',
 }];
@@ -85,6 +85,7 @@ export default class Account extends Vue {
   .account
     margin-bottom 20px
     aside
+      overflow hidden
       background-color white
       margin-right 20px
       ul

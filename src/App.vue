@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <customized-nav class="nav"/>
-    <div :class="{ 'full-screen': isFullScreen, 'main-container': true }">
+    <div :class="{ 'full-screen': isFullScreen, 'default-bg': isDefaultBg, 'main-container': true }">
       <router-view />
-      <customized-footer :showSimple="true" />
     </div>
+    <customized-footer :showSimple="isSimpleFooter" />
   </div>
 </template>
 
@@ -12,16 +12,6 @@
 import { Vue, Component } from 'vue-property-decorator';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
-
-const landingPageName = [
-  'home',
-  'login',
-  'register',
-  'reset-password',
-  'reset-result',
-  'user-license',
-  'enterprise-info-update-result',
-];
 
 @Component({
   components: {
@@ -32,9 +22,34 @@ const landingPageName = [
 export default class App extends Vue {
   isFullScreen: boolean = false;
 
+  isSimpleFooter: boolean = false;
+
+  isDefaultBg: boolean = false;
+
   updated() {
     if (this.$route.name) {
-      this.isFullScreen = landingPageName.includes(this.$route.name);
+      this.isFullScreen = [
+        // entering full screen;
+        'login',
+        'register',
+        'reset-password',
+        'reset-result',
+        'user-license',
+        'enterprise-info-update-result',
+      ].includes(this.$route.name);
+      this.isSimpleFooter = !([
+        // show full footers;
+        'home'
+      ].includes(this.$route.name));
+      this.isDefaultBg = [
+        // show full footers;
+        'login',
+        'register',
+        'reset-password',
+        'reset-result',
+        'user-license',
+        'enterprise-info-update-result',
+      ].includes(this.$route.name);
     }
   }
 }
@@ -42,6 +57,25 @@ export default class App extends Vue {
 
 
 <style lang="stylus">
+@font-face {
+  font-family: 'customized-icon';
+  src: url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.eot');
+  src: url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.svg#iconfont') format('svg');
+}
+
+.icon {
+  font-family: "customized-icon" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin 0 5px
+}
+
 html, body
   margin 0
   height 100%
@@ -63,12 +97,14 @@ html, body
     position relative
     background-color #f0f0f0
     justify-content space-between
-    margin auto
     width 1280px
     display flex
+    margin-left auto 
+    margin-right auto
     flex-direction column
   .full-screen
     width 100%
+  .default-bg
     background url('assets/images/background.jpg')
 .el-tooltip
   span
@@ -86,6 +122,10 @@ button.main
   background-color #ff7152 !important
   border none
   color white !important
+  &:hover
+    opacity .9
+button.el-button--text
+  color #ff7152 !important
   &:hover
     opacity .9
 .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li
@@ -107,6 +147,8 @@ button.main
     align-items center
   .el-upload:hover
     border-color #409EFF
+.mini.el-input
+  width 60px
 </style>
 
 

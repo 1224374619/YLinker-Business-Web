@@ -1,16 +1,25 @@
 <template>
-  <div class="resume-enterprise">
-    <board class="board" title="企业人才库">
+  <div class="resume-platform">
+    <board class="board" title="平台人才库">
       <div class="filters">
         <el-form :inline="true" :model="filters" class="form">
           <div class="fields">
-            <el-form-item label="关键词">
+            <el-form-item label="求职意向">
               <el-autocomplete
                 v-model="filters.occupationName"
                 :fetch-suggestions="querySearchAsync"
                 placeholder="请输入内容"
                 @select="handleSelect"
               ></el-autocomplete>
+            </el-form-item>
+            <el-form-item label="简历完整度">
+              <el-select v-model="value" placeholder="请选择">
+                <el-option value="1">50%</el-option>
+                <el-option value="2">100%</el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-checkbox v-model="checked">投递本公司</el-checkbox>
             </el-form-item>
           </div>
           <div class="fields">
@@ -29,13 +38,16 @@
                 <el-option value="1">本科</el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="毕业院校">
+              <el-select v-model="value" placeholder="请选择">
+                <el-option value="1">上海交大</el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="现居地">
               <el-select v-model="value" placeholder="请选择">
                 <el-option value="1">18-25</el-option>
               </el-select>
             </el-form-item>
-          </div>
-          <div class="fields">
             <el-form-item label="工作年限">
               <el-select v-model="value" placeholder="请选择">
                 <el-option value="1">1-10</el-option>
@@ -63,6 +75,7 @@
                 @select="handleSelect"
               ></el-autocomplete>
             </el-form-item>
+            
           </div>
           <div class="operations">
             <el-form-item>
@@ -73,6 +86,7 @@
         </el-form>
       </div>
       <div class="addition-bar">
+        <el-button type="text">批量收藏</el-button>
         <el-button type="text">批量下载简历</el-button>
       </div>
       <el-table
@@ -169,13 +183,13 @@ import Board from 'components/board.vue';
     Board,
   },
 })
-export default class ResumeEnterprise extends Vue {
+export default class ResumePlatform extends Vue {
   filters: object = {
     occupationName: ''
   };
 
   tableData: any = [{
-    address: '1'
+    address: 'f饭'
   }];
 
   activedTabName: string = 'online';
@@ -196,7 +210,7 @@ export default class ResumeEnterprise extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-  .resume-enterprise
+  .resume-platform
     display flex
     margin-top 30px
     .board
@@ -206,8 +220,8 @@ export default class ResumeEnterprise extends Vue {
         text-align right 
         margin 0 10px
       .filters .form
-        display flex
         margin 5px 10px 20px
+        display flex
         flex-direction column
         .fields
           text-align left 
@@ -219,10 +233,12 @@ export default class ResumeEnterprise extends Vue {
 </style>
 
 <style lang="stylus">
-  .resume-enterprise
+  .resume-platform
     .fields
       .el-form-item
         margin-right 20px
         .el-form-item__content
           width 150px
 </style>
+
+

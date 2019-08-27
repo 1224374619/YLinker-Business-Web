@@ -1,44 +1,30 @@
 <template>
   <div class="footer">
-    <div class="appendix" v-if="!showSimple">
-      <div>
-        <span>友情链接</span>
-        <ul>
-          <li>占位字符</li>
-          <li>占位字符</li>
-          <li>占位字符</li>
-          <li>占位字符</li>
-        </ul>
+    <template v-if="!showSimple">
+      <div class="appendix">
+        <div>
+          <span>联系方式</span>
+          <ul>
+            <li>邮编：200436</li>
+            <li>联系电话：021-56057115</li>
+            <li>邮箱：Nicole.yin@aliyun.com</li>
+            <li>地址：上海市静安区江场西路299弄15号1428室</li>
+          </ul>
+        </div>
+        <div>
+          <span>使用与帮助</span>
+          <ul>
+            <li>企业介绍</li>
+            <li>投诉建议</li>
+            <li>用户协议</li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <span>企业服务</span>
-        <ul>
-          <li>占位字符</li>
-          <li>占位字符</li>
-          <li>占位字符</li>
-          <li>占位字符</li>
-        </ul>
+      <div class="copyright full">
+        <p>Copyright © 2019 (银领人才网) All Right Reserved | 沪ICP备xxxxxxx号-1</p>
       </div>
-      <div>
-        <span>关于我们</span>
-        <ul>
-          <li>占位字符</li>
-          <li>占位字符</li>
-          <li>占位字符</li>
-          <li>占位字符</li>
-        </ul>
-      </div>
-      <div>
-        <span>联系我们</span>
-        <ul>
-          <li>占位字符</li>
-          <li>占位字符</li>
-          <li>占位字符</li>
-          <li>占位字符</li>
-        </ul>
-      </div>
-    </div>
-    <div class="copyright">
+    </template>
+    <div class="copyright" v-else>
       <p>Copyright © 2019 (银领人才网) All Right Reserved | 沪ICP备xxxxxxx号-1</p>
     </div>
   </div>
@@ -60,18 +46,20 @@ export default class CustomizedFooter extends Vue {}
 
 <style lang="stylus" scoped>
   .footer
-    background-color #f0f0f0
     width 100%
+    background-color #16376e
     .appendix
       display flex
+      width 1280px
       margin auto
-      padding 70px 150px 20px
+      color white
+      padding 40px 0
       flex-direction row
-      align-items center
-      justify-content space-between
+      justify-content space-around
       div
+        text-align left
         span
-          font-size 20px
+          font-size 16px
           font-weight 500
         ul
           list-style-type none
@@ -79,12 +67,14 @@ export default class CustomizedFooter extends Vue {}
           text-align left
           li
             margin 10px 0
-            font-size 16px
-            color #666
+            font-size 14px
     .copyright
-      font-size 12px
+      font-size 14px
       color #999
       padding 10px 0
       margin auto
-      background-color white
+      background-color #f0f0f0
+      &.full
+        background-color #16376e
+        color white
 </style>

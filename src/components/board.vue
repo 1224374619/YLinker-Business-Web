@@ -1,7 +1,8 @@
 <template>
   <div class="board">
     <div class="header">
-      {{ title }}
+      <span>{{ title }}</span>
+      <el-button type="text" v-if="seeMoreAction" @click="seeMoreAction">更多 &gt;</el-button>
     </div>
     <div class="body">
       <slot></slot>
@@ -18,6 +19,10 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
       type: String,
       default: '看板',
     },
+    seeMoreAction: {
+      type: Function,
+      default: null
+    }
   },
 })
 export default class Board extends Vue {
@@ -35,7 +40,7 @@ export default class Board extends Vue {
     height 50px
     background-color #f1f7ff
     display flex
-    justify-content flex-start
+    justify-content space-between
     align-items center
     padding 0 20px
     color #17376e

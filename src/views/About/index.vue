@@ -8,8 +8,9 @@
           :default-active="activedMenu"
           class="el-menu">
           <el-menu-item :index="route.path" v-for="(route, index) in subRoutes" :key="index">
-              <i :class="route.icon"></i>
-              <span slot="title">{{ route.label }}</span>
+            <span class="icon" v-html="route.icon" v-if="route.icon"></span>
+            <i class="el-icon-menu" v-else></i>
+            <span slot="title">{{ route.label }}</span>
           </el-menu-item>
           </el-menu>
       </el-aside>
@@ -32,17 +33,17 @@ import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 
 declare type routeType = {
-  icon: string,
+  icon?: string,
   path: string,
   label: string
 };
 
 const subRoutes: routeType[] = [{
-  icon: 'el-icon-document',
+  icon: '&#xe61c;',
   path: '/about/intro',
   label: '公司介绍',
 }, {
-  icon: 'el-icon-service',
+  icon: '&#xe61b;',
   path: '/about/contact',
   label: '联系我们',
 }];

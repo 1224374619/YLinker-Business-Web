@@ -30,10 +30,12 @@
               <el-form-item>
                 <el-button @click="onSearch">重置</el-button>
                 <el-button type="primary main" @click="onSearch">查询</el-button>
-                <el-button type="primary" @click="onSearch">企业人才库</el-button>
               </el-form-item>
             </div>
           </el-form>
+        </div>
+        <div class="tab-operations">
+          <el-checkbox v-model="checked">只看自己</el-checkbox>
         </div>
         <el-tabs v-model="activedTabName" type="card" @tab-click="handleClick">
           <el-tab-pane label="已上线职位" name="online">
@@ -169,14 +171,19 @@ export default class OccupationInfo extends Vue {
     display flex
     margin-top 30px
     .left
-      flex 5
+      flex 1
       margin-right 15px
       .list
         padding-bottom 30px
+        position relative
+        .tab-operations
+          position absolute
+          top 155px
+          left 250px
       .filters .form
         display flex
         justify-content space-between
-        margin-bottom 20px
+        margin 5px 10px 20px
       .pagination
         margin-top 20px
       ul
@@ -198,7 +205,7 @@ export default class OccupationInfo extends Vue {
             font-size 24px
             color #17376e
     .right
-      flex 0 0 240px
+      width 240px
       ul
         margin 5px 0
         list-style none

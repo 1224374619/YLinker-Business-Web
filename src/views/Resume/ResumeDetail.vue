@@ -14,10 +14,10 @@
               <span>1-2年海外工作经验</span>
             </p>
           </div>
-          <el-button class="btn-collect" type="primary">收藏</el-button>
+          <el-button class="btn-collect" type="primary main">收藏</el-button>
         </div>
         <div class="section">
-          <h3>求职意向</h3>
+          <h3><span class="icon">&#xe60c;</span>求职意向</h3>
           <div class="content">
             <ul>
               <li>
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="section">
-          <h3>教育经历</h3>
+          <h3><span class="icon">&#xe605;</span>教育经历</h3>
           <div class="content">
             <div class="grid">
               <span><b>上海交大</b></span>
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="section">
-          <h3>工作经历</h3>
+          <h3><span class="icon">&#xe603;</span>工作经历</h3>
           <div class="content">
             <div class="grid">
               <span>
@@ -93,7 +93,7 @@
           </div>
         </div>
         <div class="section">
-          <h3>项目经历</h3>
+          <h3><span class="icon">&#xe60f;</span>项目经历</h3>
           <div class="content">
             <div class="grid">
               <span>
@@ -113,7 +113,7 @@
           </div>
         </div>
         <div class="section">
-          <h3>培训经历</h3>
+          <h3><span class="icon">&#xe608;</span>培训经历</h3>
           <div class="content">
             <div class="grid">
               <span><b>培训课程</b></span>
@@ -123,7 +123,7 @@
           </div>
         </div>
         <div class="section">
-          <h3>语言能力</h3>
+          <h3><span class="icon">&#xe613;</span>语言能力</h3>
           <div class="content">
             <div class="grid">
               <span><b>英语</b></span>
@@ -133,7 +133,7 @@
           </div>
         </div>
         <div class="section">
-          <h3>职称等级</h3>
+          <h3><span class="icon">&#xe615;</span>职称等级</h3>
           <div class="content">
             <div class="grid">
               <span><b>职称等级</b></span>
@@ -141,7 +141,7 @@
           </div>
         </div>
         <div class="section">
-          <h3>专业技能</h3>
+          <h3><span class="icon">&#xe617;</span>专业技能</h3>
           <div class="content">
             <div class="grid">
               <span><b>技能名称</b></span>
@@ -156,7 +156,7 @@
           </div>
         </div>
         <div class="section">
-          <h3>荣誉奖项</h3>
+          <h3><span class="icon">&#xe60d;</span>荣誉奖项</h3>
           <div class="content">
             <div class="grid">
               <span>荣誉奖项</span>
@@ -166,7 +166,7 @@
           </div>
         </div>
         <div class="section">
-          <h3>自我评价</h3>
+          <h3><span class="icon">&#xe618;</span>自我评价</h3>
           <div class="content">
             <div class="textarea">
               <span>产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理产品经理</span>

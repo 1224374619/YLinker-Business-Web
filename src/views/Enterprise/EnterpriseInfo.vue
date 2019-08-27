@@ -14,60 +14,45 @@
           <ul>
             <li>
               <span>企业名称：</span>
-              <span></span>
+              <span>测试测试测试测试</span>
             </li>
             <li>
-              <span>企业类别：</span>
-              <span></span>
-            </li>
-            <li>
-              <span>纳税人识别号：</span>
-              <span></span>
+              <span>企业简称：</span>
+              <span>测试测试测试测试</span>
             </li>
             <li>
               <span>企业规模：</span>
-              <span></span>
+              <span>测试测试测试测试</span>
             </li>
             <li>
               <span>企业性质：</span>
-              <span></span>
+              <span>测试测试测试测试</span>
             </li>
             <li>
               <span>所属行业：</span>
-              <span></span>
+              <span>测试测试测试测试</span>
             </li>
             <li>
               <span>企业地点：</span>
-              <span></span>
+              <span>测试测试测试测试</span>
             </li>
             <li>
               <span>企业介绍：</span>
-              <span></span>
+              <span>测试测试测试测试</span>
             </li>
             <li>
-              <span>营业执照：</span>
-              <span></span>
+              <span>企业 LOGO：</span>
+              <span>测试测试测试测试</span>
             </li>
           </ul>
         </div>
         <el-form class="form-container" ref="form" :rules="rules" :model="form" label-width="140px" v-else>
           <el-form-item label="企业名称" prop="enterprise">
-            <el-input v-model="form.enterprise" placeholder="请输入企业名称"></el-input>
+            <span>企业名称</span>
           </el-form-item>
-          <el-form-item label="企业类别" prop="enterpriseType">
-            <el-select v-model="value" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="纳税人识别号" prop="serialNumber">
-            <el-input maxlength="18" v-model="form.serialNumber" placeholder="请输入纳税人识别号"></el-input>
-          </el-form-item>
-          <el-form-item label="企业规模" prop="enterpriseType">
+          <el-form-item label="企业简称" prop="short">
+            <el-input v-model="form.serialNumber" placeholder="请输入企业简称"></el-input>
+          </el-form-item><el-form-item label="企业规模" prop="enterprise">
             <el-select v-model="value" placeholder="请选择">
               <el-option :value="0">小于 10 人</el-option>
               <el-option :value="1">10-50 人</el-option>
@@ -76,14 +61,14 @@
               <el-option :value="4">大于 500 人</el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="企业性质" prop="enterpriseType">
+          <el-form-item label="企业性质" prop="enterprise">
             <el-select v-model="value" placeholder="请选择">
               <el-option :value="0">外企</el-option>
               <el-option :value="1">私企</el-option>
               <el-option :value="2">国企</el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="所属行业" prop="enterpriseType">
+          <el-form-item label="所属行业" prop="enterprise">
             <el-select v-model="value" placeholder="请选择">
               <el-option :value="0">互联网</el-option>
               <el-option :value="1">机械制造</el-option>
@@ -92,15 +77,29 @@
           <el-form-item label="企业地址" prop="location">
             <el-cascader
               class="search-picker"
+              style="margin-bottom: 10px;"
               placeholder="请选择企业地址"
               :options="citiesConstant"
               v-model="form.location">
             </el-cascader>
+            <br>
+            <el-input type="textarea" :rows="4" v-model="form.comment" placeholder="请输入内容"></el-input>
+          </el-form-item>
+          <el-form-item label="具体地点" prop="detail">
+            <el-input
+              style="margin-right: 10px;"
+              placeholder="请输入公司所在经度"
+              v-model="textarea">
+            </el-input>
+            <el-input
+              placeholder="请输入公司所在纬度"
+              v-model="textarea">
+            </el-input>
           </el-form-item>
           <el-form-item label="企业介绍" prop="location">
             <el-input
               type="textarea"
-              :rows="2"
+              :rows="4"
               placeholder="请输入内容"
               v-model="textarea">
             </el-input>
@@ -114,7 +113,7 @@
               <div class="el-upload__tip" slot="tip">支持图片格式：png、jpg、jpeg，最大不超过 3M。</div>
               <div class="el-upload__tip" slot="tip">为了尽快通过审核，请上传真实合法且清晰的执照图片。</div>
             </el-upload>
-          </el-form-item>
+          </el-form-item>          
           <div class="operations">
             <el-button type="primary" class="main" @click="onSubmit">保存</el-button>
             <el-button @click="enterpriseInfoEditMode = false">取消</el-button>
@@ -165,7 +164,7 @@
           <el-form-item label="统一社会信用代码" prop="tel">
             <el-input maxlength="11" v-model.number="form.tel" placeholder="请输入统一社会信用代码"></el-input>
           </el-form-item>
-          <el-form-item label="企业类别" prop="enterpriseType">
+          <el-form-item label="企业类别" prop="tel">
             <el-select v-model="value" placeholder="请选择企业类别">
               <el-option :value="0">互联网</el-option>
               <el-option :value="1">机械制造</el-option>
@@ -185,42 +184,6 @@
           <div class="operations">
             <el-button type="primary" class="main" @click="onSubmit">保存</el-button>
             <el-button @click="enterpriseRegisterInfoEditMode = false">取消</el-button>
-          </div>
-        </el-form>
-        <span class="line"></span>
-        <p class="header">
-          <span class="title">联系人信息</span>
-          <el-button class="edit-btn main" @click="contactInfoEditMode = true" v-if="!contactInfoEditMode">编辑</el-button>
-        </p>
-        <div class="display" v-if="!contactInfoEditMode">
-          <ul>
-            <li>
-              <span>联系人姓名：</span>
-              <span></span>
-            </li>
-            <li>
-              <span>联系电话：</span>
-              <span></span>
-            </li>
-            <li>
-              <span>联系邮箱：</span>
-              <span></span>
-            </li>
-          </ul>
-        </div>
-        <el-form class="form-container"  ref="form" :rules="rules" :model="form" label-width="140px" v-else>
-          <el-form-item label="联系人姓名" prop="name">
-            <el-input v-model="form.name" placeholder="请输入联系人姓名"></el-input>
-          </el-form-item>
-          <el-form-item label="联系电话" prop="tel">
-            <el-input maxlength="11" v-model.number="form.tel" placeholder="请输入联系电话"></el-input>
-          </el-form-item>
-          <el-form-item label="联系邮箱" prop="email">
-            <el-input v-model="form.email" placeholder="请输入联系邮箱"></el-input>
-          </el-form-item>
-          <div class="operations">
-            <el-button type="primary" class="main" @click="onSubmit">保存</el-button>
-            <el-button @click="contactInfoEditMode = false">取消</el-button>
           </div>
         </el-form>
       </div>
@@ -255,8 +218,6 @@ export default class EnterpriseInfo extends Vue {
   citiesConstant: any = citiesConstant;
   
   enterpriseInfoEditMode: boolean = false;
-
-  contactInfoEditMode: boolean = false;
 
   enterpriseRegisterInfoEditMode: boolean = false;
 
@@ -312,7 +273,7 @@ export default class EnterpriseInfo extends Vue {
       flex 0 0 70px
     .body
       display flex
-      width 85%
+      width 100%
       justify-content center
       flex-direction column
       flex 1
@@ -369,8 +330,11 @@ export default class EnterpriseInfo extends Vue {
 <style lang="stylus">
   .enterprise-info-container
     .el-form-item__content
-      width 240px
       text-align left
+      .el-input, .el-select, .el-cascader
+        width 240px
+      .el-textarea
+        width 500px
     .el-upload__tip
       min-width 600px
       font-size 14px

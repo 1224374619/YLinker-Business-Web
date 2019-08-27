@@ -125,11 +125,10 @@ export default class EnterpriseUser extends Vue {
     .board
       width 100%
       padding-bottom 30px
-      .filters
-        margin 20px 0
-        .form
-          display flex
-          justify-content space-between
+      .filters .form
+        margin 5px 10px 20px
+        display flex
+        justify-content space-between
       .pagination
         margin-top 15px
         text-align right 

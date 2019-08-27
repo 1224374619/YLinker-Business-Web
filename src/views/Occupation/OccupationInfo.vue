@@ -25,19 +25,11 @@
           </li>
         </ul>
       </board>
-      <board title="职位列表">
+      <board class="list" title="职位列表">
         <div class="filters">
-          <el-form :inline="true" :model="filters" class="demo-form-inline">
-            <el-form-item label="招聘职位">
-              <el-autocomplete
-                v-model="filters.occupationName"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="handleSelect"
-              ></el-autocomplete>
-            </el-form-item>
-            <span>
-              <el-form-item label="招聘职位">
+          <el-form :inline="true" :model="filters" class="form">
+            <div class="fields">
+              <el-form-item label="招聘岗位">
                 <el-autocomplete
                   v-model="filters.occupationName"
                   :fetch-suggestions="querySearchAsync"
@@ -45,17 +37,77 @@
                   @select="handleSelect"
                 ></el-autocomplete>
               </el-form-item>
-              <el-form-item label="地区">
-                 
+              <el-button type="text" @click="showMoreFilters = true" v-if="!showMoreFilters">展开 ▼</el-button>
+              <el-button type="text" @click="showMoreFilters = false" v-if="showMoreFilters">收起 ▲</el-button>
+            </div>
+            <div class="fields" v-if="showMoreFilters">
+              <el-form-item label="工作地址">
+                <el-cascader
+                  class="search-picker"
+                  style="margin-bottom: 10px;"
+                  placeholder="请选择工作地址"
+                  :options="citiesConstant"
+                  v-model="location">
+                </el-cascader>
               </el-form-item>
-            </span>
-            <el-form-item>
-              <el-button @click="onSearch">重置</el-button>
-              <el-button type="primary main" @click="onSearch">查询</el-button>
-            </el-form-item>
+              <el-form-item label="上线时间">
+                 <el-date-picker
+                  v-model="value7"
+                  type="datetimerange"
+                  align="right"
+                  unlink-panels
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions2">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="上线方式">
+                <el-select v-model="value" placeholder="请选择">
+                  <el-option value="1">手动</el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+            <div class="fields" v-if="showMoreFilters">
+              <el-form-item label="负责 HR">
+                <el-select v-model="value" placeholder="请选择">
+                  <el-option value="1">手动</el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="下线时间">
+                 <el-date-picker
+                  v-model="value7"
+                  type="datetimerange"
+                  align="right"
+                  unlink-panels
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :picker-options="pickerOptions2">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="下线方式">
+                <el-select v-model="value" placeholder="请选择">
+                  <el-option value="1">手动</el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+            <div class="operations">
+              <el-form-item>
+                <el-button @click="onSearch">重置</el-button>
+                <el-button type="primary main" @click="onSearch">查询</el-button>
+              </el-form-item>
+            </div>
           </el-form>
         </div>
         <el-tabs v-model="activedTabName" type="card" @tab-click="handleClick">
+          <div class="tab-operations">
+            <el-checkbox v-model="checked">只看自己</el-checkbox>
+            <div>
+              <el-button type="text">草稿箱</el-button>
+              <el-button type="text">回收站</el-button>
+            </div>
+          </div>
           <el-tab-pane label="已上线" name="online">
             <el-table
               :data="onlineTableData">
@@ -123,7 +175,7 @@
             <span>1</span>
           </li>
           <li>
-            <span>转换率</span>
+            <span>处理率</span>
             <span>1</span>
           </li>
         </ul>
@@ -136,6 +188,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
+import citiesConstant from '@/views/constants/cities';
 import G2 from '@antv/g2';
 
 @Component({
@@ -148,6 +201,46 @@ export default class OccupationInfo extends Vue {
     occupationName: ''
   };
 
+  pickerOptions2: object = {
+    shortcuts: [{
+      text: '昨天',
+      onClick(picker: any) {
+        const end = new Date();
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24);
+        picker.$emit('pick', [start, end]);
+      }
+    }, {
+      text: '今天',
+      onClick(picker: any) {
+        const end = new Date();
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24);
+        picker.$emit('pick', [start, end]);
+      }
+    }, {
+      text: '最近一周',
+      onClick(picker: any) {
+        const end = new Date();
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+        picker.$emit('pick', [start, end]);
+      }
+    }, {
+      text: '最近一个月',
+      onClick(picker: any) {
+        const end = new Date();
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+        picker.$emit('pick', [start, end]);
+      }
+    }]
+  };
+
+  citiesConstant: any = citiesConstant;
+
+  showMoreFilters: boolean = false;
+ 
   onlineTableData: any = [];
 
   activedTabName: string = 'online';
@@ -198,6 +291,26 @@ export default class OccupationInfo extends Vue {
     .left
       flex 5
       margin-right 15px
+      .list
+        padding-bottom 30px
+        position relative
+        .filters .form
+          margin 5px 10px 20px
+          display flex
+          flex-direction column
+          .fields
+            text-align left
+          .operations
+            text-align right  
+        .tab-operations
+          display flex
+          justify-content space-between
+          align-items center
+          width 300px
+          position absolute
+          top -56px
+          left 460px
+          z-index 1
       .pagination
         margin-top 20px
       ul
@@ -236,4 +349,13 @@ export default class OccupationInfo extends Vue {
           span:last-child
             font-size 14px
             color #17376e
+</style>
+<style lang="stylus">
+  .occupation-info-container
+    .el-tabs__content
+      overflow initial
+    .el-form-item__content
+      text-align left
+      .el-input, .el-select, .el-cascader
+        width 180px
 </style>
