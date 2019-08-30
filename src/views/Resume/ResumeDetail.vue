@@ -177,7 +177,7 @@
       <div class="operations">
         <el-button>返回</el-button>
         <el-button type="primary main">立即下载</el-button>
-        <span>（10 平台币）</span>
+        <span>（10 银币）</span>
       </div>
     </board>
   </div>

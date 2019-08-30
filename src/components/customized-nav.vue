@@ -67,7 +67,7 @@
               </div>
             </el-popover>
             <el-badge :value="12" class="item" v-popover:popover>
-              <i class="el-icon-bell"></i>
+              <i @click="gotoNotiUI" class="el-icon-bell"></i>
             </el-badge>
             <el-dropdown placement="bottom-start" @command="handleMenuClick">
               <img :src="placeholder" />

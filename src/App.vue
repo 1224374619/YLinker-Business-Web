@@ -83,6 +83,7 @@ html, body
   background-color #f0f0f0
 #app
   height 100%
+  min-width 1280px
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   text-align center
@@ -93,17 +94,17 @@ html, body
     position relative
     flex 0 0 70px
   .main-container
-    flex 1
+    width 1280px
     position relative
     background-color #f0f0f0
     justify-content space-between
-    width 1280px
     display flex
     margin-left auto 
     margin-right auto
     flex-direction column
   .full-screen
     width 100%
+    flex 1
   .default-bg
     background url('assets/images/background.jpg')
 .el-tooltip
@@ -126,8 +127,14 @@ button.main
     opacity .9
 button.el-button--text
   color #ff7152 !important
+  font-size inherit
   &:hover
     opacity .9
+  &.mini
+    font-size 14px
+  &.underline
+    text-decoration underline
+
 .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li
   background-color white
   border 0.7px solid rgba(0,0,0,0.15)
@@ -148,7 +155,14 @@ button.el-button--text
   .el-upload:hover
     border-color #409EFF
 .mini.el-input
-  width 60px
+  width 50px
+span.tag
+  color white
+  background-color #358be5
+  border-radius 10px
+  padding 0 5px
+  font-size 12px
+  height 18px
 </style>
 
 

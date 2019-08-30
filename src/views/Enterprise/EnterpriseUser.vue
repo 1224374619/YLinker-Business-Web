@@ -9,7 +9,8 @@
           <el-input v-model="addUserForm.tel" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="角色">
-          <span>普通用户</span>
+          <el-radio v-model="radio" label="1">管理员</el-radio>
+          <el-radio v-model="radio" label="2">普通用户</el-radio>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -35,6 +36,7 @@
       </div>
       <el-table
         :data="onlineTableData">
+        <table-empty-placeholder slot="empty"/>
         <el-table-column
           prop="date"
           width="80"
@@ -84,10 +86,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
+import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 
 @Component({
   components: {
     Board,
+    TableEmptyPlaceholder
   },
 })
 export default class EnterpriseUser extends Vue {

@@ -1,7 +1,10 @@
 <template>
   <div class="board">
     <div class="header">
-      <span>{{ title }}</span>
+      <div class="title">
+        <span>{{ title }}</span>
+        <span v-if="desc" class="desc">{{ desc }}</span>  
+      </div>
       <el-button type="text" v-if="seeMoreAction" @click="seeMoreAction">更多 &gt;</el-button>
     </div>
     <div class="body">
@@ -18,6 +21,10 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
     title: {
       type: String,
       default: '看板',
+    },
+    desc: {
+      type: String,
+      default: '',
     },
     seeMoreAction: {
       type: Function,
@@ -46,6 +53,11 @@ export default class Board extends Vue {
     color #17376e
     font-weight bold
     font-size 16px
+    .title
+      .desc
+        font-size 12px
+        font-weight normal
+        margin-left 20px
   .body
     padding 10px
   &:first-child

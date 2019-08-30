@@ -37,7 +37,7 @@
                 <el-option value="1">1-3年</el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="工作地址" prop="location">
+          <el-form-item label="工作地址" prop="comment">
             <el-cascader
               class="search-picker"
               style="margin-bottom: 10px;"
@@ -82,19 +82,16 @@
           </el-form-item>
           <el-form-item
             v-for="(email, index) in form.emails"
-            :label="'邮箱' + (index + 1)"
+            :label="index === 0 && '投递邮箱'"
             :key="email.key"
             :prop="'email.' + index + '.value'"
+            :rules="{
+              required: true, message: '投递邮箱不能为空', trigger: 'blur'
+            }"
           >
             <el-input v-model="email.value" style="margin-right: 10px;"></el-input>
             <el-button @click.prevent="addEmail()" v-if="index === form.emails.length - 1">添加</el-button>
             <el-button @click.prevent="removeEmail(email)" v-if="form.emails.length !== 1">删除</el-button>
-          </el-form-item>
-
-          <el-form-item label="投递邮箱" prop="comment">
-             <el-select v-model="value" placeholder="请选择">
-                <el-option value="1">1-3年</el-option>
-            </el-select>
           </el-form-item>
           <el-form-item label="上线时间" prop="comment">
             <el-date-picker
@@ -120,19 +117,6 @@
           </el-form-item>
         </el-form>
       </div>
-      <board title="统计数据">
-        <ul>
-          <li>
-            <span>当日浏览</span>
-            <span>1</span>
-          </li>
-          <li>
-            <span>今日浏览</span>
-            <span>1</span>
-          </li>
-        </ul>
-        <div class="chart" ref="chart"></div>
-      </board>
     </div>
   </div>
 </template>
@@ -141,13 +125,8 @@
 import { Vue, Component } from 'vue-property-decorator';
 import citiesConstant from '@/views/constants/cities';
 import G2 from '@antv/g2';
-import Board from 'components/board.vue';
 
-@Component({
-  components: {
-    Board,
-  },
-})
+@Component({})
 export default class OccuptaionAdd extends Vue {
   form: any = {
     comment: '',
@@ -181,34 +160,6 @@ export default class OccuptaionAdd extends Vue {
   }
 
   mounted() {
-    const data = [
-      { genre: 'Sports', sold: 275 },
-      { genre: 'Strategy', sold: 115 },
-      { genre: 'Action', sold: 120 },
-      { genre: 'Shooter', sold: 350 },
-      { genre: 'Other', sold: 150 }
-    ]; 
-
-    const div: any = this.$refs['chart'];
-    const chart = new G2.Chart({
-      container: div,
-      width: 230, 
-      height: 150,
-      padding: {
-        top: 15,
-        right: 10,
-        bottom: 35,
-        left: 35,
-      }
-    });
-
-    chart.source(data);
-    chart.line().position('genre*sold');
-    chart.point().position('genre*sold').size(4).shape('circle').style({
-      stroke: '#fff',
-      lineWidth: 1
-    });
-    chart.render();
   }
 
   handleClose(tag: string) {
@@ -264,26 +215,6 @@ export default class OccuptaionAdd extends Vue {
       flex 1
       position relative 
       background-color white
-      .board
-        position absolute
-        right 20px
-        top 70px
-        ul
-          margin 5px 0
-          list-style none
-          display flex
-          justify-content space-around
-          padding 0
-          li
-            flex 1
-            display flex
-            flex-direction column
-            span:first-child
-              color #666
-              font-size 12px
-            span:last-child
-              font-size 14px
-              color #17376e
       h1
         font-size 20px
         text-align left 

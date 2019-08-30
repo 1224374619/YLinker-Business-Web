@@ -8,23 +8,25 @@
           :default-active="activedMenu"
           class="el-menu">
           <template v-for="(route, index) in subRoutes">
-            <el-menu-item :index="route.path" :key="index" v-if="!route.children">
-              <span class="icon" v-html="route.icon" v-if="route.icon"></span>
-              <i class="el-icon-menu" v-else></i>
-              <span slot="title">{{ route.label }}</span>
-            </el-menu-item>
-            <el-submenu :index="route.label" :key="index" v-else>
-              <template slot="title">
+            <template v-if="route.isMenu">
+              <el-menu-item :index="route.path" :key="index" v-if="!route.children">
                 <span class="icon" v-html="route.icon" v-if="route.icon"></span>
                 <i class="el-icon-menu" v-else></i>
-                <span>{{ route.label }}</span>
-              </template>
-              <el-menu-item-group>
-                <template v-for="(route, index) in route.children">
-                  <el-menu-item :index="`${route.path}`" :key="index">{{ route.label }}</el-menu-item>
+                <span slot="title">{{ route.label }}</span>
+              </el-menu-item>
+              <el-submenu :index="route.label" :key="index" v-else>
+                <template slot="title">
+                  <span class="icon" v-html="route.icon" v-if="route.icon"></span>
+                  <i class="el-icon-menu" v-else></i>
+                  <span>{{ route.label }}</span>
                 </template>
-              </el-menu-item-group>
-            </el-submenu>
+                <el-menu-item-group>
+                  <template v-for="(route, index) in route.children">
+                    <el-menu-item :index="`${route.path}`" :key="index">{{ route.label }}</el-menu-item>
+                  </template>
+                </el-menu-item-group>
+              </el-submenu>
+            </template>
           </template>
           </el-menu>
       </el-aside>
@@ -50,9 +52,10 @@ import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 
 declare type routeTypeAdvanced = {
-  path?: string,
+  path?: any,
   label: string,
   icon?: string,
+  isMenu?: boolean,
   children?: {
     path: string,
     label: string,
@@ -63,16 +66,20 @@ declare type routeTypeAdvanced = {
 const subRoutes: routeTypeAdvanced[] = [{
   path: '/resume/info',
   label: '简历总览',
+  isMenu: true
 }, {
   path: '/resume/enterprise',
   label: '企业人才库',
-  icon: ''
+  icon: '',
+  isMenu: true
 }, {
   label: '平台人才库',
   icon: '&#xe609;',
+  path: '/resume/platform',
+  isMenu: true,
   children: [{
     path: '/resume/platform',
-    label: '简历详情',
+    label: '人才列表',
   }, {
     path: '/resume/platform/collection',
     label: '收藏夹',
@@ -83,7 +90,8 @@ const subRoutes: routeTypeAdvanced[] = [{
 }, {
   path: '/resume/blacklist',
   label: '黑名单',
-  icon: '&#xe604;'
+  icon: '&#xe604;',
+  isMenu: true
 }, ];
 
 @Component({
@@ -100,6 +108,7 @@ export default class Enterprise extends Vue {
   subRoutes = subRoutes;
 
   syncRoute(source: string) {
+    console.log(source)
     this.currentRoute = source;
     this.activedMenu = this.currentRoute;
   }

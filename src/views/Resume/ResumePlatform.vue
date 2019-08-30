@@ -1,6 +1,6 @@
 <template>
   <div class="resume-platform">
-    <board class="board" title="平台人才库">
+    <board class="board" title="平台人才库" desc="暂不支持搜索及下载附件简历">
       <div class="filters">
         <el-form :inline="true" :model="filters" class="form">
           <div class="fields">
@@ -66,6 +66,7 @@
                 placeholder="请输入内容"
                 @select="handleSelect"
               ></el-autocomplete>
+              <el-checkbox v-model="checked">只看最近一份工作</el-checkbox>
             </el-form-item>
             <el-form-item label="职位名称">
               <el-autocomplete
@@ -74,6 +75,7 @@
                 placeholder="请输入内容"
                 @select="handleSelect"
               ></el-autocomplete>
+              <el-checkbox v-model="checked">只看最近一份工作</el-checkbox>
             </el-form-item>
             
           </div>
@@ -86,12 +88,13 @@
         </el-form>
       </div>
       <div class="addition-bar">
-        <el-button type="text">批量收藏</el-button>
-        <el-button type="text">批量下载简历</el-button>
+        <el-button type="text" class="underline mini">批量收藏</el-button>
+        <el-button type="text" class="underline mini">批量下载简历</el-button>
       </div>
       <el-table
         @selection-change="handleExportResumes"
         :data="tableData">
+        <table-empty-placeholder slot="empty"/>
         <el-table-column
           type="selection"
           width="55">
@@ -150,7 +153,7 @@
         </el-table-column>
         <el-table-column
           class="operations"
-          width="120"
+          width="140"
           label="操作">
           <template>
             <el-button type="text" size="small" @click="inspectResumeDetail">查看</el-button>
@@ -177,10 +180,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
+import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 
 @Component({
   components: {
     Board,
+    TableEmptyPlaceholder
   },
 })
 export default class ResumePlatform extends Vue {
@@ -238,7 +243,7 @@ export default class ResumePlatform extends Vue {
       .el-form-item
         margin-right 20px
         .el-form-item__content
-          width 150px
+          width 130px
 </style>
 
 

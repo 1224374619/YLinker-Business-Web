@@ -26,6 +26,7 @@
       </div>
       <el-table
         :data="onlineTableData">
+        <table-empty-placeholder slot="empty"/>
         <el-table-column
           prop="date"
           width="80"
@@ -96,10 +97,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
+import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 
 @Component({
   components: {
     Board,
+    TableEmptyPlaceholder
   },
 })
 export default class OccupationInfo extends Vue {

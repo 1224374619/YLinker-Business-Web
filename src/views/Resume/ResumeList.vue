@@ -1,56 +1,34 @@
 <template>
   <div class="occupation-info-container">
     <div class="left">
-      <board title="职位看板">
-        <ul>
-          <li>
-            <span>已上线</span>
-            <span>1</span>
-          </li>
-          <li>
-            <span>待上线</span>
-            <span>1</span>
-          </li>
-          <li>
-            <span>审核中</span>
-            <span>1</span>
-          </li>
-          <li>
-            <span>审核未通过</span>
-            <span>1</span>
-          </li>
-          <li>
-            <span>已下线</span>
-            <span>1</span>
-          </li>
-        </ul>
-      </board>
-      <board class="list" title="职位列表">
+      <board class="list" title="后端开发" desc="介绍介绍介绍介绍介绍">
         <div class="filters">
           <el-form :inline="true" :model="filters" class="form">
             <div class="fields">
-              <el-form-item label="招聘岗位">
-                <el-autocomplete
-                  v-model="filters.occupationName"
-                  :fetch-suggestions="querySearchAsync"
-                  placeholder="请输入内容"
-                  @select="handleSelect"
-                ></el-autocomplete>
+              <el-form-item label="求职状态">
+                <el-select v-model="value" placeholder="请选择求职状态">
+                  <el-option value="1">xxx</el-option>
+                </el-select>
               </el-form-item>
               <el-button type="text" @click="showMoreFilters = true" v-if="!showMoreFilters">展开 ▼</el-button>
               <el-button type="text" @click="showMoreFilters = false" v-if="showMoreFilters">收起 ▲</el-button>
             </div>
             <div class="fields" v-if="showMoreFilters">
-              <el-form-item label="工作地址">
+              <el-form-item label="地区">
                 <el-cascader
                   class="search-picker"
                   style="margin-bottom: 10px;"
-                  placeholder="请选择工作地址"
+                  placeholder="请选择地区"
                   :options="citiesConstant"
                   v-model="location">
                 </el-cascader>
               </el-form-item>
-              <el-form-item label="上线时间">
+              <el-form-item label="简历完整度">
+                <el-select v-model="value" placeholder="请选择简历完整度">
+                  <el-option value="1">手动</el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="投递时间">
                  <el-date-picker
                   v-model="value7"
                   type="datetimerange"
@@ -61,35 +39,6 @@
                   end-placeholder="结束日期"
                   :picker-options="pickerOptions2">
                 </el-date-picker>
-              </el-form-item>
-              <el-form-item label="上线方式">
-                <el-select v-model="value" placeholder="请选择">
-                  <el-option value="1">手动</el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-            <div class="fields" v-if="showMoreFilters">
-              <el-form-item label="负责 HR">
-                <el-select v-model="value" placeholder="请选择">
-                  <el-option value="1">手动</el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="下线时间">
-                 <el-date-picker
-                  v-model="value7"
-                  type="datetimerange"
-                  align="right"
-                  unlink-panels
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :picker-options="pickerOptions2">
-                </el-date-picker>
-              </el-form-item>
-              <el-form-item label="下线方式">
-                <el-select v-model="value" placeholder="请选择">
-                  <el-option value="1">手动</el-option>
-                </el-select>
               </el-form-item>
             </div>
             <div class="operations">
@@ -102,43 +51,48 @@
         </div>
         <el-tabs v-model="activedTabName" type="card" @tab-click="handleClick">
           <div class="tab-operations">
-            <el-checkbox v-model="checked">只看自己</el-checkbox>
+            <el-button type="text" class="underline mini">批量导出简历</el-button>
           </div>
-          <el-tab-pane label="已上线" name="online">
+          <el-tab-pane label="待处理" name="online">
             <el-table
               :data="onlineTableData">
               <table-empty-placeholder slot="empty"/>
               <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              <el-table-column
                 prop="date"
-                label="职位名称">
+                label="姓名">
               </el-table-column>
               <el-table-column
                 prop="name"
-                label="下线时间">
+                label="工作年限">
               </el-table-column>
               <el-table-column
                 prop="address"
-                label="职位性质">
+                label="求职状态">
               </el-table-column>
               <el-table-column
                 prop="address"
-                label="地区">
+                label="所在地区">
               </el-table-column>
               <el-table-column
                 prop="address"
-                label="投递数量">
+                label="简历完整度">
               </el-table-column>
               <el-table-column
                 prop="address"
-                label="负责 HR">
+                label="投递时间">
               </el-table-column>
               <el-table-column
-                width="165"
+                width="305"
                 label="操作">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="gotoOccupationDetailUI(scope.row.id)">查看</el-button>
-                  <el-button type="text" size="small">下线</el-button>
-                  <el-button type="text" size="small">刷新排名</el-button>
+                  <el-button type="text" size="small">查看</el-button>
+                  <el-button type="text" size="small">通知面试/笔试</el-button>
+                  <el-button type="text" size="small">不合格</el-button>
+                  <el-button type="text" size="small">加入黑名单</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -154,26 +108,10 @@
               :total="400">
             </el-pagination>
           </el-tab-pane>
-          <el-tab-pane label="待上线" name="pending">待上线</el-tab-pane>
-          <el-tab-pane label="审核中" name="checking">角色管理</el-tab-pane>
-          <el-tab-pane label="审核未通过" name="invalid">定时任务补偿</el-tab-pane>
-          <el-tab-pane label="已下线" name="offline">定时任务补偿</el-tab-pane>
+          <el-tab-pane label="处理中" name="pending">处理中</el-tab-pane>
+          <el-tab-pane label="录用" name="checking">录用</el-tab-pane>
+          <el-tab-pane label="不合格" name="invalid">不合格</el-tab-pane>
         </el-tabs>
-      </board>
-    </div>
-    <div class="right">
-      <board title="统计数据">
-        <ul>
-          <li>
-            <span>今日浏览</span>
-            <span>1</span>
-          </li>
-          <li>
-            <span>今日投递</span>
-            <span>1</span>
-          </li>
-        </ul>
-        <div class="chart" ref="chart"></div>
       </board>
     </div>
   </div>
@@ -184,7 +122,6 @@ import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 import citiesConstant from '@/views/constants/cities';
-import G2 from '@antv/g2';
 
 @Component({
   components: {
@@ -257,34 +194,6 @@ export default class OccupationInfo extends Vue {
   }
 
   mounted() {
-    const data = [
-      { genre: 'Sports', sold: 275 },
-      { genre: 'Strategy', sold: 115 },
-      { genre: 'Action', sold: 120 },
-      { genre: 'Shooter', sold: 350 },
-      { genre: 'Other', sold: 150 }
-    ]; 
-
-    const div: any = this.$refs['chart'];
-    const chart = new G2.Chart({
-      container: div,
-      width: 230, 
-      height: 150,
-      padding: {
-        top: 15,
-        right: 10,
-        bottom: 35,
-        left: 35,
-      }
-    });
-
-    chart.source(data);
-    chart.line().position('genre*sold');
-    chart.point().position('genre*sold').size(4).shape('circle').style({
-      stroke: '#fff',
-      lineWidth: 1
-    });
-    chart.render();
   }
 }
 </script>
@@ -294,7 +203,7 @@ export default class OccupationInfo extends Vue {
     display flex
     margin-top 30px
     .left
-      flex 1
+      flex 5
       margin-right 15px
       .list
         padding-bottom 30px
@@ -311,10 +220,9 @@ export default class OccupationInfo extends Vue {
           display flex
           justify-content space-between
           align-items center
-          width 300px
           position absolute
           top -56px
-          left 460px
+          right 0
           z-index 1
       .pagination
         margin-top 20px
@@ -336,24 +244,6 @@ export default class OccupationInfo extends Vue {
             line-height 33px
             font-size 24px
             color #17376e
-    .right
-      width 240px
-      ul
-        margin 5px 0
-        list-style none
-        display flex
-        justify-content space-around
-        padding 0
-        li
-          flex 1
-          display flex
-          flex-direction column
-          span:first-child
-            color #666
-            font-size 12px
-          span:last-child
-            font-size 14px
-            color #17376e
 </style>
 <style lang="stylus">
   .occupation-info-container
@@ -364,5 +254,5 @@ export default class OccupationInfo extends Vue {
       .el-form-item__content 
         text-align left
         .el-input, .el-select, .el-cascader
-          width 170px
+          width 160px
 </style>

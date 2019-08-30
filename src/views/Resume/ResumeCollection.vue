@@ -1,9 +1,10 @@
 <template>
   <div class="resume-collection">
-    <board class="board" :title="`收藏夹（${collectionCount}）`">
+    <board class="board" :title="`收藏夹（${selectedResumeCount}）`">
       <el-table
         @selection-change="handleSelectionChange"
         :data="onlineTableData">
+        <table-empty-placeholder slot="empty"/>
         <el-table-column
           type="selection"
           width="55">
@@ -26,7 +27,7 @@
         </el-table-column>
         <el-table-column
           prop="address"
-          label="消耗平台币">
+          label="消耗银币">
         </el-table-column>
         <el-table-column
           label="操作">
@@ -47,8 +48,8 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="400">
       </el-pagination>
-      <div class="operation" v-if="collectionCount > 0">
-        <p>已选择 <span class="keyword">{{ collectionCount }}</span> 份简历 合计：<span class="keyword">{{ collectionPay }}</span> 平台币</p>
+      <div class="operation" v-if="selectedResumeCount > 0">
+        <p>已选择 <span class="keyword">{{ selectedResumeCount }}</span> 份简历 合计：<span class="keyword">{{ collectionPay }}</span> 平台币</p>
         <el-button type="primary main" class="pay-btn">立即支付</el-button>
       </div>
     </board>
@@ -58,15 +59,15 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
+import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 
 @Component({
   components: {
     Board,
+    TableEmptyPlaceholder
   },
 })
 export default class ResumeCollection extends Vue {
-  collectionCount: number = 10;
-
   collectionPay: number = 10;
 
   onlineTableData: any = [];
@@ -74,6 +75,8 @@ export default class ResumeCollection extends Vue {
   activedTabName: string = 'online';
 
   data: any = [];
+
+  selectedResumeCount: number = 0;
 
   onSearch() {}
 

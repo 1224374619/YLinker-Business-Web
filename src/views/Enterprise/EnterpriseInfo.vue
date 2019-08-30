@@ -8,7 +8,7 @@
       <div class="form">
         <p class="header">
           <span class="title">基本信息</span>
-          <el-button class="edit-btn main" @click="enterpriseInfoEditMode = true" v-if="!enterpriseInfoEditMode">编辑</el-button>
+          <el-button class="edit-btn main" @click="editEnterpriseInfo" v-if="!enterpriseInfoEditMode">编辑</el-button>
         </p>
         <div class="display" v-if="!enterpriseInfoEditMode">
           <ul>
@@ -123,7 +123,7 @@
 
         <p class="header">
           <span class="title">企业审核信息</span>
-          <el-button class="edit-btn main" @click="enterpriseRegisterInfoEditMode = true" v-if="!enterpriseRegisterInfoEditMode">编辑</el-button>
+          <el-button class="edit-btn main" @click="editEnterpriseRegisterInfo" v-if="!enterpriseRegisterInfoEditMode">编辑</el-button>
         </p>
         <div class="display" v-if="!enterpriseRegisterInfoEditMode">
           <ul>
@@ -246,6 +246,30 @@ export default class EnterpriseInfo extends Vue {
       { required: true, message: '请上传营业执照图片', trigger: 'blur' },
     ],
   };
+
+  editEnterpriseRegisterInfo() {
+    if (this.enterpriseInfoEditMode) {
+      this.$notify({
+        title: '警告',
+        message: '请先保存企业基本信息！',
+        type: 'warning'
+      });
+    } else {
+      this.enterpriseRegisterInfoEditMode = true;
+    }
+  }
+
+   editEnterpriseInfo() {
+    if (this.enterpriseRegisterInfoEditMode) {
+      this.$notify({
+        title: '警告',
+        message: '请先保存企业审核信息！',
+        type: 'warning'
+      });
+    } else {
+      this.enterpriseInfoEditMode = true;
+    }
+  }
 
   onSubmit() {
     const ref: any = this.$refs.form;

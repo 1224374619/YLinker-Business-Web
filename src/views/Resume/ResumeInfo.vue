@@ -41,21 +41,34 @@
           <el-tab-pane label="已上线职位" name="online">
             <el-table
               :data="onlineTableData">
+              <table-empty-placeholder slot="empty"/>
               <el-table-column
                 prop="date"
                 label="职位名称">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.date}}</el-button>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="name"
                 label="未处理简历">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.name}}</el-button>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="录用简历">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.address}}</el-button>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
                 label="不合格简历">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.address}}</el-button>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="address"
@@ -94,7 +107,7 @@
       <board title="统计数据">
         <ul>
           <li>
-            <span>昨日投递</span>
+            <span>简历处理率</span>
             <span>1</span>
           </li>
           <li>
@@ -112,10 +125,12 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
 import G2 from '@antv/g2';
+import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 
 @Component({
   components: {
     Board,
+    TableEmptyPlaceholder
   },
 })
 export default class OccupationInfo extends Vue {
@@ -123,7 +138,14 @@ export default class OccupationInfo extends Vue {
     occupationName: ''
   };
 
-  onlineTableData: any = [];
+  onlineTableData: any = [
+    {
+      id: 1,
+      date: '后端开发',
+      name: 1,
+      address: 1
+    }
+  ];
 
   activedTabName: string = 'online';
 
@@ -133,7 +155,12 @@ export default class OccupationInfo extends Vue {
 
   onSearch() {}
 
+  gotoResumeListUI(id: number) {
+    this.$router.push({ path: `/resume/list/${id}` });
+  }
+
   mounted() {
+    
     const data = [
       { genre: 'Sports', sold: 275 },
       { genre: 'Strategy', sold: 115 },

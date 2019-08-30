@@ -54,6 +54,7 @@
           <el-table
             @selection-change="handleExportResumes"
             :data="onlineTableData">
+            <table-empty-placeholder slot="empty"/>
             <el-table-column
               type="selection"
               width="55">
@@ -134,10 +135,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
+import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 
 @Component({
   components: {
     Board,
+    TableEmptyPlaceholder
   },
 })
 export default class ResumeDownloaded extends Vue {

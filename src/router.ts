@@ -51,6 +51,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/index.vue'),
       children: [
         {
+          path: ':id(\\d+)',
+          name: 'occupation-detail',
+          component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationDetail.vue'),
+        },
+        {
           path: 'info',
           name: 'occupation-info',
           component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationInfo.vue'),
@@ -59,6 +64,16 @@ export default new Router({
           path: 'add',
           name: 'occupation-add',
           component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationAdd.vue'),
+        },
+        {
+          path: 'draft',
+          name: 'occupation-draft',
+          component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationDraft.vue'),
+        },
+        {
+          path: 'recycle',
+          name: 'occupation-recycle',
+          component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationRecycle.vue'),
         },
       ],
     },
@@ -82,6 +97,11 @@ export default new Router({
           path: ':id(\\d+)',
           name: 'resume-detail',
           component: () => import(/* webpackChunkName: "resume" */ './views/Resume/ResumeDetail.vue'),
+        },
+        {
+          path: 'list/:id(\\d+)',
+          name: 'resume-list',
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/ResumeList.vue'),
         },
         {
           path: 'enterprise',

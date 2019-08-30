@@ -5,7 +5,7 @@
     </el-breadcrumb>
     <div class="content">
       <div class="left">
-        <board title="简历看板" :seeMoreAction="seeMoreAction">
+        <board title="简历看板" :seeMoreAction="() => this.$router.push({ path: '/resume/info' })">
           <ul>
             <li>
               <span>本日新增</span>
@@ -13,40 +13,50 @@
             </li>
             <li>
               <span>待处理</span>
-              <span>1</span>
+              <span><el-button type="text">1</el-button></span>
             </li>
           </ul>
         </board>
-        <board title="职位看板" :seeMoreAction="seeMoreAction">
+        <board title="职位看板" :seeMoreAction="() => this.$router.push({ path: '/occupation/info' })">
           <ul>
             <li>
               <span>已上线</span>
-              <span>1</span>
+              <span><el-button type="text">1</el-button></span>
             </li>
             <li>
               <span>待上线</span>
-              <span>1</span>
+              <span><el-button type="text">1</el-button></span>
             </li>
             <li>
               <span>审核中</span>
-              <span>1</span>
+              <span><el-button type="text">1</el-button></span>
             </li>
             <li>
               <span>审核未通过</span>
-              <span>1</span>
+              <span><el-button type="text">1</el-button></span>
             </li>
             <li>
               <span>已下线</span>
-              <span>1</span>
+              <span><el-button type="text">1</el-button></span>
             </li>
           </ul>
         </board>
-        <board title="企业账单" :seeMoreAction="seeMoreAction">
+        <board title="企业账单" :seeMoreAction="() => this.$router.push({ path: '/enterprise/bill' })">
         </board>
       </div>
       <div class="right">
-        <board title="系统通知" :seeMoreAction="seeMoreAction">
-          <div class="notifications">
+        <board title="系统通知" :seeMoreAction="() => this.$router.push({ path: '/notifications' })">
+          <div class="notification">
+            <div class="noti-head">
+              <span>标题</span>
+              <span class="tag">未读</span>
+            </div>
+            <div class="noti-content">
+              我是文案我是文案我是文案我是文案文案我是文案我是文案文...
+              <span class="more">详情 &gt;</span>
+            </div>
+          </div>
+          <div class="notification">
             <div class="noti-head">
               <span>标题</span>
               <span class="tag">未读</span>
@@ -57,7 +67,7 @@
             </div>
           </div>
         </board>
-        <board title="企业摘要" :seeMoreAction="seeMoreAction">
+        <board title="企业摘要" :seeMoreAction="() => this.$router.push({ path: '/enterprise/info' })">
           <div class="enterprise">
             <div class="enter-head">
               <img src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/f2294b1af49e18ccfdbb2ccae022ff04_121_121.png" />
@@ -141,6 +151,7 @@ export default class OccupationInfo extends Vue {
   .container
     display flex
     width 1280px
+    box-sizing border-box
     background-color white
     padding 20px
     margin-bottom 20px
@@ -175,20 +186,15 @@ export default class OccupationInfo extends Vue {
               font-size 14px
             span:last-child
               line-height 33px
-              font-size 24px
+              font-size 24px !important
               color #17376e
       .right
         flex 0 0 240px
-        .tag
-          color white
-          background-color #358be5
-          border-radius 10px
-          padding 0 5px
-          font-size 12px
-          height 18px
-        .notifications
-          margin 10px
+        .notification
+          padding 10px
           cursor pointer
+          &:first-child
+            border-bottom solid 1px #eee
           .noti-head
             display flex
             font-size 16px

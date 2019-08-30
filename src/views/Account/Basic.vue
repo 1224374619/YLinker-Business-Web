@@ -51,26 +51,20 @@
         </div>
         <div class="form">
             <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-            <el-form-item label="账号">
-              {{ staticInfo.accountName }}
-            </el-form-item>
-            <el-form-item label="姓名">
-              {{ staticInfo.name }}
-            </el-form-item>
-            <el-form-item label="角色">
-              {{ staticInfo.role }}
-            </el-form-item>
-            <el-form-item label="所属组织">
-              {{ staticInfo.org }}
-            </el-form-item>
-            <el-form-item label="手机号">
-              {{ staticInfo.tel }}
-              <el-button type="text" @click="dialogChangeTelVisible = true">更换绑定手机号</el-button>
-            </el-form-item>
-            <el-form-item label="邮箱">
-              {{ staticInfo.email }}
-              <el-button type="text" @click="dialogChangeMailVisible = true">更换绑定邮箱</el-button>
-            </el-form-item>
+              <el-form-item label="姓名">
+                {{ staticInfo.name }}
+              </el-form-item>
+              <el-form-item label="角色">
+                {{ staticInfo.role }}
+              </el-form-item>
+              <el-form-item label="手机号">
+                {{ staticInfo.tel }}
+                <el-button type="text" @click="dialogChangeTelVisible = true">更换绑定手机号</el-button>
+              </el-form-item>
+              <el-form-item label="邮箱">
+                {{ staticInfo.email }}
+                <el-button type="text" @click="dialogChangeMailVisible = true">更换绑定邮箱</el-button>
+              </el-form-item>
             </el-form>
         </div>
       </div>

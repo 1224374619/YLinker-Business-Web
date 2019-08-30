@@ -54,6 +54,7 @@
                 placeholder="请输入内容"
                 @select="handleSelect"
               ></el-autocomplete>
+              <el-checkbox v-model="checked">只看最近一份工作</el-checkbox>
             </el-form-item>
             <el-form-item label="职位名称">
               <el-autocomplete
@@ -62,6 +63,7 @@
                 placeholder="请输入内容"
                 @select="handleSelect"
               ></el-autocomplete>
+              <el-checkbox v-model="checked">只看最近一份工作</el-checkbox>
             </el-form-item>
           </div>
           <div class="operations">
@@ -73,11 +75,12 @@
         </el-form>
       </div>
       <div class="addition-bar">
-        <el-button type="text">批量下载简历</el-button>
+        <el-button type="text" class="underline mini">批量导出简历</el-button>
       </div>
       <el-table
         @selection-change="handleExportResumes"
         :data="tableData">
+        <table-empty-placeholder slot="empty"/>
         <el-table-column
           type="selection"
           width="55">
@@ -104,8 +107,7 @@
         </el-table-column>
         <el-table-column
           prop="address"
-          width="75"
-          label="海外经历">
+          label="海外工作经历">
         </el-table-column>
         <el-table-column
           prop="address"
@@ -119,29 +121,24 @@
         </el-table-column>
         <el-table-column
           prop="address"
-          label="毕业院校">
+          label="投递岗位">
         </el-table-column>
         <el-table-column
           prop="address"
-          label="求职意向">
+          label="简历状态">
         </el-table-column>
         <el-table-column
           prop="address"
           width="115"
-          label="投递本公司">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="简历完整度">
+          label="投递时间">
         </el-table-column>
         <el-table-column
           class="operations"
-          width="120"
+          width="140"
           label="操作">
           <template>
             <el-button type="text" size="small" @click="inspectResumeDetail">查看</el-button>
-            <el-button type="text" size="small">收藏</el-button>
-            <el-button type="text" size="small">下载</el-button>
+            <el-button type="text" size="small">加入黑名单</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -163,10 +160,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
+import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 
 @Component({
   components: {
     Board,
+    TableEmptyPlaceholder
   },
 })
 export default class ResumeEnterprise extends Vue {
@@ -224,5 +223,5 @@ export default class ResumeEnterprise extends Vue {
       .el-form-item
         margin-right 20px
         .el-form-item__content
-          width 150px
+          width 130px
 </style>
