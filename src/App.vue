@@ -104,7 +104,6 @@ html, body
     flex-direction column
   .full-screen
     width 100%
-    opacity .5
     flex 1
   .default-bg
     background url('assets/images/background.jpg')
@@ -135,7 +134,6 @@ button.el-button--text
     font-size 14px
   &.underline
     text-decoration underline
-
 .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li
   background-color white
   border 0.7px solid rgba(0,0,0,0.15)

@@ -91,4 +91,5 @@ export default class CustomizedFooter extends Vue {}
       &.full
         background-color #16376e
         color white
+        opacity .5
 </style>
