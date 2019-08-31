@@ -163,6 +163,7 @@ export default class OccupationInfo extends Vue {
   .container
     display flex
     width 1280px
+    min-height 600px
     box-sizing border-box
     background-color white
     padding 20px

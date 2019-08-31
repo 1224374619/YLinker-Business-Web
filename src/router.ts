@@ -91,7 +91,7 @@ export default new Router({
         {
           path: 'blacklist',
           name: 'resume-blacklist',
-          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/BlackList.vue'),
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/ResumeBlackList.vue'),
         },
         {
           path: ':id(\\d+)',

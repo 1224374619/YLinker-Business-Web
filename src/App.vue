@@ -82,7 +82,7 @@ html, body
   font-family PingFang SC, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif
   background-color #f0f0f0
 #app
-  height 100%
+  min-height 100%
   min-width 1280px
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
@@ -102,6 +102,7 @@ html, body
     margin-left auto 
     margin-right auto
     flex-direction column
+    flex 1
   .full-screen
     width 100%
     flex 1

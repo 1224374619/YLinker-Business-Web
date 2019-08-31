@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <el-container>
+    <el-container class="occupation">
       <el-aside width="177px">
         <el-menu
           @select="toggleActivedMenu"
@@ -84,15 +84,18 @@ export default class Contact extends Vue {
 
 <style lang="stylus" scoped>
   .about
-    margin-bottom 20px
-    aside
-      background-color white
-      margin-right 20px
-      ul
-        text-align left 
-    main
-      background-color white
-      padding 30px 40px
+    display flex
+    flex 1
+    .el-container
+      flex 1
+      aside
+        background-color white
+        margin-right 20px
+        ul
+          text-align left 
+      main
+        background-color white
+        padding 30px 40px
 </style>
 
 <style lang="stylus">

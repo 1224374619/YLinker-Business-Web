@@ -1,6 +1,6 @@
 <template>
   <div class="enterprise">
-    <el-container>
+    <el-container class="el-container">
       <el-aside width="177px">
         <el-menu
           :router="true"
@@ -88,15 +88,18 @@ export default class Enterprise extends Vue {
 
 <style lang="stylus" scoped>
   .enterprise
-    margin-bottom 20px
-    aside
-      overflow hidden
-      background-color white
-      margin-right 20px
-      ul
-        text-align left 
-    main
-      background-color white
+    display flex
+    flex 1
+    .el-container
+      flex 1
+      aside
+        overflow hidden
+        background-color white
+        margin-right 20px
+        ul
+          text-align left 
+      main
+        background-color white
 </style>
 
 <style lang="stylus">

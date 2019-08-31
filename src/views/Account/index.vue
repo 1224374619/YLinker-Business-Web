@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <el-container>
+    <el-container class="occupation">
       <el-aside width="177px">
         <el-menu
           @select="toggleActivedMenu"
@@ -83,16 +83,19 @@ export default class Account extends Vue {
 
 <style lang="stylus" scoped>
   .account
-    margin-bottom 20px
-    aside
-      overflow hidden
-      background-color white
-      margin-right 20px
-      ul
-        text-align left 
-    main
-      background-color white
-      padding 30px 40px
+    display flex
+    flex 1
+    .el-container
+      flex 1
+      aside
+        overflow hidden
+        background-color white
+        margin-right 20px
+        ul
+          text-align left 
+      main
+        background-color white
+        padding 30px 40px
 </style>
 
 <style lang="stylus">

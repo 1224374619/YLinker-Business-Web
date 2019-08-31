@@ -204,6 +204,7 @@ export default class ResumeDetail extends Vue {
 
 <style lang="stylus" scoped>
   .resume-detail
+    color #000
     display flex
     margin-top 30px
     .board

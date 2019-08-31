@@ -2,7 +2,7 @@
   <div class="resume-blacklist">
     <board class="board" title="黑名单">
       <div class="filters">
-        <el-form :inline="true" :model="filters" class="form" label-width="70px">
+        <el-form :inline="true" :model="filters" class="form">
           <div class="fields">
             <el-form-item label="姓名">
               <el-input v-model="input" placeholder="请输入内容"></el-input>
@@ -133,10 +133,15 @@ export default class OccupationInfo extends Vue {
       .filters
         margin 20px 0
         .form
+          margin 5px 10px 20px
           display flex
           justify-content space-between
       .pagination
         margin-top 15px
         text-align right 
-
+</style>
+<style lang="stylus">
+  .resume-blacklist
+    .el-form-item
+      margin-right 20px
 </style>
