@@ -104,6 +104,7 @@ html, body
     flex-direction column
   .full-screen
     width 100%
+    opacity .5
     flex 1
   .default-bg
     background url('assets/images/background.jpg')

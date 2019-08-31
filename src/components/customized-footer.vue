@@ -3,21 +3,31 @@
     <template v-if="!showSimple">
       <div class="appendix">
         <div>
-          <span>联系方式</span>
-          <ul>
-            <li>邮编：200436</li>
-            <li>联系电话：021-56057115</li>
-            <li>邮箱：Nicole.yin@aliyun.com</li>
-            <li>地址：上海市静安区江场西路299弄15号1428室</li>
-          </ul>
+          <span class="title">银领人才网</span>
+          <div class="content">
+            <p>静安区江静安区江静安区江静安区江静安区江静安区江静安区江静安区江静安区江</p>
+          </div>
         </div>
         <div>
-          <span>使用与帮助</span>
-          <ul>
-            <li>企业介绍</li>
-            <li>投诉建议</li>
-            <li>用户协议</li>
-          </ul>
+          <span class="title">联系方式</span>
+          <div class="content">
+            <ul>
+              <li>邮编：200436</li>
+              <li>联系电话：021-56057115</li>
+              <li>邮箱：Nicole.yin@aliyun.com</li>
+              <li>地址：上海市静安区江场西路299弄15号1428室</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <span class="title">使用与帮助</span>
+          <div class="content">
+            <ul>
+              <li>企业介绍</li>
+              <li>投诉建议</li>
+              <li>用户协议</li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="copyright full">
@@ -58,16 +68,20 @@ export default class CustomizedFooter extends Vue {}
       justify-content space-around
       div
         text-align left
-        span
+        span.title
           font-size 16px
           font-weight 500
-        ul
-          list-style-type none
-          padding 0
-          text-align left
-          li
-            margin 10px 0
-            font-size 14px
+        .content
+          opacity .5
+          font-size 14px
+          p
+            max-width 350px
+          ul
+            list-style-type none
+            padding 0
+            text-align left
+            li
+              margin 10px 0
     .copyright
       font-size 14px
       color #999
