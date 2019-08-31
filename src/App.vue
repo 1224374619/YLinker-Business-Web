@@ -58,13 +58,13 @@ export default class App extends Vue {
 
 <style lang="stylus">
 @font-face {
-  font-family: 'customized-icon';
-  src: url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.eot');
-  src: url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1370686_niq5z8fr8to.svg#iconfont') format('svg');
+  font-family: 'customized-icon';  /* project id 1370686 */
+  src: url('//at.alicdn.com/t/font_1370686_8ary5afyq6y.eot');
+  src: url('//at.alicdn.com/t/font_1370686_8ary5afyq6y.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1370686_8ary5afyq6y.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1370686_8ary5afyq6y.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1370686_8ary5afyq6y.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1370686_8ary5afyq6y.svg#iconfont') format('svg');
 }
 
 .icon {
@@ -163,6 +163,8 @@ span.tag
   padding 0 5px
   font-size 12px
   height 18px
+.el-form-item .el-checkbox__label
+  font-weight 400
 </style>
 
 

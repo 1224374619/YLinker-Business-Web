@@ -13,7 +13,7 @@
             </li>
             <li>
               <span>待处理</span>
-              <span><el-button type="text">1</el-button></span>
+              <span><el-button type="text" @click="gotoResumeUI">1</el-button></span>
             </li>
           </ul>
         </board>
@@ -21,23 +21,23 @@
           <ul>
             <li>
               <span>已上线</span>
-              <span><el-button type="text">1</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('ONLINE')">1</el-button></span>
             </li>
             <li>
               <span>待上线</span>
-              <span><el-button type="text">1</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('PENDING')">1</el-button></span>
             </li>
             <li>
               <span>审核中</span>
-              <span><el-button type="text">1</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('CHECKING')">1</el-button></span>
             </li>
             <li>
               <span>审核未通过</span>
-              <span><el-button type="text">1</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('FAILED')">1</el-button></span>
             </li>
             <li>
               <span>已下线</span>
-              <span><el-button type="text">1</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('OFFLINE')">1</el-button></span>
             </li>
           </ul>
         </board>
@@ -45,8 +45,8 @@
         </board>
       </div>
       <div class="right">
-        <board title="系统通知" :seeMoreAction="() => this.$router.push({ path: '/notifications' })">
-          <div class="notification">
+        <board title="系统通知" :seeMoreAction="gotoNotiUI">
+          <div class="notification" @click="gotoNotiUI">
             <div class="noti-head">
               <span>标题</span>
               <span class="tag">未读</span>
@@ -56,7 +56,7 @@
               <span class="more">详情 &gt;</span>
             </div>
           </div>
-          <div class="notification">
+          <div class="notification" @click="gotoNotiUI">
             <div class="noti-head">
               <span>标题</span>
               <span class="tag">未读</span>
@@ -113,6 +113,18 @@ export default class OccupationInfo extends Vue {
   onSearch() {}
 
   seeMoreAction() {}
+
+  gotoOccupationPanel(panelName: string = '') {
+    this.$router.push({ path: `/occupation/info${panelName && ('?tab=' + panelName)}` });
+  }
+
+  gotoNotiUI() {
+    this.$router.push({ path: `/notifications` });
+  }
+
+  gotoResumeUI() {
+    this.$router.push({ path: `/resume/info` });
+  }
 
   mounted() {
     const data = [

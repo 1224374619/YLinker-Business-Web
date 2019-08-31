@@ -29,7 +29,7 @@
         <div class="filters">
           <el-form :inline="true" :model="filters" class="form">
             <div class="fields">
-              <el-form-item label="招聘岗位">
+              <el-form-item label="招聘职位">
                 <el-autocomplete
                   v-model="filters.occupationName"
                   :fetch-suggestions="querySearchAsync"
@@ -104,7 +104,7 @@
           <div class="tab-operations">
             <el-checkbox v-model="checked">只看自己</el-checkbox>
           </div>
-          <el-tab-pane label="已上线" name="online">
+          <el-tab-pane label="已上线" name="ONLINE">
             <el-table
               :data="onlineTableData">
               <table-empty-placeholder slot="empty"/>
@@ -154,10 +154,10 @@
               :total="400">
             </el-pagination>
           </el-tab-pane>
-          <el-tab-pane label="待上线" name="pending">待上线</el-tab-pane>
-          <el-tab-pane label="审核中" name="checking">角色管理</el-tab-pane>
-          <el-tab-pane label="审核未通过" name="invalid">定时任务补偿</el-tab-pane>
-          <el-tab-pane label="已下线" name="offline">定时任务补偿</el-tab-pane>
+          <el-tab-pane label="待上线" name="PENDING">待上线</el-tab-pane>
+          <el-tab-pane label="审核中" name="CHECKING">角色管理</el-tab-pane>
+          <el-tab-pane label="审核未通过" name="INVALID">定时任务补偿</el-tab-pane>
+          <el-tab-pane label="已下线" name="OFFLINE">定时任务补偿</el-tab-pane>
         </el-tabs>
       </board>
     </div>
@@ -244,7 +244,7 @@ export default class OccupationInfo extends Vue {
     }
   ];
 
-  activedTabName: string = 'online';
+  activedTabName: string = 'ONLINE';
 
   data: any = [];
 
@@ -257,6 +257,9 @@ export default class OccupationInfo extends Vue {
   }
 
   mounted() {
+    // setup active tabs;
+    this.activedTabName = this.$route.query.tab as string || 'ONLINE';
+
     const data = [
       { genre: 'Sports', sold: 275 },
       { genre: 'Strategy', sold: 115 },
@@ -313,7 +316,7 @@ export default class OccupationInfo extends Vue {
           align-items center
           width 300px
           position absolute
-          top -56px
+          top -47px
           left 460px
           z-index 1
       .pagination

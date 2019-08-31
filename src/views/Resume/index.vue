@@ -66,11 +66,12 @@ declare type routeTypeAdvanced = {
 const subRoutes: routeTypeAdvanced[] = [{
   path: '/resume/info',
   label: '简历总览',
+  icon: '&#xe61d;',
   isMenu: true
 }, {
   path: '/resume/enterprise',
   label: '企业人才库',
-  icon: '',
+  icon: '&#xe61e;',
   isMenu: true
 }, {
   label: '平台人才库',

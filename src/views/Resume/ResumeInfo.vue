@@ -51,7 +51,14 @@
               </el-table-column>
               <el-table-column
                 prop="name"
-                label="未处理简历">
+                label="待处理简历">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.name}}</el-button>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="处理中简历">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.name}}</el-button>
                 </template>

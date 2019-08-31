@@ -225,7 +225,8 @@ export default class OccupationInfo extends Vue {
           right 0
           z-index 1
       .pagination
-        margin-top 20px
+        margin 20px 20px 0 0
+        text-align right
       ul
         margin 0
         list-style none
@@ -254,5 +255,5 @@ export default class OccupationInfo extends Vue {
       .el-form-item__content 
         text-align left
         .el-input, .el-select, .el-cascader
-          width 160px
+          width 150px
 </style>

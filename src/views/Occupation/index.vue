@@ -41,6 +41,7 @@ declare type routeType = {
 const subRoutes: routeType[] = [{
   path: '/occupation/info',
   label: '职位总览',
+  icon: '&#xe61f;'
 }, {
   path: '/occupation/add',
   label: '新增职位',
@@ -48,9 +49,11 @@ const subRoutes: routeType[] = [{
 }, {
   path: '/occupation/draft',
   label: '草稿箱',
+  icon: '&#xe620;'
 }, {
   path: '/occupation/recycle',
   label: '回收站',
+  icon: '&#xe621;'
 }];
 
 @Component({

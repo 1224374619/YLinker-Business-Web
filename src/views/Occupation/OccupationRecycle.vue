@@ -3,7 +3,7 @@
     <board class="list" title="职位列表">
       <div class="filters">
         <el-form :inline="true" :model="filters" class="form">
-          <el-form-item label="招聘岗位">
+          <el-form-item label="招聘职位">
             <el-autocomplete
               v-model="filters.occupationName"
               :fetch-suggestions="querySearchAsync"

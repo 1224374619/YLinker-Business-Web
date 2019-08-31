@@ -44,12 +44,14 @@
             <el-form-item>
               <el-button @click="onSearch">重置</el-button>
               <el-button type="primary main" @click="onSearch">查询</el-button>
-              <el-button type="primary" @click="onSearch">批量导出简历</el-button>
             </el-form-item>
           </div>
         </el-form>
       </div>
       <el-tabs v-model="activedTabName" type="card" @tab-click="handleClick">
+        <div class="tab-operations">
+          <el-button type="text" class="underline mini">批量导出简历</el-button>
+        </div>
         <el-tab-pane label="未处理" name="online">
           <el-table
             @selection-change="handleExportResumes"
@@ -178,8 +180,21 @@ export default class ResumeDownloaded extends Vue {
           text-align left 
         .operations
           text-align right 
+      .tab-operations
+        display flex
+        justify-content space-between
+        align-items center
+        position absolute
+        top -55px
+        right 0
+        margin 0 10px
+        z-index 1
       .pagination
         margin-top 15px
         text-align right 
-
+</style>
+<style lang="stylus">
+  .resume-downloaded
+    .el-tabs__content
+      overflow initial
 </style>
