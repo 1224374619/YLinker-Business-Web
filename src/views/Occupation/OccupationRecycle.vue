@@ -23,10 +23,10 @@
               :picker-options="pickerOptions2">
             </el-date-picker>
           </el-form-item>
-          <el-form-item>
+          <div class="operations">
             <el-button @click="onSearch">重置</el-button>
             <el-button type="primary main" @click="onSearch">查询</el-button>
-          </el-form-item>
+          </div>
         </el-form>
       </div>
       <el-table
@@ -163,6 +163,8 @@ export default class OccupationreCycle extends Vue {
       width 100%
       .filters .form
         margin 5px 10px 20px
+        display flex
+        justify-content space-between
         .operations
           text-align right  
 </style>

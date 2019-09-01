@@ -17,10 +17,8 @@
             </el-form-item>
           </div>
           <div class="operations">
-            <el-form-item>
-              <el-button @click="onSearch">重置</el-button>
-              <el-button type="primary main" @click="onSearch">查询</el-button>
-            </el-form-item>
+            <el-button @click="onSearch">重置</el-button>
+            <el-button type="primary main" @click="onSearch">查询</el-button>
           </div>
         </el-form>
       </div>
@@ -136,6 +134,8 @@ export default class OccupationInfo extends Vue {
           margin 5px 10px 20px
           display flex
           justify-content space-between
+          .operations
+            text-align right 
       .pagination
         margin-top 15px
         text-align right 

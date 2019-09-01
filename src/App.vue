@@ -165,6 +165,10 @@ span.tag
   height 18px
 .el-form-item .el-checkbox__label
   font-weight 400
+.el-dialog--center .el-dialog__body
+  padding 25px 25px 10px
+.el-dialog__footer
+  padding-bottom 30px
 </style>
 
 
