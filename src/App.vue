@@ -169,6 +169,7 @@ span.tag
   padding 25px 25px 10px
 .el-dialog__footer
   padding-bottom 30px
+  padding-top 0
 </style>
 
 

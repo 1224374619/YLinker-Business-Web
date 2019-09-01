@@ -55,7 +55,7 @@
           </el-form-item>
           <el-form-item class="operations">
             <el-button @click="onSubmit">返回</el-button>
-            <el-button type="primary" class="main" @click="onSubmit">编辑</el-button>
+            <el-button type="primary" class="main" @click="gotoOccupationEditUI()">编辑</el-button>
             <el-button type="primary" class="main" @click="onSubmit">上线</el-button>
           </el-form-item>
         </el-form>
@@ -104,11 +104,17 @@ export default class OccuptaionDetail extends Vue {
     
   inputValue: string = '';
 
+  occupationId: number = 0;
+
   rules: object = {
     comment: [
       { required: true, message: '请输入留言内容', trigger: 'blur' },
     ],
   };
+
+  gotoOccupationEditUI() {
+    this.$router.push({ path: `/occupation/${this.occupationId}/edit` });
+  }
 
   onSubmit() {
     const ref: any = this.$refs.form;

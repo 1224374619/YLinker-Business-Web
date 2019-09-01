@@ -216,8 +216,6 @@ export default class OccupationInfo extends Vue {
         display flex
         justify-content space-between
         margin 5px 10px 20px
-        .operations
-          text-align right 
       .pagination
         margin-top 20px
       ul

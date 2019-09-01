@@ -66,6 +66,11 @@ export default new Router({
           component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationAdd.vue'),
         },
         {
+          path: ':id(\\d+)/edit',
+          name: 'occupation-edit',
+          component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationEdit.vue'),
+        },
+        {
           path: 'draft',
           name: 'occupation-draft',
           component: () => import(/* webpackChunkName: "occupation" */ './views/Occupation/OccupationDraft.vue'),

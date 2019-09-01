@@ -3,7 +3,8 @@
     <board class="list" title="职位列表">
       <div class="filters">
         <el-form :inline="true" :model="filters" class="form">
-          <el-form-item label="招聘职位">
+          <div class="inputs">
+            <el-form-item label="招聘职位">
             <el-autocomplete
               v-model="filters.occupationName"
               :fetch-suggestions="querySearchAsync"
@@ -23,6 +24,7 @@
               :picker-options="pickerOptions2">
             </el-date-picker>
           </el-form-item>
+          </div>
           <div class="operations">
             <el-button @click="onSearch">重置</el-button>
             <el-button type="primary main" @click="onSearch">查询</el-button>
@@ -164,12 +166,13 @@ export default class OccupationDraft extends Vue {
       padding-bottom 30px
       position relative
       width 100%
+      .pagination
+        margin-top 15px
+        text-align right 
       .filters .form
         margin 5px 10px 20px
         display flex
         justify-content space-between
-        .operations
-          text-align right  
 </style>
 <style lang="stylus">
   .occupation-draft-container
