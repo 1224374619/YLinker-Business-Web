@@ -17,7 +17,7 @@
               <span>企业中心</span>
             </router-link>
           </div>
-          <div class="btn-set" v-if="!hasLogin">
+          <div class="btn-set" v-if="!userInfo.phone">
             <button @click="gotoLoginUI">登录</button>
             <button @click="gotoRegisterUI">注册</button>
           </div>
@@ -66,11 +66,13 @@
                 </div>
               </div>
             </el-popover>
+            <!--
             <el-badge :value="12" class="item" v-popover:popover>
               <i @click="gotoNotiUI" class="el-icon-bell"></i>
             </el-badge>
+            -->
             <el-dropdown placement="bottom-start" @command="handleMenuClick">
-              <img :src="placeholder" />
+              <img :src="userInfo.avatarUrl || require('@/assets/images/default-avatar.jpg')" />
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="/account/basic">账号管理</el-dropdown-item>
                 <el-dropdown-item command="/about/contact">联系我们</el-dropdown-item>
@@ -85,8 +87,11 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { Mutation } from 'vuex-class';
 import { mapState } from 'vuex';
 import { RootState } from '@/store/root-states';
+import { getAccountInfo } from '@/apis/account';
+import { SYNC_USER_INFO } from '@/store/mutation-types';
 
 @Component({
   props: {
@@ -96,12 +101,14 @@ import { RootState } from '@/store/root-states';
     },
   },
   computed: mapState({
-    hasLogin(state: RootState) {
-      return state.hasLogin;
+    userInfo(state: RootState) {
+      return state.userInfo;
     },
   }),
 })
 export default class CustomizedNav extends Vue {
+  @Mutation(SYNC_USER_INFO) syncUserInfo: any
+
   showPopver: boolean = false;
 
   gotoNotiUI() {

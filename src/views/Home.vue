@@ -9,11 +9,11 @@
           <ul>
             <li>
               <span>本日新增</span>
-              <span>1</span>
+              <span>{{ resumeBoardStatistics.incrementDaily }}</span>
             </li>
             <li>
               <span>待处理</span>
-              <span><el-button type="text" @click="gotoResumeUI">1</el-button></span>
+              <span><el-button type="text" @click="gotoResumeUI">{{ resumeBoardStatistics.toProcessNum }}</el-button></span>
             </li>
           </ul>
         </board>
@@ -21,30 +21,33 @@
           <ul>
             <li>
               <span>已上线</span>
-              <span><el-button type="text" @click="gotoOccupationPanel('ONLINE')">1</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('ONLINE')">{{ occupationBoardStatistics.onlineNum }}</el-button></span>
             </li>
             <li>
-              <span>待上线</span>
-              <span><el-button type="text" @click="gotoOccupationPanel('PENDING')">1</el-button></span>
+              <span>编辑中</span>
+              <span><el-button type="text" @click="gotoOccupationPanel('PENDING')">{{ occupationBoardStatistics.editingNum }}</el-button></span>
             </li>
             <li>
               <span>审核中</span>
-              <span><el-button type="text" @click="gotoOccupationPanel('CHECKING')">1</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('CHECKING')">{{ occupationBoardStatistics.auditingNum }}</el-button></span>
             </li>
             <li>
               <span>审核未通过</span>
-              <span><el-button type="text" @click="gotoOccupationPanel('FAILED')">1</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('FAILED')">{{ occupationBoardStatistics.auditFailedNum }}</el-button></span>
             </li>
             <li>
               <span>已下线</span>
-              <span><el-button type="text" @click="gotoOccupationPanel('OFFLINE')">1</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('OFFLINE')">{{ occupationBoardStatistics.offlineNum }}</el-button></span>
             </li>
           </ul>
         </board>
+        <!--
         <board title="企业账单" :seeMoreAction="() => this.$router.push({ path: '/enterprise/bill' })">
         </board>
+        -->
       </div>
       <div class="right">
+        <!--
         <board title="系统通知" :seeMoreAction="gotoNotiUI">
           <div class="notification" @click="gotoNotiUI">
             <div class="noti-head">
@@ -66,19 +69,19 @@
               <span class="more">详情 &gt;</span>
             </div>
           </div>
-        </board>
+        </board>-->
         <board title="企业摘要" :seeMoreAction="() => this.$router.push({ path: '/enterprise/info' })">
           <div class="enterprise">
             <div class="enter-head">
               <img src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/f2294b1af49e18ccfdbb2ccae022ff04_121_121.png" />
               <div>
                 <span>企业信息完整度</span>
-                <el-progress :percentage="70"></el-progress>
+                <el-progress :percentage="companyInfo.completedPercent"></el-progress>
               </div>
             </div>
             <div class="enter-content">
-              <p>企业名称：上海XX有限公司 <span class="tag">已审核</span></p>
-              <p>企业简称：xxxx公司</p>
+              <p>企业名称：{{ companyInfo.fullName }} <span class="tag">{{ companyInfo.state === 1 ? '审核中' : '已上线' }}</span></p>
+              <p>企业简称：{{ companyInfo.shortName }}</p>
             </div>
           </div>
         </board>
@@ -90,7 +93,8 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
-import G2 from '@antv/g2';
+import { getResumeBoardStatistics, getOccupationBoardStatistics } from '@/apis/board';
+import { getCompanyBriefInfo } from '@/apis/company';
 
 @Component({
   components: {
@@ -98,21 +102,25 @@ import G2 from '@antv/g2';
   },
 })
 export default class OccupationInfo extends Vue {
-  filters: object = {
-    occupationName: ''
+  resumeBoardStatistics: any = {
+    incrementDaily: 0,
+    toProcessNum: 0
+  };
+  
+  occupationBoardStatistics: object = {
+    auditFailedNum: 0,
+    auditingNum: 0,
+    editingNum: 0,
+    offlineNum: 0,
+    onlineNum: 0
   };
 
-  onlineTableData: any = [];
-
-  activedTabName: string = 'online';
-
-  data: any = [];
-
-  querySearchAsync() {}
-
-  onSearch() {}
-
-  seeMoreAction() {}
+  companyInfo: object = {
+    completedPercent: 0,
+    fullName: '',
+    shortName: '',
+    state: 1,
+  }
 
   gotoOccupationPanel(panelName: string = '') {
     this.$router.push({ path: `/occupation/info${panelName && ('?tab=' + panelName)}` });
@@ -126,35 +134,10 @@ export default class OccupationInfo extends Vue {
     this.$router.push({ path: `/resume/info` });
   }
 
-  mounted() {
-    const data = [
-      { genre: 'Sports', sold: 275 },
-      { genre: 'Strategy', sold: 115 },
-      { genre: 'Action', sold: 120 },
-      { genre: 'Shooter', sold: 350 },
-      { genre: 'Other', sold: 150 }
-    ]; 
-
-    const div: any = this.$refs['chart'];
-    const chart = new G2.Chart({
-      container: div,
-      width: 230, 
-      height: 150,
-      padding: {
-        top: 15,
-        right: 10,
-        bottom: 35,
-        left: 35,
-      }
-    });
-
-    chart.source(data);
-    chart.line().position('genre*sold');
-    chart.point().position('genre*sold').size(4).shape('circle').style({
-      stroke: '#fff',
-      lineWidth: 1
-    });
-    chart.render();
+  async created() {
+    this.occupationBoardStatistics = (await getOccupationBoardStatistics()).data;
+    this.resumeBoardStatistics = (await getResumeBoardStatistics()).data;
+    this.companyInfo = (await getCompanyBriefInfo()).data;
   }
 }
 </script>
@@ -177,10 +160,6 @@ export default class OccupationInfo extends Vue {
         margin-right 15px
         .list
           padding-bottom 30px
-        .filters .form
-          display flex
-          justify-content space-between
-          margin-bottom 20px
         .pagination
           margin-top 20px
         ul

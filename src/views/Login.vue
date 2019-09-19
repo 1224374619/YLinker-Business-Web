@@ -6,8 +6,8 @@
         <el-button type="text">个人用户</el-button>
       </p>
       <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-        <el-form-item label="手机号" prop="tel">
-          <el-input prefix-icon="el-icon-mobile-phone" v-model.number="form.tel" placeholder="请输入登录手机号"></el-input>
+        <el-form-item label="手机号" prop="username">
+          <el-input prefix-icon="el-icon-mobile-phone" v-model.number="form.username" placeholder="请输入登录手机号"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <password-input v-model="form.password" />
@@ -30,8 +30,10 @@ import { Mutation } from 'vuex-class';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 import PasswordInput from 'components/password-input.vue';
-import { signin } from '@/apis/account';
-import { DONE_LOGIN } from '@/store/mutation-types';
+import { signin, getAccountInfo } from '@/apis/account';
+import { getCompanyInfo, getCompanyBriefInfo } from '@/apis/company';
+import { SYNC_USER_INFO, UPDATE_LOGIN_STATUS } from '@/store/mutation-types';
+import { nonEmptyValidator } from '@/utils/validators';
 
 @Component({
   components: {
@@ -41,46 +43,40 @@ import { DONE_LOGIN } from '@/store/mutation-types';
   },
 })
 export default class Home extends Vue {
-  @Mutation(DONE_LOGIN) doneLogin: any
+  @Mutation(SYNC_USER_INFO) syncUserInfo: any;
+  @Mutation(UPDATE_LOGIN_STATUS) updateLoginStatus: any;
 
   form: object = {
-    tel: '',
+    username: '',
     password: '',
   };
 
-  phoneValidator = (rule: any, value: any, callback: any) => {
-    if (value === '') {
-      callback(new Error('请再次输入密码'));
-    } else {
-      callback();
-    }
-  };
-
   rules: object = {
-    tel: [
-      { validator: this.phoneValidator, trigger: 'blur' },
+    username: [
+      { validator: nonEmptyValidator, trigger: 'blur' },
+      { type: 'number', message: '手机号必须为数字', trigger: 'blur' },
     ],
     password: [
-      { validator: this.phoneValidator, trigger: 'blur' },
+      { validator: nonEmptyValidator, trigger: 'blur' },
     ],
   };
 
-  onSignin() {
+  onSignin() {    
     const ref: any = this.$refs.form;
     ref.validate(async (valid: boolean) => {
       if (valid) {
-        // submit form;
-        /*
-        const res = await signin({ ...this.form });
-        if (res.data.result) {
-          this.doneLogin();
+        const response = await signin({ ...this.form });
+        if (response) {   
+          // check company status;
+          const companyInfo = (await getCompanyBriefInfo()).data;
+          if (Object.keys(companyInfo).length === 0) { 
+            this.$router.push({ name: 'enterprise-info-update' });         
+          } else {
+            this.$router.push({ name: 'enterprise-info' });
+          }
+          this.updateLoginStatus(true);
         }
-        */
-        this.doneLogin();
-        this.$router.push({ path: '/enterprise/info' });
-        return true;
       }
-      return false;
     });
   };
 

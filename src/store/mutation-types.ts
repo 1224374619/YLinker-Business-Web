@@ -1,2 +1,4 @@
-export const DONE_LOGIN : string = 'DONE_LOGIN';
-export const DONE_LOGOUT : string = 'DONE_LOGOUT';
+export const UPDATE_LOGIN_STATUS : string = 'UPDATE_LOGIN_STATUS';
+export const SYNC_USER_INFO : string = 'SYNC_USER_INFO';
+export const RESET_USER_INFO : string = 'RESET_USER_INFO';
+export const UPDATE_CONSTANTS : string = 'UPDATE_CONSTANTS';

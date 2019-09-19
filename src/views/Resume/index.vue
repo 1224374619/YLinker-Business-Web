@@ -68,7 +68,7 @@ const subRoutes: routeTypeAdvanced[] = [{
   label: '简历总览',
   icon: '&#xe61d;',
   isMenu: true
-}, {
+}, /*{
   path: '/resume/enterprise',
   label: '企业人才库',
   icon: '&#xe61e;',
@@ -93,7 +93,7 @@ const subRoutes: routeTypeAdvanced[] = [{
   label: '黑名单',
   icon: '&#xe604;',
   isMenu: true
-}, ];
+}, */];
 
 @Component({
   components: {

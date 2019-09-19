@@ -5,23 +5,23 @@
         <ul>
           <li>
             <span>已上线</span>
-            <span>1</span>
+            <span>{{ occupationBoardStatistics.onlineNum }}</span>
           </li>
           <li>
-            <span>待上线</span>
-            <span>1</span>
+            <span>编辑中</span>
+            <span>{{ occupationBoardStatistics.editingNum }}</span>
           </li>
           <li>
             <span>审核中</span>
-            <span>1</span>
+            <span>{{ occupationBoardStatistics.auditingNum }}</span>
           </li>
           <li>
             <span>审核未通过</span>
-            <span>1</span>
+            <span>{{ occupationBoardStatistics.auditFailedNum }}</span>
           </li>
           <li>
             <span>已下线</span>
-            <span>1</span>
+            <span>{{ occupationBoardStatistics.offlineNum }}</span>
           </li>
         </ul>
       </board>
@@ -30,26 +30,37 @@
           <el-form :inline="true" :model="filters" class="form">
             <div class="fields">
               <el-form-item label="招聘职位">
-                <el-autocomplete
-                  v-model="filters.occupationName"
-                  :fetch-suggestions="querySearchAsync"
+                <el-input
+                  v-model="filters.keyword"
                   placeholder="请输入内容"
-                  @select="handleSelect"
-                ></el-autocomplete>
+                ></el-input>
               </el-form-item>
               <el-button type="text" @click="showMoreFilters = true" v-if="!showMoreFilters">展开 ▼</el-button>
               <el-button type="text" @click="showMoreFilters = false" v-if="showMoreFilters">收起 ▲</el-button>
             </div>
             <div class="fields" v-if="showMoreFilters">
               <el-form-item label="工作地址">
-                <el-cascader
-                  class="search-picker"
-                  style="margin-bottom: 10px;"
-                  placeholder="请选择工作地址"
-                  :options="citiesConstant"
-                  v-model="location">
-                </el-cascader>
+                <district placeholder="请选择工作地址" @input="syncSelectedDistrict" />
               </el-form-item>
+              <el-form-item label="负责 HR">
+                <el-select
+                  clearable
+                  v-model="filters.managerUid"
+                  filterable
+                  remote
+                  reserve-keyword
+                  placeholder="请选择负责 HR"
+                  :remote-method="querySearchHRAsync"
+                  :loading="loading">
+                  <el-option
+                    v-for="item in candidatesHR"
+                    :key="item.id"
+                    :label="item.realName"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <!--
               <el-form-item label="上线时间">
                  <el-date-picker
                   v-model="value7"
@@ -62,18 +73,16 @@
                   :picker-options="pickerOptions2">
                 </el-date-picker>
               </el-form-item>
+              
               <el-form-item label="上线方式">
                 <el-select v-model="value" placeholder="请选择">
                   <el-option value="1">手动</el-option>
                 </el-select>
               </el-form-item>
+              -->
             </div>
             <div class="fields" v-if="showMoreFilters">
-              <el-form-item label="负责 HR">
-                <el-select v-model="value" placeholder="请选择">
-                  <el-option value="1">手动</el-option>
-                </el-select>
-              </el-form-item>
+              <!--
               <el-form-item label="下线时间">
                  <el-date-picker
                   v-model="value7"
@@ -86,57 +95,56 @@
                   :picker-options="pickerOptions2">
                 </el-date-picker>
               </el-form-item>
+              
               <el-form-item label="下线方式">
                 <el-select v-model="value" placeholder="请选择">
                   <el-option value="1">手动</el-option>
                 </el-select>
               </el-form-item>
+              -->
             </div>
             <div class="operations">
-              <el-button @click="onSearch">重置</el-button>
-              <el-button type="primary main" @click="onSearch">查询</el-button>
+              <el-button @click="resetFilters">重置</el-button>
+              <el-button type="primary main" @click="doSearch">查询</el-button>
             </div>
           </el-form>
         </div>
-        <el-tabs v-model="activedTabName" type="card" @tab-click="handleClick">
+        <el-tabs v-model="activedTabName" type="card" @tab-click="handleToggloeTab">
           <div class="tab-operations">
-            <el-checkbox v-model="checked">只看自己</el-checkbox>
+            <el-checkbox v-model="filters.self">只看自己</el-checkbox>
           </div>
           <el-tab-pane label="已上线" name="ONLINE">
             <el-table
-              :data="onlineTableData">
+              :data="ONLINETableData">
               <table-empty-placeholder slot="empty"/>
               <el-table-column
-                prop="date"
+                prop="positionName"
                 label="职位名称">
               </el-table-column>
               <el-table-column
-                prop="name"
-                label="下线时间">
-              </el-table-column>
-              <el-table-column
-                prop="address"
                 label="职位性质">
+                <template slot-scope="scope">
+                  <span>{{scope.row.jobType}}</span>
+                </template>
               </el-table-column>
               <el-table-column
-                prop="address"
                 label="地区">
+                <template slot-scope="scope">
+                  <span>{{scope.row.county}}</span>
+                  <span>{{scope.row.province}}</span>
+                </template>
               </el-table-column>
               <el-table-column
-                prop="address"
-                label="投递数量">
-              </el-table-column>
-              <el-table-column
-                prop="address"
+                prop="managerName"
                 label="负责 HR">
               </el-table-column>
               <el-table-column
-                width="165"
+                width="130"
                 label="操作">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="gotoOccupationDetailUI(scope.row.id)">查看</el-button>
-                  <el-button type="text" size="small">下线</el-button>
-                  <el-button type="text" size="small">刷新排名</el-button>
+                  <el-button type="text" size="small" @click="getOccupationOffline(scope.row.id)">下线</el-button>
+                  <el-button type="text" size="small" @click="refreshOccupation(scope.row.id)">刷新排名</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -147,18 +155,192 @@
               @current-change="handleCurrentChange"
               :current-page="1"
               :page-sizes="[10, 20, 30, 40]"
-              :page-size="10"
+              :page-size="paginations.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
-            </el-pagination>
+              :total="total"/>
           </el-tab-pane>
-          <el-tab-pane label="待上线" name="PENDING">待上线</el-tab-pane>
-          <el-tab-pane label="审核中" name="CHECKING">角色管理</el-tab-pane>
-          <el-tab-pane label="审核未通过" name="INVALID">定时任务补偿</el-tab-pane>
-          <el-tab-pane label="已下线" name="OFFLINE">定时任务补偿</el-tab-pane>
+          <el-tab-pane label="编辑中" name="EDITING">
+            <el-table
+              :data="EDITINGTableData">
+              <table-empty-placeholder slot="empty"/>
+              <el-table-column
+                prop="positionName"
+                label="职位名称">
+              </el-table-column>
+              <el-table-column
+                label="职位性质">
+                <template slot-scope="scope">
+                  <span>{{scope.row.jobType}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="地区">
+                <template slot-scope="scope">
+                  <span>{{scope.row.county}}</span>
+                  <span>{{scope.row.province}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="managerName"
+                label="负责 HR">
+              </el-table-column>
+              <el-table-column
+                width="100"
+                label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoOccupationDetailUI(scope.row.id)">查看</el-button>
+                  <el-button type="text" size="small" @click="getOccupationOnline(scope.row.id)">上线</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="1"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="paginations.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"/>
+          </el-tab-pane>
+          <el-tab-pane label="审核中" name="CHECKING">
+            <el-table
+              :data="CHECKINGTableData">
+              <table-empty-placeholder slot="empty"/>
+              <el-table-column
+                prop="positionName"
+                label="职位名称">
+              </el-table-column>
+              <el-table-column
+                label="职位性质">
+                <template slot-scope="scope">
+                  <span>{{scope.row.jobType}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="地区">
+                <template slot-scope="scope">
+                  <span>{{scope.row.county}}</span>
+                  <span>{{scope.row.province}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="managerName"
+                label="负责 HR">
+              </el-table-column>
+              <el-table-column
+                width="80"
+                label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoOccupationDetailUI(scope.row.id)">查看</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="1"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="paginations.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"/>
+          </el-tab-pane>
+          <el-tab-pane label="审核未通过" name="INVALID">
+            <el-table
+              :data="INVALIDTableData">
+              <table-empty-placeholder slot="empty"/>
+              <el-table-column
+                prop="positionName"
+                label="职位名称">
+              </el-table-column>
+              <el-table-column
+                label="职位性质">
+                <template slot-scope="scope">
+                  <span>{{scope.row.jobType}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="地区">
+                <template slot-scope="scope">
+                  <span>{{scope.row.county}}</span>
+                  <span>{{scope.row.province}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="managerName"
+                label="负责 HR">
+              </el-table-column>
+              <el-table-column
+                width="80"
+                label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoOccupationDetailUI(scope.row.id)">查看</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="1"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="paginations.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"/>
+          </el-tab-pane>
+          <el-tab-pane label="已下线" name="OFFLINE">
+            <el-table
+              :data="OFFLINETableData">
+              <table-empty-placeholder slot="empty"/>
+              <el-table-column
+                prop="positionName"
+                label="职位名称">
+              </el-table-column>
+              <el-table-column
+                label="职位性质">
+                <template slot-scope="scope">
+                  <span>{{scope.row.jobType}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="地区">
+                <template slot-scope="scope">
+                  <span>{{scope.row.county}}</span>
+                  <span>{{scope.row.province}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="managerName"
+                label="负责 HR">
+              </el-table-column>
+              <el-table-column
+                width="100"
+                label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoOccupationDetailUI(scope.row.id)">查看</el-button>
+                  <el-button type="text" size="small" @click="getOccupationOnline(scope.row.id)">上线</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="1"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="paginations.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"/>
+          </el-tab-pane>
         </el-tabs>
       </board>
     </div>
+    <!--
     <div class="right">
       <board title="统计数据">
         <ul>
@@ -174,25 +356,62 @@
         <div class="chart" ref="chart"></div>
       </board>
     </div>
+    -->
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
+import District from 'components/district.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
-import citiesConstant from '@/views/constants/cities';
-import G2 from '@antv/g2';
+import { getOccupationBoardStatistics } from '@/apis/board';
+import { 
+  getPositions, 
+  getPositionOnline,
+  getPositionOffline,
+  refreshPosition,
+} from '@/apis/position';
+import { getEnterpriseUsers } from '@/apis/account';
+import dayjs from 'dayjs';
+
+const occupationTypes = ['OFFLINE', 'ONLINE', 'PENDING', 'EDITING', 'CHECKING', 'INVALID'];
 
 @Component({
   components: {
     Board,
+    District,
     TableEmptyPlaceholder
   },
 })
 export default class OccupationInfo extends Vue {
-  filters: object = {
-    occupationName: ''
+  loading: boolean = false;
+
+  candidatesHR: any[] = [];
+
+  occupationBoardStatistics: object = {
+    auditFailedNum: 0,
+    auditingNum: 0,
+    editingNum: 0,
+    offlineNum: 0,
+    onlineNum: 0
+  };
+
+  total: number = 0;
+
+  paginations: object = {
+    pageSize: 10,
+    pageNum: 1,
+  }
+
+  activedTabName: string = 'ONLINE';
+
+  filters: any = {
+    keyword: '',
+    managerUid: '',
+    province: '',
+    self: false,
+    state: 1
   };
 
   pickerOptions2: object = {
@@ -231,61 +450,101 @@ export default class OccupationInfo extends Vue {
     }]
   };
 
-  citiesConstant: any = citiesConstant;
-
   showMoreFilters: boolean = false;
  
-  onlineTableData: any = [
-    {
-      id: 1,
-      address: '1'
+  OFFLINETableData: any = [];
+
+  CHECKINGTableData: any = [];
+
+  ONLINETableData: any = [];
+
+  PENDINGTableData: any = [];
+
+  EDITINGTableData: any = [];
+
+  INVALIDTableData: any = [];
+
+  async getOccupationOnline(id: number) {
+    await getPositionOnline(id);
+    this.$message.success('职位上线成功！');
+    this.doSearch();
+  }
+
+  async getOccupationOffline(id: number) {
+    await getPositionOffline(id);
+    this.$message.success('职位下线成功！');
+    this.doSearch();
+  }
+
+  async refreshOccupation(id: number) {
+    await refreshPosition(id);
+    this.$message.success('职位刷新成功！');
+    this.doSearch();
+  }
+
+  handleToggloeTab(tabName: any) {
+    this.filters.state = occupationTypes.indexOf(tabName.name);
+    this.doSearch();
+  }
+
+  resetFilters() {
+    this.filters = {
+      keyword: '',
+      managerUid: '',
+      province: '',
+      self: false,
+      state: 1
+    };
+  }
+
+  handleSizeChange(pageSize: number) {
+    this.doSearch({ pageSize });
+  }
+
+  handleCurrentChange(pageNum: number) {
+    this.doSearch({ pageNum });
+  }
+
+  async doSearch(option = {}) {
+    this.paginations = {
+      ...this.paginations,
+      ...option,
     }
-  ];
+    let payload: any = {
+      ...this.paginations,
+      ...this.filters,
+    };
+    const res = (await getPositions(payload)).data;
+    (this as any)[`${this.activedTabName}TableData`] = res.list.map((i: any) => ({
+      ...i,
+      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD') 
+    }));
+    this.total = res.total;
+  }
 
-  activedTabName: string = 'ONLINE';
-
-  data: any = [];
-
-  querySearchAsync() {}
-
-  onSearch() {}
+  async querySearchHRAsync(keyword: string, cb: any) {
+    this.loading = true;
+    this.candidatesHR = (await getEnterpriseUsers({
+      pageSize: 10,
+      pageNum: 1,
+      keyword,
+    })).data.list;
+    this.loading = false;
+  }
 
   gotoOccupationDetailUI(id: number) {
     this.$router.push({ path: `/occupation/${id}` });
   }
 
-  mounted() {
-    // setup active tabs;
+  syncSelectedDistrict(value: any[]) {
+    this.filters.province = value[value.length - 1];
+    console.log(value)
+  }
+
+  async created() {
     this.activedTabName = this.$route.query.tab as string || 'ONLINE';
-
-    const data = [
-      { genre: 'Sports', sold: 275 },
-      { genre: 'Strategy', sold: 115 },
-      { genre: 'Action', sold: 120 },
-      { genre: 'Shooter', sold: 350 },
-      { genre: 'Other', sold: 150 }
-    ]; 
-
-    const div: any = this.$refs['chart'];
-    const chart = new G2.Chart({
-      container: div,
-      width: 230, 
-      height: 150,
-      padding: {
-        top: 15,
-        right: 10,
-        bottom: 35,
-        left: 35,
-      }
-    });
-
-    chart.source(data);
-    chart.line().position('genre*sold');
-    chart.point().position('genre*sold').size(4).shape('circle').style({
-      stroke: '#fff',
-      lineWidth: 1
-    });
-    chart.render();
+    this.occupationBoardStatistics = (await getOccupationBoardStatistics()).data;
+    this.doSearch();
   }
 }
 </script>

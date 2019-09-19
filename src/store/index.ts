@@ -1,20 +1,40 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import { RootState } from './root-states';
-import { DONE_LOGOUT, DONE_LOGIN } from './mutation-types';
+import { 
+  SYNC_USER_INFO,
+  RESET_USER_INFO,
+  UPDATE_LOGIN_STATUS,
+  UPDATE_CONSTANTS,
+} from './mutation-types';
 
 Vue.use(Vuex);
 
 const store: StoreOptions<RootState> = {
   state: {
+    userInfo: {},
     hasLogin: false,
+    constants: {
+      enterpriseForm: [],
+      industryTypes: [],
+      positionCatalogs: [],
+      districts: [],
+      options: {},
+    }
   },
   mutations: {
-    [DONE_LOGIN](state: RootState) {
-      state.hasLogin = true;
+    [UPDATE_LOGIN_STATUS](state: RootState, payload) {
+      state.hasLogin = !!payload;
     },
-    [DONE_LOGOUT](state: RootState) {
+    [SYNC_USER_INFO](state: RootState, payload) {
+      state.userInfo = payload;
+    },
+    [RESET_USER_INFO](state: RootState) {
+      state.userInfo = {};
       state.hasLogin = false;
+    },
+    [UPDATE_CONSTANTS](state: RootState, payload) {
+      state.constants = payload;
     },
   },
 };

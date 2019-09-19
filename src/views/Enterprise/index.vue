@@ -46,11 +46,11 @@ const subRoutes: routeType[] = [{
   path: '/enterprise/user',
   label: '用户管理',
   icon: '&#xe612;',
-}, {
+}, /*{
   path: '/enterprise/bill',
   label: '企业账单',
   icon: '&#xe60b;',
-}];
+}*/];
 
 @Component({
   components: {

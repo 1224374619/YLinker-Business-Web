@@ -1,6 +1,6 @@
 <template>
   <div class="passwordInput">
-    <el-input prefix-icon="el-icon-goods" class="input" :type="type" v-model="input" :placeholder="placeholder"></el-input>
+    <el-input :prefix-icon="showPrefix ? 'el-icon-goods' : ''" class="input" :type="type" v-model="input" :placeholder="placeholder"></el-input>
     <span v-if="input" @mousedown="toggleTType" @mouseup="togglePType">
       <img :src="require('../assets/images/eye.png')" />
     </span>
@@ -15,6 +15,10 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
       type: String,
       default: '请输入登录密码（6-24位数字和字母）',
     },
+    showPrefix: {
+      type: Boolean,
+      default: true
+    }
   },
 })
 export default class PasswordInput extends Vue {

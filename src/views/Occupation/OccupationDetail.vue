@@ -3,63 +3,50 @@
     <div class="body">
       <div class="form">
         <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-          <el-form-item label="职位名称" prop="comment">
-            <sapn class="value">111</sapn>
-            <span class="tag">待上线</span>
+          <el-form-item label="职位名称">
+            <sapn class="value">{{ form.positionName }}</sapn>
+            <span class="tag">{{ statusMapper[form.state] }}</span>
           </el-form-item>
-          <el-form-item label="工作性质" prop="comment">
-             <sapn class="value">111</sapn>
+          <el-form-item label="工作性质">
+             <sapn class="value">{{ form.jobType }}</sapn>
           </el-form-item>
-          <el-form-item label="职位分类" prop="comment">
-             <sapn class="value">111</sapn>
+          <el-form-item label="职位分类">
+             <sapn class="value">{{ form.positionCatalog }}</sapn>
           </el-form-item>
-          <el-form-item label="月薪范围" prop="comment">
-           <sapn class="value">111</sapn>
+          <el-form-item label="月薪范围">
+           <sapn class="value">{{ form.salaryMin }}-{{ form.salaryMax }}K</sapn>
           </el-form-item>
-          <el-form-item label="最低学历" prop="comment">
-            <sapn class="value">111</sapn>
+          <el-form-item label="最低学历">
+            <sapn class="value">{{ form.degreeMin }}</sapn>
           </el-form-item>
-          <el-form-item label="工作年限" prop="comment">
-            <sapn class="value">111</sapn>
+          <el-form-item label="工作年限">
+            <sapn class="value" v-if="form.workAgeMax">{{ form.workAgeMin }}-{{ form.workAgeMax }}年</sapn>
+            <sapn class="value" v-else>{{ form.workAgeMin }}年</sapn>
           </el-form-item>
-          <el-form-item label="工作年限" prop="comment">
-            <sapn class="value">111</sapn>
+          <el-form-item label="工作地址">
+            <sapn class="value">{{ form.positionName }}</sapn>
           </el-form-item>
-          <el-form-item label="工作地址" prop="location">
-            <sapn class="value">111</sapn>
+          <el-form-item label="职位描述">
+            <sapn class="value">{{ form.description }}</sapn>
           </el-form-item>
-          <el-form-item label="职位描述" prop="comment">
-            <sapn class="value">111</sapn>
-          </el-form-item>
-          <el-form-item label="任职要求" prop="comment">
-            <sapn class="value">111</sapn>
-          </el-form-item>
-          <el-form-item label="技能标签" prop="comment">
-            <sapn class="value">111</sapn>
+          <el-form-item label="任职要求">
+            <sapn class="value">{{ form.requirement }}</sapn>
           </el-form-item>
           <div class="line"></div>
-          <el-form-item label="负责 HR" prop="comment">
-            <sapn class="value">111</sapn>
+          <el-form-item label="负责 HR">
+            <sapn class="value">{{ form.managerUid }}</sapn>
           </el-form-item>
-           <el-form-item label="投递邮箱" prop="comment">
-             <sapn class="value">111</sapn>
-          </el-form-item>
-          <el-form-item label="上线时间" prop="comment">
-            <sapn class="value">111</sapn>
-          </el-form-item>
-          <el-form-item label="下线时间" prop="comment">
-           <sapn class="value">111</sapn>
-          </el-form-item>
-           <el-form-item label="上线时长" prop="comment">
-            <sapn class="value">111</sapn>
+           <el-form-item label="投递邮箱">
+             <sapn class="value">{{ form.addedEmails.join(' | ') }}</sapn>
           </el-form-item>
           <el-form-item class="operations">
-            <el-button @click="onSubmit">返回</el-button>
+            <el-button @click="onReturnOccupationInfo">返回</el-button>
             <el-button type="primary" class="main" @click="gotoOccupationEditUI()">编辑</el-button>
-            <el-button type="primary" class="main" @click="onSubmit">上线</el-button>
+            <!-- <el-button type="primary" class="main" @click="onSubmit">上线</el-button> -->
           </el-form-item>
         </el-form>
       </div>
+      <!--
       <board title="统计数据">
         <ul>
           <li>
@@ -73,15 +60,17 @@
         </ul>
         <div class="chart" ref="chart"></div>
       </board>
+      -->
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import citiesConstant from '@/views/constants/cities';
-import G2 from '@antv/g2';
 import Board from 'components/board.vue';
+import { 
+  getPositionDetail
+} from '@/apis/position';
 
 @Component({
   components: {
@@ -89,110 +78,56 @@ import Board from 'components/board.vue';
   },
 })
 export default class OccuptaionDetail extends Vue {
+  statusMapper = ['已下线', '已上线', '待上线', '编辑中', '审核中', '审核失败'];
+
   form: any = {
-    comment: '',
-    emails: [{
-      value: ''
-    }],
+    addedEmails: [
+      {
+        value: '',
+        key: '',
+      }
+    ],
+    state: '',
+    addressId: '',
+    degreeMin: '',
+    description: '',
+    isGraduate: true,
+    jobType: '',
+    managerUid: '',
+    positionCatalog: '',
+    positionName: '',
+    published: true,
+    requirement: '',
+    salaryMax: '',
+    salaryMin: '',
+    template: false,
+    workAddress: {
+      county: 0,
+      detail: '',
+      latitude: 0,
+      longitude: 0,
+      province: 0
+    },
+    workAgeMax: 0,
+    workAgeMin: 0,
   };
-
-  citiesConstant: any = citiesConstant;
-
-  dynamicTags: string[] = ['标签一', '标签二', '标签三'];
-
-  inputVisible: boolean = false;
-    
-  inputValue: string = '';
 
   occupationId: number = 0;
-
-  rules: object = {
-    comment: [
-      { required: true, message: '请输入留言内容', trigger: 'blur' },
-    ],
-  };
 
   gotoOccupationEditUI() {
     this.$router.push({ path: `/occupation/${this.occupationId}/edit` });
   }
 
-  onSubmit() {
-    const ref: any = this.$refs.form;
-    ref.validate((valid: boolean) => {
-      if (valid) {
-        // submit;
-      }
-      return false;
-    });
+  onReturnOccupationInfo() {
+    this.$router.push({ name: 'occupation-info' });
   }
 
-  mounted() {
-    const data = [
-      { genre: 'Sports', sold: 275 },
-      { genre: 'Strategy', sold: 115 },
-      { genre: 'Action', sold: 120 },
-      { genre: 'Shooter', sold: 350 },
-      { genre: 'Other', sold: 150 }
-    ]; 
-
-    const div: any = this.$refs['chart'];
-    const chart = new G2.Chart({
-      container: div,
-      width: 230, 
-      height: 150,
-      padding: {
-        top: 15,
-        right: 10,
-        bottom: 35,
-        left: 35,
-      }
-    });
-
-    chart.source(data);
-    chart.line().position('genre*sold');
-    chart.point().position('genre*sold').size(4).shape('circle').style({
-      stroke: '#fff',
-      lineWidth: 1
-    });
-    chart.render();
+  async created() {
+    this.occupationId = Number(this.$route.params.id);
+    if (this.occupationId) {
+      this.form = (await getPositionDetail(this.occupationId)).data;
+    } 
   }
-
-  handleClose(tag: string) {
-    this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-  };
-
-  showInput() {
-    this.inputVisible = true;
-    this.$nextTick(() => {
-      /*
-      const ref: any = this.$refs.saveTagInput.$refs;
-      ref.input.focus();
-      */
-    });
-  };
-
-  handleInputConfirm() {
-    let inputValue = this.inputValue;
-    if (inputValue) {
-      this.dynamicTags.push(inputValue);
-    }
-    this.inputVisible = false;
-    this.inputValue = '';
-  }
-
-  removeEmail(item: any) {
-    var index = this.form.emails.indexOf(item)
-    if (index !== -1) {
-      this.form.emails.splice(index, 1)
-    }
-  };
-
-  addEmail() {
-    this.form.emails.push({
-      value: '',
-      key: Date.now()
-    });
-  };
 }
 </script>
 

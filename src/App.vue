@@ -9,9 +9,23 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
+import { Mutation } from 'vuex-class';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
+import { getAccountInfo } from '@/apis/account';
+import { 
+  RESET_USER_INFO, 
+  SYNC_USER_INFO,
+  UPDATE_CONSTANTS,
+} from '@/store/mutation-types';
+import { 
+  getAllEnterpriseTypes,
+  getAllIndustries,
+  getAllPositionCatalogs,
+  getAllDistricts,
+  getAllOptions,
+} from '@/apis/constants';
 
 @Component({
   components: {
@@ -20,13 +34,17 @@ import CustomizedNav from 'components/customized-nav.vue';
   },
 })
 export default class App extends Vue {
+  @Mutation(RESET_USER_INFO) resetUserInfo: any
+  @Mutation(SYNC_USER_INFO) syncUserInfo: any
+  @Mutation(UPDATE_CONSTANTS) updateContants: any
+
   isFullScreen: boolean = false;
 
   isSimpleFooter: boolean = false;
 
   isDefaultBg: boolean = false;
 
-  updated() {
+  async updated() {
     if (this.$route.name) {
       this.isFullScreen = [
         // entering full screen;
@@ -50,6 +68,30 @@ export default class App extends Vue {
         'user-license',
         'enterprise-info-update-result',
       ].includes(this.$route.name);
+    }
+  }
+
+  async created() {
+    this.updateContants({
+      enterpriseForm: (await getAllEnterpriseTypes()).data,
+      industryTypes: (await getAllIndustries()).data,
+      positionCatalogs: (await getAllPositionCatalogs()).data,   
+      districts: (await getAllDistricts()).data,   
+      options: (await getAllOptions()).data,
+    });
+  }
+
+  @Watch('$route', { immediate: true, deep: true })
+  async function(val: string, oldVal: string) {
+    // fetch and update user info;
+    try {
+      const userInfo = (await getAccountInfo()).data;
+      this.syncUserInfo(userInfo);
+      // 
+
+    } catch(e) {
+      this.$router.push('/login');   
+      this.resetUserInfo();
     }
   }
 }
@@ -140,20 +182,6 @@ button.el-button--text
   border 0.7px solid rgba(0,0,0,0.15)
 .el-table th>.cell
   font-size 13px
-.upload
-  .el-upload 
-    border 1px dashed #d9d9d9
-    border-radius 6px
-    cursor pointer
-    position relative
-    overflow hidden
-    height 100px
-    width 100px
-    display flex
-    justify-content center
-    align-items center
-  .el-upload:hover
-    border-color #409EFF
 .mini.el-input
   width 50px
 span.tag
@@ -161,6 +189,7 @@ span.tag
   background-color #358be5
   border-radius 10px
   padding 0 5px
+  margin 0 5px
   font-size 12px
   height 18px
 .el-form-item .el-checkbox__label

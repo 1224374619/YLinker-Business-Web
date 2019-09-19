@@ -7,11 +7,19 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
+import { getCaptchaCode } from '@/apis/account';
 
 const captchaLabel = '获取验证码';
 const countNumber = 60;
 
-@Component({})
+@Component({
+  props: {
+    phoneNumber: {
+      type: [String, Number],
+      default: false,
+    },
+  },
+})
 export default class Captcha extends Vue {
   frozen: boolean = false;
 
@@ -21,8 +29,13 @@ export default class Captcha extends Vue {
 
   captchaStatusText: string = captchaLabel;
 
-  getCaptcha() {
+  async getCaptcha() {
     this.frozen = true;
+    // get captcha code;
+    await getCaptchaCode({
+      phone: Number(this.$props.phoneNumber)
+    });
+
     const handler = setInterval(() => {
       this.captchaStatusText = `${captchaLabel}(${--this.counter}s)`;
       if (this.counter === 0) {

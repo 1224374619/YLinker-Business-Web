@@ -13,7 +13,7 @@
             <password-input v-model="form.password" :placeholder="'请输入新密码（6-24位数字和字母）'" />
           </el-form-item>
           <el-form-item label="确认密码" prop="confirm-password">
-            <password-input v-model="form.confirmPassword"  :placeholder="'请再次输入新密码'" />
+            <password-input v-model="form.confirmPassword" :placeholder="'请再次输入新密码'" />
           </el-form-item>
           <el-form-item>
             <el-button class="full main" type="primary" @click="onSubmit">重置密码</el-button>

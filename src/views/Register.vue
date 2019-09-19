@@ -6,20 +6,20 @@
         <el-button type="text">个人用户</el-button>
       </p>
       <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-        <el-form-item label="手机号" prop="tel">
-          <el-input v-model.number="form.tel" placeholder="请输入登录手机号"></el-input>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model.number="form.phone" placeholder="请输入登录手机号"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <password-input v-model="form.password" />
         </el-form-item>
-        <el-form-item label="验证码" prop="captcha">
-          <captcha v-model="form.captcha" />
+        <el-form-item label="验证码" prop="vcode">
+          <captcha v-model="form.vcode" :phoneNumber="form.phone" />
         </el-form-item>
-        <el-form-item prop="checkLicense">
-          <el-checkbox v-model="form.checkLicense">我已同意<el-button type="text" @click="gotoUserPrivacyLicenseUI">《用户协议及隐私策略》</el-button></el-checkbox>
+        <el-form-item prop="agree">
+          <el-checkbox v-model="form.agree">我已同意<el-button type="text" @click="gotoUserPrivacyLicenseUI">《用户协议及隐私策略》</el-button></el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button class="full main" type="primary" @click="onSubmit" :disabled="!form.checkLicense">立即注册</el-button>
+          <el-button class="full main" type="primary" @click="onSubmit" :disabled="!form.agree">立即注册</el-button>
         </el-form-item>
       </el-form>
       <p class="adjunctive">
@@ -35,6 +35,8 @@ import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 import Captcha from 'components/captcha.vue';
 import PasswordInput from 'components/password-input.vue';
+import { register } from '@/apis/account';
+import { nonEmptyValidator } from '@/utils/validators';
 
 @Component({
   components: {
@@ -46,38 +48,36 @@ import PasswordInput from 'components/password-input.vue';
 })
 export default class Register extends Vue {
   form = {
-    tel: '',
+    phone: '',
     password: '',
-    captcha: '',
-    checkLicense: false,
-  };
-
-  phoneValidator = (rule: any, value: any, callback: any) => {
-    if (value === '') {
-      callback(new Error('请再次输入密码'));
-    } else {
-      callback();
-    }
+    vcode: '',
+    agree: false,
   };
 
   rules = {
-    tel: [
-      { validator: this.phoneValidator, trigger: 'blur' },
+    phone: [
+      { validator: nonEmptyValidator, trigger: 'blur' },
+      { type: 'number', message: '手机号必须为数字', trigger: 'blur' },
     ],
     password: [
-      { validator: this.phoneValidator, trigger: 'blur' },
+      { validator: nonEmptyValidator, trigger: 'blur' },
     ],
-    captcha: [
-      { validator: this.phoneValidator, trigger: 'blur' },
+    vcode: [
+      { validator: nonEmptyValidator, trigger: 'blur' },
     ],
   };
   
-
   onSubmit() {
     const ref: any = this.$refs.form;
-    ref.validate((valid: boolean) => {
+    ref.validate(async (valid: boolean) => {
       if (valid) {
         // submit;
+        const res = await register({ ...this.form });
+        this.$message({
+          message: '账户注册成功，请登录！',
+          type: 'success'
+        });
+        this.gotoLoginUI();
       }
       return false;
     });

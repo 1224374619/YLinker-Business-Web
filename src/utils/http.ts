@@ -1,18 +1,26 @@
 import axios from 'axios';
 import { Notification } from 'element-ui';
 
-axios.interceptors.request.use(config =>
-// mock?
-  config,
-error => Promise.reject(error));
+const _axios = axios.create({
+  baseURL: process.env.NODE_ENV === 'production' ? '/backtestbusiness/' : '/api',
+  timeout: 60 * 1000,
+  withCredentials: true,
+});
 
-axios.interceptors.response.use(response => response, (error) => {
+_axios.interceptors.response.use(response => {
+  return response.data;
+}, (error) => {
+  if (typeof error.response === 'undefined') {
+    // login;
+    return true;
+  }
   // logger and notification;
   Notification.error({
     title: '错误',
-    message: error.message,
+    message: error.response.data.message,
   });
+
   return Promise.reject(error);
 });
 
-export default axios;
+export default _axios;

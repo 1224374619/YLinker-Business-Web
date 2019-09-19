@@ -1,15 +1,15 @@
 <template>
   <div class="resume-info-container">
     <div class="left">
-      <board title="职位看板">
+      <board title="简历看板">
         <ul>
           <li>
             <span>本日新增</span>
-            <span>1</span>
+            <span>{{ resumeBoardStatistics.incrementDaily }}</span>
           </li>
           <li>
             <span>待处理</span>
-            <span>1</span>
+            <span>{{ resumeBoardStatistics.toProcessNum }}</span>
           </li>
         </ul>
       </board>
@@ -18,77 +18,48 @@
           <el-form :inline="true" :model="filters" class="form">
             <div class="fields">
               <el-form-item label="职位名称">
-                <el-autocomplete
-                  v-model="filters.occupationName"
-                  :fetch-suggestions="querySearchAsync"
-                  placeholder="请输入内容"
-                  @select="handleSelect"
-                ></el-autocomplete>
+                <el-input
+                  v-model="filters.keyword"
+                  placeholder="请输入职位名称"
+                ></el-input>
               </el-form-item>
             </div>
             <div class="operations">
-              <el-button @click="onSearch">重置</el-button>
-              <el-button type="primary main" @click="onSearch">查询</el-button>
+              <el-button @click="resetFilters">重置</el-button>
+              <el-button type="primary main" @click="doSearch">查询</el-button>
             </div>
           </el-form>
         </div>
         <div class="tab-operations">
-          <el-checkbox v-model="checked">只看自己</el-checkbox>
+          <el-checkbox v-model="filters.self">只看自己</el-checkbox>
         </div>
-        <el-tabs v-model="activedTabName" type="card" @tab-click="handleClick">
-          <el-tab-pane label="已上线职位" name="online">
+        <el-tabs v-model="activedTabName" type="card" @tab-click="handleToggloeTab">
+          <el-tab-pane label="已上线职位" name="ONLINE">
             <el-table
-              :data="onlineTableData">
+              :data="ONLINETableData">
               <table-empty-placeholder slot="empty"/>
               <el-table-column
-                prop="date"
+                prop="positionName"
                 label="职位名称">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.date}}</el-button>
                 </template>
               </el-table-column>
               <el-table-column
-                prop="name"
-                label="待处理简历">
+                label="职位性质">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.name}}</el-button>
+                  <span>{{scope.row.jobType}}</span>
                 </template>
               </el-table-column>
               <el-table-column
-                prop="name"
-                label="处理中简历">
-                <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.name}}</el-button>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="录用简历">
-                <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.address}}</el-button>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="不合格简历">
-                <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.address}}</el-button>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="上线时间">
-              </el-table-column>
-              <el-table-column
-                prop="address"
-                label="下线时间">
-              </el-table-column>
-              <el-table-column
-                prop="address"
                 label="地区">
+                <template slot-scope="scope">
+                  <span>{{scope.row.county}}</span>
+                  <span>{{scope.row.province}}</span>
+                </template>
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="managerName"
                 label="负责 HR">
               </el-table-column>
             </el-table>
@@ -99,15 +70,54 @@
               @current-change="handleCurrentChange"
               :current-page="1"
               :page-sizes="[10, 20, 30, 40]"
-              :page-size="10"
+              :page-size="paginations.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
-            </el-pagination>
+              :total="total"/>
           </el-tab-pane>
-          <el-tab-pane label="已下线职位" name="checking">已下线职位</el-tab-pane>
+          <el-tab-pane label="已下线职位" name="OFFLINE">
+            <el-table
+              :data="OFFLINETableData">
+              <table-empty-placeholder slot="empty"/>
+              <el-table-column
+                prop="positionName"
+                label="职位名称">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.date}}</el-button>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="职位性质">
+                <template slot-scope="scope">
+                  <span>{{scope.row.jobType}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="地区">
+                <template slot-scope="scope">
+                  <span>{{scope.row.county}}</span>
+                  <span>{{scope.row.province}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="managerName"
+                label="负责 HR">
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="1"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="paginations.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"/>
+          </el-tab-pane>
         </el-tabs>
       </board>
     </div>
+    <!--
     <div class="right">
       <board title="统计数据">
         <ul>
@@ -123,14 +133,21 @@
         <div class="chart" ref="chart"></div>
       </board>
     </div>
+    -->
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
-import G2 from '@antv/g2';
+import { 
+  getPositions,
+} from '@/apis/position';
+import { getResumeBoardStatistics } from '@/apis/board';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
+import dayjs from 'dayjs';
+
+const occupationTypes = ['OFFLINE', 'ONLINE', 'PENDING', 'EDITING', 'CHECKING', 'INVALID'];
 
 @Component({
   components: {
@@ -139,8 +156,24 @@ import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
   },
 })
 export default class OccupationInfo extends Vue {
-  filters: object = {
-    occupationName: ''
+  resumeBoardStatistics: any = {
+    incrementDaily: 0,
+    toProcessNum: 0
+  };
+
+  total: number = 0;
+
+  paginations: object = {
+    pageSize: 10,
+    pageNum: 1,
+  }
+
+  activedTabName: string = 'ONLINE';
+
+  filters: any = {
+    keyword: '',
+    self: false,
+    state: 1
   };
 
   onlineTableData: any = [
@@ -152,7 +185,17 @@ export default class OccupationInfo extends Vue {
     }
   ];
 
-  activedTabName: string = 'online';
+  OFFLINETableData: any = [];
+
+  CHECKINGTableData: any = [];
+
+  ONLINETableData: any = [];
+
+  PENDINGTableData: any = [];
+
+  EDITINGTableData: any = [];
+
+  INVALIDTableData: any = [];
 
   data: any = [];
 
@@ -160,40 +203,50 @@ export default class OccupationInfo extends Vue {
 
   onSearch() {}
 
+  handleToggloeTab(tabName: any) {
+    this.filters.state = occupationTypes.indexOf(tabName.name);
+    this.doSearch();
+  }
+
+  resetFilters() {
+    this.filters = {
+      keyword: '',
+      self: false,
+      state: 1
+    };
+  }
+
+  handleSizeChange(pageSize: number) {
+    this.doSearch({ pageSize });
+  }
+
+  handleCurrentChange(pageNum: number) {
+    this.doSearch({ pageNum });
+  }
+
+  async doSearch(option = {}) {
+    this.paginations = {
+      ...this.paginations,
+      ...option,
+    }
+    let payload: any = {
+      ...this.paginations,
+      ...this.filters,
+    };
+    const res = (await getPositions(payload)).data;
+    (this as any)[`${this.activedTabName}TableData`] = res.list.map((i: any) => ({
+      ...i,
+      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD') 
+    }));
+    this.total = res.total;
+  }
+
   gotoResumeListUI(id: number) {
     this.$router.push({ path: `/resume/list/${id}` });
   }
 
-  mounted() {
-    
-    const data = [
-      { genre: 'Sports', sold: 275 },
-      { genre: 'Strategy', sold: 115 },
-      { genre: 'Action', sold: 120 },
-      { genre: 'Shooter', sold: 350 },
-      { genre: 'Other', sold: 150 }
-    ]; 
-
-    const div: any = this.$refs['chart'];
-    const chart = new G2.Chart({
-      container: div,
-      width: 230, 
-      height: 150,
-      padding: {
-        top: 15,
-        right: 10,
-        bottom: 35,
-        left: 35,
-      }
-    });
-
-    chart.source(data);
-    chart.line().position('genre*sold');
-    chart.point().position('genre*sold').size(4).shape('circle').style({
-      stroke: '#fff',
-      lineWidth: 1
-    });
-    chart.render();
+  async created() {
+    this.resumeBoardStatistics = (await getResumeBoardStatistics()).data;
   }
 }
 </script>

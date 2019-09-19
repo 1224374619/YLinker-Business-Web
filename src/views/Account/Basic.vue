@@ -46,7 +46,7 @@
     <board class="body" title="基本信息">
       <div class="content">
         <div class="avatar">
-          <img :src="require('../../assets/images/company1.jpg')" />
+          <img :src="userInfo.avatarUrl || require('@/assets/images/default-avatar.jpg')" />
           <el-button type="text" @click="dialogChangeAvatarVisible = true">更换头像</el-button>
         </div>
         <div class="form">
@@ -74,6 +74,8 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { mapState } from 'vuex';
+import { RootState } from '@/store/root-states';
 import Board from 'components/board.vue';
 import Captcha from 'components/captcha.vue';
 
@@ -82,6 +84,11 @@ import Captcha from 'components/captcha.vue';
     Board,
     Captcha,
   },
+  computed: mapState({
+    userInfo(state: RootState) {
+      return state.userInfo;
+    },
+  }),
 })
 export default class AccountBasic extends Vue {
   form: object = {

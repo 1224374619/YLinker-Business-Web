@@ -46,11 +46,11 @@ const subRoutes: routeType[] = [{
   path: '/occupation/add',
   label: '新增职位',
   icon: '&#xe611;',
-}, {
+}, /*{
   path: '/occupation/draft',
   label: '草稿箱',
   icon: '&#xe620;'
-}, {
+},*/ {
   path: '/occupation/recycle',
   label: '回收站',
   icon: '&#xe621;'

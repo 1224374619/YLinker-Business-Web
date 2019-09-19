@@ -14,9 +14,6 @@
         <div class="block">
           <h4>公司风采</h4>
           <p class="album">
-            <img :src="require('../../assets/images/company1.jpg')" />
-            <img :src="require('../../assets/images/company1.jpg')" />
-            <img :src="require('../../assets/images/company1.jpg')" />
           </p>
         </div>
       </div>

@@ -5,13 +5,12 @@
         <el-form :inline="true" :model="filters" class="form">
           <div class="inputs">
             <el-form-item label="招聘职位">
-              <el-autocomplete
-                v-model="filters.occupationName"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="handleSelect"
-              ></el-autocomplete>
+              <el-input
+                v-model="filters.keyword"
+                placeholder="请输入职位名称"
+              ></el-input>
             </el-form-item>
+            <!--
             <el-form-item label="删除时间">
               <el-date-picker
                 v-model="value7"
@@ -24,47 +23,44 @@
                 :picker-options="pickerOptions2">
               </el-date-picker>
             </el-form-item>
+            -->
           </div>
           <div class="operations">
-            <el-button @click="onSearch">重置</el-button>
-            <el-button type="primary main" @click="onSearch">查询</el-button>
+            <el-button @click="resetFilters">重置</el-button>
+            <el-button type="primary main" @click="doSearch">查询</el-button>
           </div>
         </el-form>
       </div>
       <el-table
-        :data="onlineTableData">
+        :data="tableData">
         <table-empty-placeholder slot="empty"/>
         <el-table-column
-          prop="date"
+          prop="positionName"
           label="职位名称">
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="工作性质">
+          label="职位性质">
+          <template slot-scope="scope">
+            <span>{{scope.row.jobType}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="address"
           label="地区">
+          <template slot-scope="scope">
+            <span>{{scope.row.county}}</span>
+            <span>{{scope.row.province}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="删除时间">
-        </el-table-column>
-        <el-table-column
-          prop="address"
+          prop="managerName"
           label="负责 HR">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="剩余天数">
-        </el-table-column>
-        <el-table-column
+          width="100"
           label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">上线</el-button>
-            <el-button type="text" size="small">永久删除</el-button>
+            <el-button type="text" size="small" @click="recoverOccupation(scope.row.id)">还原</el-button>
+            <el-button type="text" size="small" @click="deleteOccupation(scope.row.id)">永久删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -75,10 +71,9 @@
         @current-change="handleCurrentChange"
         :current-page="1"
         :page-sizes="[10, 20, 30, 40]"
-        :page-size="10"
+        :page-size="paginations.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400">
-      </el-pagination>
+        :total="total"/>
     </board>
   </div>
 </template>
@@ -87,7 +82,12 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
-import citiesConstant from '@/views/constants/cities';
+import { 
+  getTrashPositions, 
+  recoverTrashPosition,
+  deleteTrashPositions,
+} from '@/apis/position';
+import dayjs from 'dayjs';
 
 @Component({
   components: {
@@ -96,8 +96,17 @@ import citiesConstant from '@/views/constants/cities';
   },
 })
 export default class OccupationreCycle extends Vue {
-  filters: object = {
-    occupationName: ''
+  total: number = 0;
+
+  paginations: object = {
+    pageSize: 10,
+    pageNum: 1,
+  }
+
+  activedTabName: string = 'ONLINE';
+
+  filters: any = {
+    keyword: '',
   };
 
   pickerOptions2: object = {
@@ -135,21 +144,58 @@ export default class OccupationreCycle extends Vue {
       }
     }]
   };
-
-  citiesConstant: any = citiesConstant;
  
-  onlineTableData: any = [];
+  tableData: any = [];
 
-  activedTabName: string = 'online';
+  resetFilters() {
+    this.filters = {
+      keyword: '',
+    };
+  }
 
-  data: any = [];
+  async recoverOccupation(id: number) {
+    await recoverTrashPosition(id);
+    this.$message.success('职位还原成功！');
+    this.doSearch();
+  }
 
-  querySearchAsync() {}
+  async deleteOccupation(id: number) {
+    this.$confirm('确认彻底删除？')
+      .then(async e => {
+        await deleteTrashPositions(id);
+        this.$message.success('职位删除成功！');
+        this.doSearch();
+      })
+      .catch(e => {});
+  }
 
-  onSearch() {}
+  handleSizeChange(pageSize: number) {
+    this.doSearch({ pageSize });
+  }
 
-  mounted() {
+  handleCurrentChange(pageNum: number) {
+    this.doSearch({ pageNum });
+  }
 
+  async doSearch(option = {}) {
+    this.paginations = {
+      ...this.paginations,
+      ...option,
+    }
+    let payload: any = {
+      ...this.paginations,
+      ...this.filters,
+    };
+    const res = (await getTrashPositions(payload)).data;
+    this.tableData = res.list.map((i: any) => ({
+      ...i,
+      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD') 
+    }));
+    this.total = res.total;
+  }
+  
+  async created() {
+    this.doSearch();
   }
 }
 </script>
