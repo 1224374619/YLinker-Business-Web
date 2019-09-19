@@ -10,15 +10,13 @@ const _axios = axios.create({
 _axios.interceptors.response.use(response => {
   return response.data;
 }, (error) => {
-  if (typeof error.response === 'undefined') {
-    // login;
-    return true;
+  if (error.response.status !== 401) {
+    // logger and notification;
+    Notification.error({
+      title: '错误',
+      message: error.response.data.message,
+    });
   }
-  // logger and notification;
-  Notification.error({
-    title: '错误',
-    message: error.response.data.message,
-  });
 
   return Promise.reject(error);
 });

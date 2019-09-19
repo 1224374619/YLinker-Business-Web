@@ -26,12 +26,22 @@ import {
   getAllDistricts,
   getAllOptions,
 } from '@/apis/constants';
+import { RootState } from '@/store/root-states';
+import { mapState } from 'vuex';
 
 @Component({
   components: {
     CustomizedFooter,
     CustomizedNav,
   },
+  computed: mapState({
+    hasLogin(state: RootState) {
+      return state.hasLogin
+    },
+    constants(state: RootState) {
+      return state.constants
+    },
+  }),
 })
 export default class App extends Vue {
   @Mutation(RESET_USER_INFO) resetUserInfo: any
@@ -72,13 +82,7 @@ export default class App extends Vue {
   }
 
   async created() {
-    this.updateContants({
-      enterpriseForm: (await getAllEnterpriseTypes()).data,
-      industryTypes: (await getAllIndustries()).data,
-      positionCatalogs: (await getAllPositionCatalogs()).data,   
-      districts: (await getAllDistricts()).data,   
-      options: (await getAllOptions()).data,
-    });
+    
   }
 
   @Watch('$route', { immediate: true, deep: true })
@@ -87,8 +91,15 @@ export default class App extends Vue {
     try {
       const userInfo = (await getAccountInfo()).data;
       this.syncUserInfo(userInfo);
-      // 
-
+      if (!(this as any).constants.initialized) {
+        this.updateContants({
+          enterpriseForm: (await getAllEnterpriseTypes()).data,
+          industryTypes: (await getAllIndustries()).data,
+          positionCatalogs: (await getAllPositionCatalogs()).data,   
+          districts: (await getAllDistricts()).data,   
+          options: (await getAllOptions()).data,
+        });
+      }
     } catch(e) {
       this.$router.push('/login');   
       this.resetUserInfo();

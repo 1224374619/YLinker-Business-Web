@@ -15,6 +15,7 @@ const store: StoreOptions<RootState> = {
     userInfo: {},
     hasLogin: false,
     constants: {
+      initialized: false,
       enterpriseForm: [],
       industryTypes: [],
       positionCatalogs: [],
@@ -28,13 +29,17 @@ const store: StoreOptions<RootState> = {
     },
     [SYNC_USER_INFO](state: RootState, payload) {
       state.userInfo = payload;
+      state.hasLogin = true;
     },
     [RESET_USER_INFO](state: RootState) {
       state.userInfo = {};
       state.hasLogin = false;
     },
     [UPDATE_CONSTANTS](state: RootState, payload) {
-      state.constants = payload;
+      state.constants = {
+        ...payload,
+        initialized: true
+      };
     },
   },
 };

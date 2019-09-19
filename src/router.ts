@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
-const router = new Router({
+export default new Router({
   // mode: 'history',
   routes: [
     {
@@ -200,17 +200,3 @@ const router = new Router({
     },
   ],
 });
-
-export default (store: any) => {
-  router.beforeEach((to, from, next) => {
-    const { hasLogin } = store.state;
-    if (hasLogin) {
-      if (!hasLogin && ['login', 'register', 'reset-password', 'user-license'].includes(to.name)) {
-        next();
-      }
-    } else {
-      next();
-    }
-  });
-  return router;
-};

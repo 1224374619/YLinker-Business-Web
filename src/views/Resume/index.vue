@@ -109,7 +109,6 @@ export default class Enterprise extends Vue {
   subRoutes = subRoutes;
 
   syncRoute(source: string) {
-    console.log(source)
     this.currentRoute = source;
     this.activedMenu = this.currentRoute;
   }
