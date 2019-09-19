@@ -11,9 +11,9 @@ export const getCompanyBriefInfo: FunctionScheme = params => http.get('/company/
 
 export const registerCompany: FunctionScheme = params => http.post('/company', params);
 
-export const uploadCompanyFile: string = '/api/company/audit/file';
+export const uploadCompanyFile: string = '/company/audit/file';
 
-export const uploadCompanyLogo: string = '/api/company/logo';
+export const uploadCompanyLogo: string = '/company/logo';
 
 
 

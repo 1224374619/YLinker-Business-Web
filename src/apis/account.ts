@@ -2,7 +2,7 @@ import http from '@/utils/http';
 import { FunctionScheme } from './apis';
 import qs from 'qs';
 
-export const signin: FunctionScheme = params => http.post('/login?returnUrl=http://localhost:8080/api/company/brief', qs.stringify(params), {
+export const signin: FunctionScheme = params => http.post('/login?returnUrl=/backtestbusiness/company/brief', qs.stringify(params), {
   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 });
 
