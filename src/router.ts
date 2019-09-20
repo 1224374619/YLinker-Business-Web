@@ -1,9 +1,18 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from './store';
+import { 
+  getAllEnterpriseTypes,
+  getAllIndustries,
+  getAllPositionCatalogs,
+  getAllDistricts,
+  getAllOptions,
+} from '@/apis/constants';
+import { getAccountInfo } from '@/apis/account';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   // mode: 'history',
   routes: [
     {
@@ -200,3 +209,27 @@ export default new Router({
     },
   ],
 });
+
+router.beforeEach(async (to, from, next) => {
+  const toName = to.name;
+  const _t = ['login', 'register', 'reset-password', 'reset-result', 'user-license'];
+  try {
+    const userInfo = (await getAccountInfo()).data;
+    store.commit('SYNC_USER_INFO', userInfo);
+    if (!(store.state.constants.initialized)) {
+      store.commit('UPDATE_CONSTANTS', {
+        enterpriseForm: (await getAllEnterpriseTypes()).data,
+        industryTypes: (await getAllIndustries()).data,
+        positionCatalogs: (await getAllPositionCatalogs()).data,   
+        districts: (await getAllDistricts()).data,   
+        options: (await getAllOptions()).data,
+      });
+    }
+    
+    _t.includes(toName) ? next({ name: 'home' }) : next();
+  } catch(e) {
+    _t.includes(toName) ? next() : next({ name: 'login' });
+  }
+});
+
+export default router;

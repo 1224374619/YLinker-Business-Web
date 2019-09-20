@@ -1,7 +1,7 @@
 <template>
   <div class="captcha">
     <el-input class="input" type="captcha" v-model="captchaInput" placeholder="验证码"></el-input>
-    <el-button class="btn" @click="getCaptcha" :disabled="frozen">{{ captchaStatusText }}</el-button>
+    <el-button class="btn" @click="getCaptcha" :disabled="frozen || disabled">{{ captchaStatusText }}</el-button>
   </div>
 </template>
 
@@ -18,6 +18,10 @@ const countNumber = 60;
       type: [String, Number],
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    }
   },
 })
 export default class Captcha extends Vue {

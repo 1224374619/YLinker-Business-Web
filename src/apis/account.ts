@@ -2,9 +2,14 @@ import http from '@/utils/http';
 import { FunctionScheme } from './apis';
 import qs from 'qs';
 
-export const signin: FunctionScheme = params => http.post('/login?returnUrl=/company/brief', qs.stringify(params), {
+const devMode = process.env.VUE_APP_DEV_MODE ==='true';
+
+export const signin: FunctionScheme = params => http.post(devMode ? '/login?returnUrl=http://localhost:8080/api/company/brief' : '/login?returnUrl=/company/brief', 
+qs.stringify(params), {
   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 });
+
+export const logout: FunctionScheme = () => http.get('/logout?returnUrl=http://localhost:8080/login');
 
 export const register: FunctionScheme = params => http.post('/account/register', params);
 
@@ -16,11 +21,13 @@ export const resetPassword: FunctionScheme = params => http.put('/account/passwo
 
 export const getAccountInfo: FunctionScheme = () => http.get('/account');
 
+export const getAccountInfoById: FunctionScheme = (id) => http.get(`/account/${id}`);
+
 export const updatePhone: FunctionScheme = params => http.put('/account/phone', params);
 
 export const updateEmail: FunctionScheme = params => http.put('/account/email', params);
 
-export const updateAvatar: string = '/account/avatar';
+export const updateAvatar: string = devMode ? '/api/account/avatar' : '/account/avatar';
 
 
 // admin users management;

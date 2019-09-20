@@ -10,44 +10,16 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
-import { Mutation } from 'vuex-class';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
-import { getAccountInfo } from '@/apis/account';
-import { 
-  RESET_USER_INFO, 
-  SYNC_USER_INFO,
-  UPDATE_CONSTANTS,
-} from '@/store/mutation-types';
-import { 
-  getAllEnterpriseTypes,
-  getAllIndustries,
-  getAllPositionCatalogs,
-  getAllDistricts,
-  getAllOptions,
-} from '@/apis/constants';
-import { RootState } from '@/store/root-states';
-import { mapState } from 'vuex';
 
 @Component({
   components: {
     CustomizedFooter,
     CustomizedNav,
   },
-  computed: mapState({
-    hasLogin(state: RootState) {
-      return state.hasLogin
-    },
-    constants(state: RootState) {
-      return state.constants
-    },
-  }),
 })
 export default class App extends Vue {
-  @Mutation(RESET_USER_INFO) resetUserInfo: any
-  @Mutation(SYNC_USER_INFO) syncUserInfo: any
-  @Mutation(UPDATE_CONSTANTS) updateContants: any
-
   isFullScreen: boolean = false;
 
   isSimpleFooter: boolean = false;
@@ -80,34 +52,8 @@ export default class App extends Vue {
       ].includes(this.$route.name);
     }
   }
-
-  async created() {
-    
-  }
-
-  @Watch('$route', { immediate: true, deep: true })
-  async function(val: string, oldVal: string) {
-    // fetch and update user info;
-    try {
-      const userInfo = (await getAccountInfo()).data;
-      this.syncUserInfo(userInfo);
-      if (!(this as any).constants.initialized) {
-        this.updateContants({
-          enterpriseForm: (await getAllEnterpriseTypes()).data,
-          industryTypes: (await getAllIndustries()).data,
-          positionCatalogs: (await getAllPositionCatalogs()).data,   
-          districts: (await getAllDistricts()).data,   
-          options: (await getAllOptions()).data,
-        });
-      }
-    } catch(e) {
-      this.$router.push('/login');   
-      this.resetUserInfo();
-    }
-  }
 }
 </script>
-
 
 <style lang="stylus">
 @font-face {

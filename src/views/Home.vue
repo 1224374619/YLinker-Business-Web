@@ -73,7 +73,7 @@
         <board title="企业摘要" :seeMoreAction="() => this.$router.push({ path: '/enterprise/info' })">
           <div class="enterprise">
             <div class="enter-head">
-              <img src="https://ss0.bdstatic.com/-0U0bnSm1A5BphGlnYG/tam-ogel/f2294b1af49e18ccfdbb2ccae022ff04_121_121.png" />
+              <img :src="companyInfo.logoUrl" />
               <div>
                 <span>企业信息完整度</span>
                 <el-progress :percentage="companyInfo.completedPercent"></el-progress>
@@ -120,6 +120,7 @@ export default class OccupationInfo extends Vue {
     fullName: '',
     shortName: '',
     state: 1,
+    logoUrl: '',
   }
 
   gotoOccupationPanel(panelName: string = '') {

@@ -2,42 +2,45 @@
   <div class="occupation-detail">
     <div class="body">
       <div class="form">
-        <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+        <el-form ref="form" label-width="80px">
+          <el-form-item label="职位 ID">
+            <span class="value">{{ form.id }}</span>
+          </el-form-item>
           <el-form-item label="职位名称">
-            <sapn class="value">{{ form.positionName }}</sapn>
+            <span class="value">{{ form.positionName }}</span>
             <span class="tag">{{ statusMapper[form.state] }}</span>
           </el-form-item>
           <el-form-item label="工作性质">
-             <sapn class="value">{{ form.jobType }}</sapn>
+             <span class="value">{{ form.jobType }}</span>
           </el-form-item>
           <el-form-item label="职位分类">
-             <sapn class="value">{{ form.positionCatalog }}</sapn>
+             <span class="value">{{ form.positionCatalog }}</span>
           </el-form-item>
           <el-form-item label="月薪范围">
-           <sapn class="value">{{ form.salaryMin }}-{{ form.salaryMax }}K</sapn>
+           <span class="value">{{ form.salaryMin }}-{{ form.salaryMax }}K</span>
           </el-form-item>
           <el-form-item label="最低学历">
-            <sapn class="value">{{ form.degreeMin }}</sapn>
+            <span class="value">{{ form.degreeMin }}</span>
           </el-form-item>
           <el-form-item label="工作年限">
-            <sapn class="value" v-if="form.workAgeMax">{{ form.workAgeMin }}-{{ form.workAgeMax }}年</sapn>
-            <sapn class="value" v-else>{{ form.workAgeMin }}年</sapn>
+            <span class="value" v-if="form.workAgeMax">{{ form.workAgeMin }}-{{ form.workAgeMax }}年</span>
+            <span class="value" v-else>{{ form.workAgeMin }}年</span>
           </el-form-item>
           <el-form-item label="工作地址">
-            <sapn class="value">{{ form.positionName }}</sapn>
+            <span class="value">{{ form.positionName }}</span>
           </el-form-item>
           <el-form-item label="职位描述">
-            <sapn class="value">{{ form.description }}</sapn>
+            <span class="value">{{ form.description }}</span>
           </el-form-item>
           <el-form-item label="任职要求">
-            <sapn class="value">{{ form.requirement }}</sapn>
+            <span class="value">{{ form.requirement }}</span>
           </el-form-item>
           <div class="line"></div>
           <el-form-item label="负责 HR">
-            <sapn class="value">{{ form.managerUid }}</sapn>
+            <span class="value">{{ form.managerName }}</span>
           </el-form-item>
            <el-form-item label="投递邮箱">
-             <sapn class="value">{{ form.addedEmails.join(' | ') }}</sapn>
+             <span class="value">{{ form.addedEmails.join(' | ') }}</span>
           </el-form-item>
           <el-form-item class="operations">
             <el-button @click="onReturnOccupationInfo">返回</el-button>
@@ -68,9 +71,8 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
-import { 
-  getPositionDetail
-} from '@/apis/position';
+import { getPositionDetail } from '@/apis/position';
+import { getAccountInfoById } from '@/apis/account';
 
 @Component({
   components: {
@@ -125,7 +127,11 @@ export default class OccuptaionDetail extends Vue {
   async created() {
     this.occupationId = Number(this.$route.params.id);
     if (this.occupationId) {
-      this.form = (await getPositionDetail(this.occupationId)).data;
+      const res = (await getPositionDetail(this.occupationId)).data;
+      this.form = {
+        ...res,
+        managerName: (await getAccountInfoById(res.managerUid)).data.realName,
+      };
     } 
   }
 }

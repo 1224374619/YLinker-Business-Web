@@ -1,71 +1,76 @@
 <template>
   <div class="account-basic">
-    <el-dialog center title="更换手机号" :visible.sync="dialogChangeTelVisible" width="30%">
-      <el-form :model="form" label-width="60px">
-        <el-form-item label="手机号" :label-width="formLabelWidth">
-          <el-input v-model="form.name" auto-complete="off"></el-input>
+    <el-dialog center title="更换手机号" width="40%" 
+      :visible.sync="dialogChangeTelVisible" 
+      :close-on-click-modal="false">
+      <el-form ref="formChangePhone" :model="changePhoneForm" :rules="rules" label-width="70px">
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="changePhoneForm.phone" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="验证码" prop="captcha">
-          <captcha v-model="form.captcha" />
+        <el-form-item label="验证码" prop="vcode">
+          <captcha v-model="changePhoneForm.vcode" :phoneNumber="changePhoneForm.phone" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogChangeTelVisible = false">取消</el-button>
-        <el-button type="primary main" @click="dialogFormVisible = false">确定</el-button>
+        <el-button type="primary main" @click="doChangePhone">确定</el-button>
       </div>
     </el-dialog>
-    <el-dialog center title="更换绑定邮箱" :visible.sync="dialogChangeMailVisible" width="30%">
-      <el-form :model="form" label-width="70px">
-        <el-form-item label="邮箱账号" :label-width="formLabelWidth">
-          <el-input v-model="form.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="验证码" prop="captcha">
-          <captcha v-model="form.captcha" />
+
+    <el-dialog center title="更换绑定邮箱" width="40%" 
+      :visible.sync="dialogChangeMailVisible" 
+      :close-on-click-modal="false">
+      <el-form ref="formChangeMail" :model="changeEmailForm" :rules="rules" label-width="80px">
+        <el-form-item label="邮箱账号" prop="email">
+          <el-input v-model="changeEmailForm.email" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogChangeMailVisible = false">取消</el-button>
-        <el-button type="primary main" @click="dialogFormVisible = false">确定</el-button>
+        <el-button type="primary main" @click="doChangeEmail">确定</el-button>
       </div>
     </el-dialog>
-     <el-dialog center title="更换头像" :visible.sync="dialogChangeAvatarVisible" width="30%">
-      <el-upload
+
+     <el-dialog center title="更换头像" width="30%" 
+      :visible.sync="dialogChangeAvatarVisible"  
+      :close-on-click-modal="false">
+       <el-upload
         class="avatar-uploader"
-        action="https://jsonplaceholder.typicode.com/posts/"
-        :show-file-list="false"
+        :action="updateAvatar"
         :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload">
-        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      </el-upload>
+        :with-credentials="true"
+        :limit="1"
+        list-type="picture">
+        <el-button>选择文件</el-button>
+       </el-upload>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogChangeAvatarVisible = false">取消</el-button>
-        <el-button type="primary main" @click="dialogFormVisible = false">确定</el-button>
       </div>
     </el-dialog>
+
     <board class="body" title="基本信息">
       <div class="content">
         <div class="avatar">
-          <img :src="userInfo.avatarUrl || require('@/assets/images/default-avatar.jpg')" />
+          <img :src="staticInfo.avatarUrl || require('@/assets/images/default-avatar.jpg')" />
           <el-button type="text" @click="dialogChangeAvatarVisible = true">更换头像</el-button>
         </div>
         <div class="form">
-            <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-              <el-form-item label="姓名">
-                {{ staticInfo.name }}
-              </el-form-item>
-              <el-form-item label="角色">
-                {{ staticInfo.role }}
-              </el-form-item>
-              <el-form-item label="手机号">
-                {{ staticInfo.tel }}
-                <el-button type="text" @click="dialogChangeTelVisible = true">更换绑定手机号</el-button>
-              </el-form-item>
-              <el-form-item label="邮箱">
-                {{ staticInfo.email }}
-                <el-button type="text" @click="dialogChangeMailVisible = true">更换绑定邮箱</el-button>
-              </el-form-item>
-            </el-form>
+          <el-form :rules="rules" label-width="80px">
+            <el-form-item label="姓名">
+              {{ staticInfo.realName }}
+            </el-form-item>
+            <el-form-item label="角色">
+              {{ staticInfo.role }}
+            </el-form-item>
+            <el-form-item label="手机号">
+              {{ staticInfo.phone }}
+              <el-button type="text" @click="dialogChangeTelVisible = true">更换绑定手机号</el-button>
+            </el-form-item>
+            <el-form-item label="邮箱">
+              {{ staticInfo.email }}
+              <el-button type="text" @click="dialogChangeMailVisible = true">更换绑定邮箱</el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
     </board>
@@ -78,6 +83,12 @@ import { mapState } from 'vuex';
 import { RootState } from '@/store/root-states';
 import Board from 'components/board.vue';
 import Captcha from 'components/captcha.vue';
+import { 
+  updatePhone, 
+  updateEmail, 
+  updateAvatar,
+  getAccountInfo,
+} from '@/apis/account';
 
 @Component({
   components: {
@@ -91,9 +102,16 @@ import Captcha from 'components/captcha.vue';
   }),
 })
 export default class AccountBasic extends Vue {
-  form: object = {
-    comment: '',
+  changeEmailForm: object = {
+    emailChangeBody: '',
   };
+
+  changePhoneForm: object = {
+    phone: '',
+    vcode: ''
+  };
+  
+  updateAvatar: string = updateAvatar;
 
   dialogChangeTelVisible: boolean = false;
 
@@ -101,33 +119,62 @@ export default class AccountBasic extends Vue {
 
   dialogChangeAvatarVisible: boolean = false;
 
-  staticInfo: object = {
-    accountName: '阿里巴巴',
-    name: '中国杭州',
-    role: '123123',
-    org: '123123123123',
-    tel: 'ffff@alibaba-inc.com',
-    email: 'asdfasdf',
-  }
+  staticInfo: object = {}
 
   rules: object = {
-    comment: [
-      { required: true, message: '请输入留言内容', trigger: 'blur' },
+    phone: [
+      { required: true, message: '请输入新手机号', trigger: 'blur' },
     ],
+    email: [
+      { required: true, message: '请输入新邮箱', trigger: 'blur' },
+    ],
+    vcode: [
+      { required: true, message: '请输入验证码', trigger: 'blur' },
+    ]
   };
 
-  onSubmit() {
-    const ref: any = this.$refs.form;
-    ref.validate((valid: boolean) => {
+  async doChangePhone() {
+    const ref: any = this.$refs.formChangePhone;
+    ref.validate(async (valid: boolean) => {
       if (valid) {
-        // submit;
+        await updatePhone(this.changePhoneForm);
+        this.$message.success('手机号更换成功！');
+        this.changePhoneForm = {
+          phoneChangeBody: '',
+          vcode: ''
+        };
+        this.dialogChangeMailVisible = false;
+        this.initAndRefreshInfo();
       }
-      return false;
     });
   }
 
-  mounted() {
-    // loading init data;
+  async doChangeEmail() {
+    const ref: any = this.$refs.formChangeMail;
+    ref.validate(async (valid: boolean) => {
+      if (valid) {
+        await updateEmail(this.changeEmailForm);
+        this.$message.success('邮箱更换成功！');
+        this.changePhoneForm = {
+          phoneChangeBody: '',
+        };
+        this.dialogChangeMailVisible = false;
+        this.initAndRefreshInfo();
+      }
+    });
+  }
+
+  async initAndRefreshInfo() {
+    const res = (await getAccountInfo()).data;
+    this.staticInfo = res;
+  }
+
+  handleAvatarSuccess() {
+    this.$message.success('头像更换成功！');
+  }
+
+  created() {
+    this.initAndRefreshInfo();  
   }
 }
 </script>

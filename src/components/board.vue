@@ -20,7 +20,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
   props: {
     title: {
       type: String,
-      default: '看板',
+      default: '我的看板',
     },
     desc: {
       type: String,

@@ -143,7 +143,7 @@ import District from 'components/district.vue';
 import { RootState } from '@/store/root-states';
 import { mapState } from 'vuex';
 import { cascaderFormatter } from '@/utils/transformer';
-import { getEnterpriseUsers } from '@/apis/account';
+import { getEnterpriseUsers, getAccountInfoById } from '@/apis/account';
 
 const DEFAULT_INDEX = 0;
 
@@ -244,9 +244,10 @@ export default class OccuptaionEdit extends Vue {
 
   findCode(collection: any, min: number, max: number) {
     if (collection) {
-      return collection.filter((item: any) => {
+      const _t =collection.filter((item: any) => {
         return item.min === min && item.max === max;
-      })[DEFAULT_INDEX].code;
+      })[DEFAULT_INDEX];
+      return _t ? _t.code : null;
     }
   }
 
@@ -360,7 +361,9 @@ export default class OccuptaionEdit extends Vue {
           key: Date.now()
         })),
       }
-      console.log(this.form)
+      this.candidatesHR = [{
+        ...(await getAccountInfoById(res.managerUid)).data,
+      }]
     } 
   }
 }

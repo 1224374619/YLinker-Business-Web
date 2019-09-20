@@ -17,7 +17,7 @@
               <span>企业中心</span>
             </router-link>
           </div>
-          <div class="btn-set" v-if="!userInfo.phone">
+          <div class="btn-set" v-if="!hasLogin">
             <button @click="gotoLoginUI">登录</button>
             <button @click="gotoRegisterUI">注册</button>
           </div>
@@ -91,7 +91,7 @@ import { Mutation } from 'vuex-class';
 import { mapState } from 'vuex';
 import { RootState } from '@/store/root-states';
 import { getAccountInfo } from '@/apis/account';
-import { SYNC_USER_INFO } from '@/store/mutation-types';
+import { SYNC_USER_INFO, LOGOUT } from '@/store/mutation-types';
 
 @Component({
   props: {
@@ -104,10 +104,14 @@ import { SYNC_USER_INFO } from '@/store/mutation-types';
     userInfo(state: RootState) {
       return state.userInfo;
     },
+    hasLogin(state: RootState) {
+      return state.hasLogin;
+    }
   }),
 })
 export default class CustomizedNav extends Vue {
-  @Mutation(SYNC_USER_INFO) syncUserInfo: any
+  @Mutation(SYNC_USER_INFO) syncUserInfo: any;
+  @Mutation(LOGOUT) logout: any;
 
   showPopver: boolean = false;
 
@@ -131,7 +135,7 @@ export default class CustomizedNav extends Vue {
   handleMenuClick(command: string) {
     if (command === 'logout') {
       // clean session and logout;
-      
+      this.logout();
     } else {
       this.$router.push({ path: command });
     }
@@ -159,7 +163,7 @@ export default class CustomizedNav extends Vue {
       width 1280px
       height 100%
       img
-        height 40
+        height 35px
         margin 0 20px
         cursor pointer
       .menu
