@@ -27,7 +27,7 @@ export const updatePhone: FunctionScheme = params => http.put('/account/phone', 
 
 export const updateEmail: FunctionScheme = params => http.put('/account/email', params);
 
-export const updateAvatar: string = devMode ? '/api/account/avatar' : '/account/avatar';
+export const updateAvatar: string = devMode ? '/api/account/avatar' : '/backtestbusiness/account/avatar';
 
 
 // admin users management;

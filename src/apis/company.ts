@@ -13,6 +13,6 @@ export const getCompanyBriefInfo: FunctionScheme = params => http.get('/company/
 
 export const registerCompany: FunctionScheme = params => http.post('/company', params);
 
-export const uploadCompanyFile: string = devMode ? '/api/company/audit/file' : '/company/audit/file';
+export const uploadCompanyFile: string = devMode ? '/api/company/audit/file' : '/backtestbusiness/company/audit/file';
 
-export const uploadCompanyLogo: string = devMode ? '/api/company/logo' : '/company/logo';
+export const uploadCompanyLogo: string = devMode ? '/api/company/logo' : '/backtestbusiness/company/logo';
