@@ -21,7 +21,7 @@ const countNumber = 60;
     disabled: {
       type: Boolean,
       default: false,
-    }
+    },
   },
 })
 export default class Captcha extends Vue {
@@ -37,7 +37,7 @@ export default class Captcha extends Vue {
     this.frozen = true;
     // get captcha code;
     await getCaptchaCode({
-      phone: Number(this.$props.phoneNumber)
+      phone: Number(this.$props.phoneNumber),
     });
 
     const handler = setInterval(() => {

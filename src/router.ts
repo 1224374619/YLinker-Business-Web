@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from './store';
-import { 
+import {
   getAllEnterpriseTypes,
   getAllIndustries,
   getAllPositionCatalogs,
@@ -17,7 +17,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/home',
     },
     {
       path: '/home',
@@ -212,7 +212,7 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
   const toName = to.name;
-  const _t = ['login', 'register', 'reset-password', 'reset-result', 'user-license'];
+  const temp = ['login', 'register', 'reset-password', 'reset-result', 'user-license'];
   try {
     const userInfo = (await getAccountInfo()).data;
     store.commit('SYNC_USER_INFO', userInfo);
@@ -220,15 +220,23 @@ router.beforeEach(async (to, from, next) => {
       store.commit('UPDATE_CONSTANTS', {
         enterpriseForm: (await getAllEnterpriseTypes()).data,
         industryTypes: (await getAllIndustries()).data,
-        positionCatalogs: (await getAllPositionCatalogs()).data,   
-        districts: (await getAllDistricts()).data,   
+        positionCatalogs: (await getAllPositionCatalogs()).data,
+        districts: (await getAllDistricts()).data,
         options: (await getAllOptions()).data,
       });
     }
-    
-    _t.includes(toName) ? next({ name: 'home' }) : next();
-  } catch(e) {
-    _t.includes(toName) ? next() : next({ name: 'login' });
+
+    if (temp.includes(toName)) {
+      next({ name: 'home' });
+    } else {
+      next();
+    }
+  } catch (e) {
+    if (temp.includes(toName)) {
+      next();
+    } else {
+      next({ name: 'login' });
+    }
   }
 });
 

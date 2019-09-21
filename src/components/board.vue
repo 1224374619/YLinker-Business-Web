@@ -3,7 +3,7 @@
     <div class="header">
       <div class="title">
         <span>{{ title }}</span>
-        <span v-if="desc" class="desc">{{ desc }}</span>  
+        <span v-if="desc" class="desc">{{ desc }}</span>
       </div>
       <el-button type="text" v-if="seeMoreAction" @click="seeMoreAction">更多 &gt;</el-button>
     </div>
@@ -28,8 +28,8 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
     },
     seeMoreAction: {
       type: Function,
-      default: null
-    }
+      default: null,
+    },
   },
 })
 export default class Board extends Vue {
@@ -54,7 +54,10 @@ export default class Board extends Vue {
     font-weight bold
     font-size 16px
     .title
+      display flex
       .desc
+        flex 1
+        text-align left
         font-size 12px
         font-weight normal
         margin-left 20px

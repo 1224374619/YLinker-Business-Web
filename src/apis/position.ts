@@ -1,5 +1,5 @@
 import http from '@/utils/http';
-import { FunctionScheme } from './apis';
+import { FunctionScheme } from './apis.d';
 
 export const getPositions: FunctionScheme = (params = {}) => http.get('/position', { params });
 

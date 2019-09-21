@@ -147,6 +147,14 @@ import { getEnterpriseUsers, getAccountInfoById } from '@/apis/account';
 
 const DEFAULT_INDEX = 0;
 
+const findCode = (collection: any, min: number, max: number) => {
+  if (collection) {
+    const temp = collection.filter((item: any) => item.min === min && item.max === max)[DEFAULT_INDEX];
+    return temp ? temp.code : null;
+  }
+  return null;
+};
+
 @Component({
   components: {
     District,
@@ -242,13 +250,6 @@ export default class OccuptaionEdit extends Vue {
     ],
   };
 
-  findCode(collection: any, min: number, max: number) {
-    if (collection) {
-      const _t = collection.filter((item: any) => item.min === min && item.max === max)[DEFAULT_INDEX];
-      return _t ? _t.code : null;
-    }
-  }
-
   onSubmit(published: boolean = false) {
     const ref: any = this.$refs.form;
     ref.validate(async (valid: boolean) => {
@@ -271,15 +272,15 @@ export default class OccuptaionEdit extends Vue {
   }
 
   syncSelectedSalary(code : number) {
-    const _t = (this as any).options.salaryRange.filter((i: any) => i.code === code)[DEFAULT_INDEX];
-    this.form.salaryMin = _t.min;
-    this.form.salaryMax = _t.max;
+    const temp = (this as any).options.salaryRange.filter((i: any) => i.code === code)[DEFAULT_INDEX];
+    this.form.salaryMin = temp.min;
+    this.form.salaryMax = temp.max;
   }
 
   syncWorkingAge(code : number) {
-    const _t = (this as any).options.workAgeRange.filter((i: any) => i.code === code)[DEFAULT_INDEX];
-    this.form.workAgeMin = _t.min;
-    this.form.workAgeMax = _t.max;
+    const temp = (this as any).options.workAgeRange.filter((i: any) => i.code === code)[DEFAULT_INDEX];
+    this.form.workAgeMin = temp.min;
+    this.form.workAgeMax = temp.max;
   }
 
   async querySearchHRAsync(keyword: string, cb: any) {
@@ -340,8 +341,8 @@ export default class OccuptaionEdit extends Vue {
   async function(val: string, oldVal: string) {
     this.form = {
       ...this.form,
-      salaryRange: this.findCode((val as any).salaryRange, this.form.salaryMin, this.form.salaryMax),
-      workAgeRange: this.findCode((val as any).workAgeRange, this.form.workAgeMin, this.form.workAgeMax),
+      salaryRange: findCode((val as any).salaryRange, this.form.salaryMin, this.form.salaryMax),
+      workAgeRange: findCode((val as any).workAgeRange, this.form.workAgeMin, this.form.workAgeMax),
     };
   }
 
@@ -358,6 +359,7 @@ export default class OccuptaionEdit extends Vue {
           value: i,
           key: Date.now(),
         })),
+        salaryRange: (this as any).options.salaryRange.filter((i: any) => i.min === res.salaryMin && i.max === res.salaryMax)[DEFAULT_INDEX].code,
       };
       this.candidatesHR = [{
         ...(await getAccountInfoById(res.managerUid)).data,

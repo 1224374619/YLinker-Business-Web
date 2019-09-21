@@ -117,9 +117,246 @@
               layout="total, sizes, prev, pager, next, jumper"
               :total="total"/>
           </el-tab-pane>
-          <el-tab-pane label="处理中" name="PROCESSING">处理中</el-tab-pane>
-          <el-tab-pane label="录用" name="OFFER">录用</el-tab-pane>
-          <el-tab-pane label="不合格" name="INVALID">不合格</el-tab-pane>
+          <el-tab-pane label="处理中" name="PROCESSING">
+            <el-table
+              :data="PROCESSINGTableData">
+              <table-empty-placeholder slot="empty"/>
+              <!--
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              -->
+              <el-table-column
+                prop="fullName"
+                label="姓名">
+              </el-table-column>
+              <el-table-column
+                prop="workAge"
+                label="工作年限">
+              </el-table-column>
+              <el-table-column
+                label="求职状态">
+                <template slot-scope="scope">
+                  <span>{{ findLabel(options.jobSearchStatus, scope.row.jobSearchStatus) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="所在地区">
+                <template slot-scope="scope">
+                  <span>{{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="completedPercent"
+                label="简历完整度">
+              </el-table-column>
+              <el-table-column
+                prop="submittedTime"
+                label="投递时间">
+              </el-table-column>
+              <el-table-column
+                width="305"
+                label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
+                  <el-button type="text" size="small">通知面试/笔试</el-button>
+                  <el-button type="text" size="small">不合格</el-button>
+                  <el-button type="text" size="small">加入黑名单</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="1"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="paginations.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"/>
+          </el-tab-pane>
+          <el-tab-pane label="录用" name="OFFER">
+            <el-table
+              :data="OFFERTableData">
+              <table-empty-placeholder slot="empty"/>
+              <!--
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              -->
+              <el-table-column
+                prop="fullName"
+                label="姓名">
+              </el-table-column>
+              <el-table-column
+                prop="workAge"
+                label="工作年限">
+              </el-table-column>
+              <el-table-column
+                label="求职状态">
+                <template slot-scope="scope">
+                  <span>{{ findLabel(options.jobSearchStatus, scope.row.jobSearchStatus) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="所在地区">
+                <template slot-scope="scope">
+                  <span>{{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="completedPercent"
+                label="简历完整度">
+              </el-table-column>
+              <el-table-column
+                prop="submittedTime"
+                label="投递时间">
+              </el-table-column>
+              <el-table-column
+                width="305"
+                label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
+                  <el-button type="text" size="small">通知面试/笔试</el-button>
+                  <el-button type="text" size="small">不合格</el-button>
+                  <el-button type="text" size="small">加入黑名单</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="1"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="paginations.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"/>
+          </el-tab-pane>
+          <el-tab-pane label="不合格" name="INVALID">
+            <el-table
+              :data="INVALIDTableData">
+              <table-empty-placeholder slot="empty"/>
+              <!--
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              -->
+              <el-table-column
+                prop="fullName"
+                label="姓名">
+              </el-table-column>
+              <el-table-column
+                prop="workAge"
+                label="工作年限">
+              </el-table-column>
+              <el-table-column
+                label="求职状态">
+                <template slot-scope="scope">
+                  <span>{{ findLabel(options.jobSearchStatus, scope.row.jobSearchStatus) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="所在地区">
+                <template slot-scope="scope">
+                  <span>{{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="completedPercent"
+                label="简历完整度">
+              </el-table-column>
+              <el-table-column
+                prop="submittedTime"
+                label="投递时间">
+              </el-table-column>
+              <el-table-column
+                width="305"
+                label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
+                  <el-button type="text" size="small">通知面试/笔试</el-button>
+                  <el-button type="text" size="small">不合格</el-button>
+                  <el-button type="text" size="small">加入黑名单</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="1"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="paginations.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"/>
+          </el-tab-pane>
+          <el-tab-pane label="已入职" name="JOINED">
+            <el-table
+              :data="JOINEDTableData">
+              <table-empty-placeholder slot="empty"/>
+              <!--
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              -->
+              <el-table-column
+                prop="fullName"
+                label="姓名">
+              </el-table-column>
+              <el-table-column
+                prop="workAge"
+                label="工作年限">
+              </el-table-column>
+              <el-table-column
+                label="求职状态">
+                <template slot-scope="scope">
+                  <span>{{ findLabel(options.jobSearchStatus, scope.row.jobSearchStatus) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="所在地区">
+                <template slot-scope="scope">
+                  <span>{{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="completedPercent"
+                label="简历完整度">
+              </el-table-column>
+              <el-table-column
+                prop="submittedTime"
+                label="投递时间">
+              </el-table-column>
+              <el-table-column
+                width="305"
+                label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
+                  <el-button type="text" size="small">通知面试/笔试</el-button>
+                  <el-button type="text" size="small">不合格</el-button>
+                  <el-button type="text" size="small">加入黑名单</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              class="pagination"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="1"
+              :page-sizes="[10, 20, 30, 40]"
+              :page-size="paginations.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"/>
+          </el-tab-pane>
         </el-tabs>
       </board>
     </div>
@@ -301,7 +538,6 @@ export default class OccupationInfo extends Vue {
   async created() {
     this.occupationId = this.$route.params.id;
     this.positionDetail = (await getPositionDetail(this.occupationId)).data;
-    console.log(this.positionDetail);
     this.doSearch();
   }
 }

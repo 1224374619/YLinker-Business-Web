@@ -1,5 +1,5 @@
 import http from '@/utils/http';
-import { FunctionScheme } from './apis';
+import { FunctionScheme } from './apis.d';
 
 export const getAllEnterpriseTypes: FunctionScheme = () => http.get('/constant/enterpriseForm');
 

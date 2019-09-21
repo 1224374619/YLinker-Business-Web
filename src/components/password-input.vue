@@ -17,8 +17,8 @@ import { Vue, Component, Watch } from 'vue-property-decorator';
     },
     showPrefix: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
 })
 export default class PasswordInput extends Vue {

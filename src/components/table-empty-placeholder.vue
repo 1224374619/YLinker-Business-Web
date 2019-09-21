@@ -1,4 +1,4 @@
-<template>  
+<template>
   <div class="container">
     <img :src="require('@/assets/images/empty.png')" />
     <p>暂无数据</p>

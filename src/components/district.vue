@@ -9,10 +9,10 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
+import { mapState } from 'vuex';
 import { getAllDistricts } from '@/apis/constants';
 import { cascaderFormatter } from '@/utils/transformer';
 import { RootState } from '@/store/root-states';
-import { mapState } from 'vuex';
 
 @Component({
   props: {
@@ -22,10 +22,8 @@ import { mapState } from 'vuex';
     },
     value: {
       type: Array,
-      default: (): any[] => {
-        return [];
-      },
-    }
+      default: (): any[] => [],
+    },
   },
   computed: mapState({
     districts(state: RootState) {

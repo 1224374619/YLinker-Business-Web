@@ -106,11 +106,12 @@ import { SYNC_USER_INFO, LOGOUT } from '@/store/mutation-types';
     },
     hasLogin(state: RootState) {
       return state.hasLogin;
-    }
+    },
   }),
 })
 export default class CustomizedNav extends Vue {
   @Mutation(SYNC_USER_INFO) syncUserInfo: any;
+
   @Mutation(LOGOUT) logout: any;
 
   showPopver: boolean = false;

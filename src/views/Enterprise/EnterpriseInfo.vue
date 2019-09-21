@@ -192,6 +192,7 @@ import Captcha from 'components/captcha.vue';
 import PasswordInput from 'components/password-input.vue';
 import District from 'components/district.vue';
 import { mapState } from 'vuex';
+import { RootState } from '@/store/root-states';
 import {
   getCompanyInfo,
   uploadCompanyFile,
@@ -205,7 +206,7 @@ import {
   findLabel,
   appendParent,
 } from '@/utils/transformer';
-import { RootState } from '@/store/root-states';
+
 
 const companySizeOptions = [
   '10 人以下', '10-100 人', '100-500 人', '500 人以上',
@@ -405,6 +406,8 @@ export default class EnterpriseInfo extends Vue {
 
   async init() {
     const res = (await getCompanyInfo()).data;
+    // workaround;
+    delete res.address.id;
     this.companyInfo = {
       ...this.companyInfo,
       ...res,

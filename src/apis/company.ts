@@ -1,5 +1,5 @@
 import http from '@/utils/http';
-import { FunctionScheme } from './apis';
+import { FunctionScheme } from './apis.d';
 
 const devMode = process.env.VUE_APP_DEV_MODE === 'true';
 
