@@ -42,20 +42,19 @@
                 prop="positionName"
                 label="职位名称">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.date}}</el-button>
+                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.positionName}}</el-button>
                 </template>
               </el-table-column>
               <el-table-column
                 label="职位性质">
                 <template slot-scope="scope">
-                  <span>{{scope.row.jobType}}</span>
+                  <span>{{ findLabel(options.jobType, scope.row.jobType) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="地区">
                 <template slot-scope="scope">
-                  <span>{{scope.row.county}}</span>
-                  <span>{{scope.row.province}}</span>
+                  <span>{{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -82,20 +81,19 @@
                 prop="positionName"
                 label="职位名称">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.date}}</el-button>
+                  <el-button type="text" size="small" @click="gotoResumeListUI(scope.row.id)">{{scope.row.positionName}}</el-button>
                 </template>
               </el-table-column>
               <el-table-column
                 label="职位性质">
                 <template slot-scope="scope">
-                  <span>{{scope.row.jobType}}</span>
+                  <span>{{ findLabel(options.jobType, scope.row.jobType) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="地区">
                 <template slot-scope="scope">
-                  <span>{{scope.row.county}}</span>
-                  <span>{{scope.row.province}}</span>
+                  <span>{{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
@@ -140,25 +138,38 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
-import { 
-  getPositions,
-} from '@/apis/position';
-import { getResumeBoardStatistics } from '@/apis/board';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 import dayjs from 'dayjs';
+import { mapState } from 'vuex';
+import { getPositions } from '@/apis/position';
+import { getResumeBoardStatistics } from '@/apis/board';
+import { RootState } from '@/store/root-states';
+import { findLabel, inspectLabel } from '@/utils/transformer';
 
 const occupationTypes = ['OFFLINE', 'ONLINE', 'PENDING', 'EDITING', 'CHECKING', 'INVALID'];
 
 @Component({
   components: {
     Board,
-    TableEmptyPlaceholder
+    TableEmptyPlaceholder,
   },
+  computed: mapState({
+    options(state: RootState) {
+      return state.constants.options;
+    },
+    districts(state: RootState) {
+      return state.constants.districts;
+    },
+  }),
 })
 export default class OccupationInfo extends Vue {
+  findLabel: any = findLabel;
+
+  inspectLabel: any = inspectLabel;
+
   resumeBoardStatistics: any = {
     incrementDaily: 0,
-    toProcessNum: 0
+    toProcessNum: 0,
   };
 
   total: number = 0;
@@ -173,7 +184,7 @@ export default class OccupationInfo extends Vue {
   filters: any = {
     keyword: '',
     self: false,
-    state: 1
+    state: 1,
   };
 
   onlineTableData: any = [
@@ -181,8 +192,8 @@ export default class OccupationInfo extends Vue {
       id: 1,
       date: '后端开发',
       name: 1,
-      address: 1
-    }
+      address: 1,
+    },
   ];
 
   OFFLINETableData: any = [];
@@ -199,10 +210,6 @@ export default class OccupationInfo extends Vue {
 
   data: any = [];
 
-  querySearchAsync() {}
-
-  onSearch() {}
-
   handleToggloeTab(tabName: any) {
     this.filters.state = occupationTypes.indexOf(tabName.name);
     this.doSearch();
@@ -212,7 +219,7 @@ export default class OccupationInfo extends Vue {
     this.filters = {
       keyword: '',
       self: false,
-      state: 1
+      state: 1,
     };
   }
 
@@ -228,15 +235,15 @@ export default class OccupationInfo extends Vue {
     this.paginations = {
       ...this.paginations,
       ...option,
-    }
-    let payload: any = {
+    };
+    const payload: any = {
       ...this.paginations,
       ...this.filters,
     };
     const res = (await getPositions(payload)).data;
     (this as any)[`${this.activedTabName}TableData`] = res.list.map((i: any) => ({
       ...i,
-      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD') 
+      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD'),
     }));
     this.total = res.total;
   }
@@ -247,6 +254,7 @@ export default class OccupationInfo extends Vue {
 
   async created() {
     this.resumeBoardStatistics = (await getResumeBoardStatistics()).data;
+    this.doSearch();
   }
 }
 </script>

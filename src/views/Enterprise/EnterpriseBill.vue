@@ -39,6 +39,6 @@ export default class EnterpriseBill extends Vue {
           justify-content space-between
       .pagination
         margin-top 15px
-        text-align right 
+        text-align right
 
 </style>

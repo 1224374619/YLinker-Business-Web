@@ -46,11 +46,11 @@ const subRoutes: routeType[] = [{
   path: '/enterprise/user',
   label: '用户管理',
   icon: '&#xe612;',
-}, /*{
+}, /* {
   path: '/enterprise/bill',
   label: '企业账单',
   icon: '&#xe60b;',
-}*/];
+} */];
 
 @Component({
   components: {
@@ -97,7 +97,7 @@ export default class Enterprise extends Vue {
         background-color white
         margin-right 20px
         ul
-          text-align left 
+          text-align left
       main
         background-color white
 </style>

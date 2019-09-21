@@ -7,9 +7,7 @@ const _axios = axios.create({
   withCredentials: true,
 });
 
-_axios.interceptors.response.use(response => {
-  return response.data;
-}, (error) => {
+_axios.interceptors.response.use(response => response.data, (error) => {
   if (error.response.status !== 401) {
     // logger and notification;
     Notification.error({

@@ -36,7 +36,7 @@
           <template v-for="(route, index) in subRoutes">
             <el-breadcrumb-item :key="index" :to="{ path: route.path }" v-if="currentRoute.includes(route.path)">{{ route.label }}</el-breadcrumb-item>
             <template v-for="(subRoute, subIndex) in route.children">
-              <el-breadcrumb-item :key="index + subIndex" :to="{ path: subRoute.path }" v-if="currentRoute === subRoute.path">{{ subRoute.label }}</el-breadcrumb-item>  
+              <el-breadcrumb-item :key="index + subIndex" :to="{ path: subRoute.path }" v-if="currentRoute === subRoute.path">{{ subRoute.label }}</el-breadcrumb-item>
             </template>
           </template>
         </el-breadcrumb>
@@ -67,8 +67,8 @@ const subRoutes: routeTypeAdvanced[] = [{
   path: '/resume/info',
   label: '简历总览',
   icon: '&#xe61d;',
-  isMenu: true
-}, /*{
+  isMenu: true,
+}, /* {
   path: '/resume/enterprise',
   label: '企业人才库',
   icon: '&#xe61e;',
@@ -140,7 +140,7 @@ export default class Enterprise extends Vue {
         background-color white
         margin-right 20px
         ul
-          text-align left 
+          text-align left
       main
         background-color white
         width 1083px

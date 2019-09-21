@@ -95,12 +95,12 @@ import citiesConstant from '@/views/constants/cities';
 @Component({
   components: {
     Board,
-    TableEmptyPlaceholder
+    TableEmptyPlaceholder,
   },
 })
 export default class OccupationDraft extends Vue {
   filters: object = {
-    occupationName: ''
+    occupationName: '',
   };
 
   pickerOptions2: object = {
@@ -111,7 +111,7 @@ export default class OccupationDraft extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '今天',
       onClick(picker: any) {
@@ -119,7 +119,7 @@ export default class OccupationDraft extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '最近一周',
       onClick(picker: any) {
@@ -127,7 +127,7 @@ export default class OccupationDraft extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '最近一个月',
       onClick(picker: any) {
@@ -135,12 +135,12 @@ export default class OccupationDraft extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
         picker.$emit('pick', [start, end]);
-      }
-    }]
+      },
+    }],
   };
 
   citiesConstant: any = citiesConstant;
- 
+
   onlineTableData: any = [];
 
   activedTabName: string = 'online';
@@ -168,7 +168,7 @@ export default class OccupationDraft extends Vue {
       width 100%
       .pagination
         margin-top 15px
-        text-align right 
+        text-align right
       .filters .form
         margin 5px 10px 20px
         display flex
@@ -178,7 +178,7 @@ export default class OccupationDraft extends Vue {
   .occupation-draft-container
     .el-form-item
       margin-right 20px
-      .el-form-item__content 
+      .el-form-item__content
         text-align left
         .el-input, .el-select, .el-cascader
           width 150px

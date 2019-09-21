@@ -20,7 +20,7 @@
             </el-cascader>
           </el-form-item>
           <el-form-item label="月薪范围" prop="salaryRange">
-            <el-select v-model="form.salaryRange" placeholder="请选择月薪范围" @change="syncSelectedSalary"> 
+            <el-select v-model="form.salaryRange" placeholder="请选择月薪范围" @change="syncSelectedSalary">
               <el-option :value="[item.min, item.max]" v-for="(item) in options.salaryRange" :key="item.code" :label="item.tag"></el-option>
             </el-select>
           </el-form-item>
@@ -131,16 +131,16 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import District from 'components/district.vue';
+import { mapState } from 'vuex';
 import citiesConstant from '@/views/constants/cities';
 import { createPosition } from '@/apis/position';
-import District from 'components/district.vue';
 import { RootState } from '@/store/root-states';
-import { mapState } from 'vuex';
-import { 
+import {
   cascaderFormatter,
 } from '@/utils/transformer';
-import { 
-  getEnterpriseUsers, 
+import {
+  getEnterpriseUsers,
 } from '@/apis/account';
 
 const DEFAULT_INDEX = 0;
@@ -160,7 +160,7 @@ const DEFAULT_INDEX = 0;
 })
 export default class OccuptaionAdd extends Vue {
   loading: boolean = false;
-  
+
   candidatesHR: any[] = [];
 
   form: any = {
@@ -170,7 +170,7 @@ export default class OccuptaionAdd extends Vue {
       {
         value: '',
         key: '',
-      }
+      },
     ],
     addressId: '',
     degreeMin: '',
@@ -190,7 +190,7 @@ export default class OccuptaionAdd extends Vue {
       detail: '',
       latitude: 0,
       longitude: 0,
-      province: 0
+      province: 0,
     },
     workAgeMax: 0,
     workAgeMin: 0,
@@ -201,7 +201,7 @@ export default class OccuptaionAdd extends Vue {
   dynamicTags: string[] = ['标签一', '标签二', '标签三'];
 
   inputVisible: boolean = false;
-    
+
   inputValue: string = '';
 
   rules: object = {
@@ -242,7 +242,7 @@ export default class OccuptaionAdd extends Vue {
     ref.validate(async (valid: boolean) => {
       if (valid) {
         // submit;
-        console.log(this.form)
+        console.log(this.form);
         const { addedEmails, positionCatalog } = this.form;
         await createPosition({
           ...this.form,
@@ -286,7 +286,7 @@ export default class OccuptaionAdd extends Vue {
     this.form.workAddress.province = value[DEFAULT_INDEX];
     if (value.length > 1) {
       this.form.workAddress.county = value[DEFAULT_INDEX + 1];
-    } 
+    }
   }
 
   showInput() {
@@ -300,7 +300,7 @@ export default class OccuptaionAdd extends Vue {
   };
 
   handleInputConfirm() {
-    let inputValue = this.inputValue;
+    const { inputValue } = this;
     if (inputValue) {
       this.dynamicTags.push(inputValue);
     }
@@ -309,16 +309,16 @@ export default class OccuptaionAdd extends Vue {
   }
 
   removeEmail(item: any) {
-    var index = this.form.addedEmails.indexOf(item)
+    const index = this.form.addedEmails.indexOf(item);
     if (index !== -1) {
-      this.form.addedEmails.splice(index, 1)
+      this.form.addedEmails.splice(index, 1);
     }
   };
 
   addEmail() {
     this.form.addedEmails.push({
       value: '',
-      key: Date.now()
+      key: Date.now(),
     });
   };
 }
@@ -336,13 +336,13 @@ export default class OccuptaionAdd extends Vue {
       justify-content center
       flex-direction column
       flex 1
-      position relative 
+      position relative
       background-color white
       .inline-top-item
         margin-bottom 10px
       h1
         font-size 20px
-        text-align left 
+        text-align left
         margin 30px 0px 10px
       .form
         padding 10px
@@ -377,4 +377,3 @@ export default class OccuptaionAdd extends Vue {
       .el-form-item__content
         text-align center
 </style>
-

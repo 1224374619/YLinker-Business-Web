@@ -21,7 +21,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="年龄">
-              <el-input class="mini" v-model="input"></el-input> <span>&nbsp;至&nbsp;</span> 
+              <el-input class="mini" v-model="input"></el-input> <span>&nbsp;至&nbsp;</span>
               <el-input class="mini" v-model="input"></el-input>
             </el-form-item>
             <el-form-item label="学历">
@@ -165,16 +165,16 @@ import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 @Component({
   components: {
     Board,
-    TableEmptyPlaceholder
+    TableEmptyPlaceholder,
   },
 })
 export default class ResumeEnterprise extends Vue {
   filters: object = {
-    occupationName: ''
+    occupationName: '',
   };
 
   tableData: any = [{
-    address: '1'
+    address: '1',
   }];
 
   activedTabName: string = 'online';
@@ -202,19 +202,19 @@ export default class ResumeEnterprise extends Vue {
       width 100%
       padding-bottom 30px
       .addition-bar
-        text-align right 
+        text-align right
         margin 0 10px
       .filters .form
         display flex
         margin 5px 10px 20px
         flex-direction column
         .fields
-          text-align left 
+          text-align left
         .operations
-          text-align center 
+          text-align center
       .pagination
         margin-top 15px
-        text-align right 
+        text-align right
 </style>
 
 <style lang="stylus">

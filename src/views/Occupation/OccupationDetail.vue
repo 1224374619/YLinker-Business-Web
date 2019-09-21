@@ -87,7 +87,7 @@ export default class OccuptaionDetail extends Vue {
       {
         value: '',
         key: '',
-      }
+      },
     ],
     state: '',
     addressId: '',
@@ -108,7 +108,7 @@ export default class OccuptaionDetail extends Vue {
       detail: '',
       latitude: 0,
       longitude: 0,
-      province: 0
+      province: 0,
     },
     workAgeMax: 0,
     workAgeMin: 0,
@@ -132,7 +132,7 @@ export default class OccuptaionDetail extends Vue {
         ...res,
         managerName: (await getAccountInfoById(res.managerUid)).data.realName,
       };
-    } 
+    }
   }
 }
 </script>
@@ -146,7 +146,7 @@ export default class OccuptaionDetail extends Vue {
       justify-content center
       flex-direction column
       flex 1
-      position relative 
+      position relative
       background-color white
       .board
         position absolute
@@ -190,4 +190,3 @@ export default class OccuptaionDetail extends Vue {
       .el-form-item__content
         text-align center
 </style>
-

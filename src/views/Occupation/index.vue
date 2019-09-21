@@ -41,19 +41,19 @@ declare type routeType = {
 const subRoutes: routeType[] = [{
   path: '/occupation/info',
   label: '职位总览',
-  icon: '&#xe61f;'
+  icon: '&#xe61f;',
 }, {
   path: '/occupation/add',
   label: '新增职位',
   icon: '&#xe611;',
-}, /*{
+}, /* {
   path: '/occupation/draft',
   label: '草稿箱',
   icon: '&#xe620;'
-},*/ {
+}, */ {
   path: '/occupation/recycle',
   label: '回收站',
-  icon: '&#xe621;'
+  icon: '&#xe621;',
 }];
 
 @Component({
@@ -101,11 +101,11 @@ export default class Enterprise extends Vue {
         background-color white
         margin-right 20px
         ul
-          text-align left 
+          text-align left
       main
         background-color white
         height 100%
-      
+
 </style>
 
 <style lang="stylus">

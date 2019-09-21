@@ -1,17 +1,17 @@
 <template>
   <div class="enterprise-user">
     <el-dialog width="450px" center title="新增用户" :visible.sync="addUserDialogVisible">
-      <el-form ref="create-user" :model="addUserForm" label-width="60px">
-        <el-form-item label="姓名">
+      <el-form ref="create-user" :model="addUserForm" :rules="addUserRules" label-width="70px">
+        <el-form-item label="姓名" prop="realName">
           <el-input v-model="addUserForm.realName" auto-complete="off" placeholder="请输入姓名"></el-input>
         </el-form-item>
-        <el-form-item label="密码">
+        <el-form-item label="密码" prop="password">
           <password-input v-model="addUserForm.password" :showPrefix="false" :placeholder="'请输入密码'" />
         </el-form-item>
-        <el-form-item label="手机号">
+        <el-form-item label="手机号" prop="phone">
           <el-input v-model="addUserForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>
         </el-form-item>
-        <el-form-item label="角色">
+        <el-form-item label="角色" prop="role">
           <el-radio v-model="addUserForm.role" label="ROLE_USER">管理员</el-radio>
           <el-radio v-model="addUserForm.role" label="ROLE_ADMIN">普通用户</el-radio>
         </el-form-item>
@@ -22,7 +22,7 @@
       </div>
     </el-dialog>
     <el-dialog width="450px" center title="编辑用户" :visible.sync="editUserDialogVisible">
-      <el-form ref="create-user" :model="editUserForm" label-width="60px">
+      <el-form ref="edit-user" :model="editUserForm" label-width="60px">
         <el-form-item label="姓名">
           <el-input v-model="editUserForm.realName" auto-complete="off" placeholder="请输入姓名"></el-input>
         </el-form-item>
@@ -107,13 +107,13 @@ import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 import PasswordInput from 'components/password-input.vue';
-import { 
-  getEnterpriseUsers, 
+import dayjs from 'dayjs';
+import {
+  getEnterpriseUsers,
   createEnterpriseUser,
-  updateEnterpriseUser, 
+  updateEnterpriseUser,
   deleteEnterpriseUser,
 } from '@/apis/account';
-import dayjs from 'dayjs';
 
 @Component({
   components: {
@@ -129,16 +129,16 @@ export default class EnterpriseUser extends Vue {
     pageSize: 10,
     pageNum: 1,
   }
-  
+
   filters: object = {
-    keyword: ''
+    keyword: '',
   };
 
   addUserForm: object = {
     realName: '',
     password: '',
     phone: '',
-    role: 'ROLE_ADMIN'
+    role: 'ROLE_ADMIN',
   };
 
   editUserForm: any = {
@@ -146,33 +146,55 @@ export default class EnterpriseUser extends Vue {
     realName: '',
     password: '',
     phone: '',
-    role: 'ROLE_ADMIN'
+    role: 'ROLE_ADMIN',
+  };
+
+  addUserRules: object = {
+    realName: [
+      { required: true, message: '请输入职位名称', trigger: 'blur' },
+    ],
+    password: [
+      { required: true, message: '请输入密码', trigger: 'blur' },
+    ],
+    phone: [
+      { required: true, message: '请输入手机号', trigger: 'blur' },
+      { len: 11, message: '手机号必须为11位', trigger: 'blur' },
+    ],
+    role: [
+      { required: true, message: '请选择角色', trigger: 'blur' },
+    ],
   };
 
   addUserDialogVisible: boolean = false;
-  
+
   editUserDialogVisible: boolean = false;
 
   userTableData: any = [];
 
   async doConfirmAddUser() {
-    await createEnterpriseUser({ ...this.addUserForm });
-    this.$message({
-      message: '用户创建成功！',
-      type: 'success'
+    const ref: any = this.$refs['create-user'];
+    ref.validate(async (valid: boolean) => {
+      if (valid) {
+        // submit;
+        await createEnterpriseUser({ ...this.addUserForm });
+        this.$message({
+          message: '用户创建成功！',
+          type: 'success',
+        });
+        this.addUserDialogVisible = false;
+
+        // reset;
+        this.addUserForm = {
+          realName: '',
+          password: '',
+          phone: '',
+          role: 'ROLE_ADMIN',
+        };
+
+        // re-search;
+        this.doSearch();
+      }
     });
-    this.addUserDialogVisible = false;
-
-    // reset;
-    this.addUserForm = {
-      realName: '',
-      password: '',
-      phone: '',
-      role: 'ROLE_ADMIN'
-    };
-
-    // re-search;
-    this.doSearch();
   }
 
   async doConfirmEditUser() {
@@ -180,7 +202,7 @@ export default class EnterpriseUser extends Vue {
     await updateEnterpriseUser(id, params);
     this.$message({
       message: '用户信息修改成功！',
-      type: 'success'
+      type: 'success',
     });
     this.editUserDialogVisible = false;
 
@@ -195,15 +217,15 @@ export default class EnterpriseUser extends Vue {
 
   async deleteUser(id: number) {
     this.$confirm('确认删除该用户？')
-      .then(async e => {
+      .then(async (e) => {
         await deleteEnterpriseUser(id);
         this.$message({
           message: '用户删除成功！',
-          type: 'success'
+          type: 'success',
         });
         // re-search;
         this.doSearch();
-      }).catch(e => {});
+      }).catch((e) => {});
   }
 
   handleSizeChange(pageSize: number) {
@@ -218,15 +240,15 @@ export default class EnterpriseUser extends Vue {
     this.paginations = {
       ...this.paginations,
       ...option,
-    }
-    let payload: any = {
+    };
+    const payload: any = {
       ...this.paginations,
       ...this.filters,
     };
     const res = (await getEnterpriseUsers(payload)).data;
     this.userTableData = res.list.map((i: any) => ({
       ...i,
-      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD') 
+      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD'),
     }));
     this.total = res.total;
   }
@@ -249,9 +271,9 @@ export default class EnterpriseUser extends Vue {
         display flex
         justify-content space-between
         .operations
-          text-align right 
+          text-align right
       .pagination
         margin-top 15px
-        text-align right 
+        text-align right
 
 </style>

@@ -1,7 +1,7 @@
 import http from '@/utils/http';
 import { FunctionScheme } from './apis';
 
-const devMode = process.env.VUE_APP_DEV_MODE ==='true';
+const devMode = process.env.VUE_APP_DEV_MODE === 'true';
 
 export const getCompanyInfo: FunctionScheme = () => http.get('/company');
 
@@ -16,4 +16,3 @@ export const registerCompany: FunctionScheme = params => http.post('/company', p
 export const uploadCompanyFile: string = devMode ? '/api/company/audit/file' : '/company/audit/file';
 
 export const uploadCompanyLogo: string = devMode ? '/api/company/logo' : '/company/logo';
-

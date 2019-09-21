@@ -64,7 +64,7 @@ import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 @Component({
   components: {
     Board,
-    TableEmptyPlaceholder
+    TableEmptyPlaceholder,
   },
 })
 export default class ResumeCollection extends Vue {
@@ -108,5 +108,5 @@ export default class ResumeCollection extends Vue {
             font-weight bold
       .pagination
         margin-top 15px
-        text-align right 
+        text-align right
 </style>

@@ -140,12 +140,12 @@ import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 @Component({
   components: {
     Board,
-    TableEmptyPlaceholder
+    TableEmptyPlaceholder,
   },
 })
 export default class ResumeDownloaded extends Vue {
   filters: object = {
-    occupationName: ''
+    occupationName: '',
   };
 
   onlineTableData: any = [];
@@ -175,9 +175,9 @@ export default class ResumeDownloaded extends Vue {
         flex-direction column
         margin 5px 10px 20px
         .fields
-          text-align left 
+          text-align left
         .operations
-          text-align right 
+          text-align right
       .tab-operations
         display flex
         justify-content space-between
@@ -189,7 +189,7 @@ export default class ResumeDownloaded extends Vue {
         z-index 1
       .pagination
         margin-top 15px
-        text-align right 
+        text-align right
 </style>
 <style lang="stylus">
   .resume-downloaded

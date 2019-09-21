@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import { RootState } from './root-states';
-import { 
+import {
   SYNC_USER_INFO,
   RESET_USER_INFO,
   UPDATE_LOGIN_STATUS,
@@ -24,7 +24,7 @@ const store: StoreOptions<RootState> = {
       positionCatalogs: [],
       districts: [],
       options: {},
-    }
+    },
   },
   mutations: {
     [UPDATE_LOGIN_STATUS](state: RootState, payload) {
@@ -41,7 +41,7 @@ const store: StoreOptions<RootState> = {
     [UPDATE_CONSTANTS](state: RootState, payload) {
       state.constants = {
         ...payload,
-        initialized: true
+        initialized: true,
       };
     },
     async [LOGOUT](state: RootState) {
@@ -50,11 +50,11 @@ const store: StoreOptions<RootState> = {
       try {
         await logout();
         router.push({ name: 'login' });
-      } catch(e) {
+      } catch (e) {
         // in case the redirect URL is invalid;
         router.push({ name: 'login' });
       }
-    }
+    },
   },
 };
 

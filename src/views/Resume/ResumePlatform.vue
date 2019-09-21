@@ -30,7 +30,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="年龄">
-              <el-input class="mini" v-model="input"></el-input> <span>&nbsp;至&nbsp;</span> 
+              <el-input class="mini" v-model="input"></el-input> <span>&nbsp;至&nbsp;</span>
               <el-input class="mini" v-model="input"></el-input>
             </el-form-item>
             <el-form-item label="学历">
@@ -77,7 +77,7 @@
               ></el-autocomplete>
               <el-checkbox v-model="checked">只看最近一份工作</el-checkbox>
             </el-form-item>
-            
+
           </div>
           <div class="operations">
             <el-form-item>
@@ -185,16 +185,16 @@ import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 @Component({
   components: {
     Board,
-    TableEmptyPlaceholder
+    TableEmptyPlaceholder,
   },
 })
 export default class ResumePlatform extends Vue {
   filters: object = {
-    occupationName: ''
+    occupationName: '',
   };
 
   tableData: any = [{
-    address: 'f饭'
+    address: 'f饭',
   }];
 
   activedTabName: string = 'online';
@@ -222,19 +222,19 @@ export default class ResumePlatform extends Vue {
       width 100%
       padding-bottom 30px
       .addition-bar
-        text-align right 
+        text-align right
         margin 0 10px
       .filters .form
         margin 5px 10px 20px
         display flex
         flex-direction column
         .fields
-          text-align left 
+          text-align left
         .operations
-          text-align center 
+          text-align center
       .pagination
         margin-top 15px
-        text-align right 
+        text-align right
 </style>
 
 <style lang="stylus">
@@ -245,5 +245,3 @@ export default class ResumePlatform extends Vue {
         .el-form-item__content
           width 130px
 </style>
-
-

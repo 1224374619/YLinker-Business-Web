@@ -1,13 +1,13 @@
 <template>
   <div class="occupation-info-container">
     <div class="left">
-      <board class="list" title="后端开发" desc="介绍介绍介绍介绍介绍">
+      <board class="list" :title="positionDetail.positionName" :desc="positionDetail.description">
         <div class="filters">
           <el-form :inline="true" :model="filters" class="form">
             <div class="fields">
               <el-form-item label="求职状态">
-                <el-select v-model="value" placeholder="请选择求职状态">
-                  <el-option value="1">xxx</el-option>
+                <el-select v-model="filters.jobSearchStatus" placeholder="请选择求职状态">
+                  <el-option :value="item.code" v-for="(item) in options.jobSearchStatus" :key="item.code" :label="item.tag"></el-option>
                 </el-select>
               </el-form-item>
               <el-button type="text" @click="showMoreFilters = true" v-if="!showMoreFilters">展开 ▼</el-button>
@@ -15,81 +15,91 @@
             </div>
             <div class="fields" v-if="showMoreFilters">
               <el-form-item label="地区">
-                <el-cascader
-                  class="search-picker"
-                  style="margin-bottom: 10px;"
-                  placeholder="请选择地区"
-                  :options="citiesConstant"
-                  v-model="location">
-                </el-cascader>
+                <district placeholder="请选择地区" @input="syncSelectedDistrict" />
               </el-form-item>
+              <el-form-item label="处理状态">
+                <el-select v-model="filters.processedState" placeholder="请选择处理状态">
+                  <el-option :value="item.code" v-for="(item) in options.resumeProcessedState" :key="item.code" :label="item.tag"></el-option>
+                </el-select>
+              </el-form-item>
+              <!--
               <el-form-item label="简历完整度">
                 <el-select v-model="value" placeholder="请选择简历完整度">
                   <el-option value="1">手动</el-option>
                 </el-select>
               </el-form-item>
+              -->
               <el-form-item label="投递时间">
                  <el-date-picker
-                  v-model="value7"
+                  v-model="selectedTimeRange"
+                  @change="syncTimeRange"
                   type="datetimerange"
                   align="right"
                   unlink-panels
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :picker-options="pickerOptions2">
+                  :picker-options="pickerOptions">
                 </el-date-picker>
               </el-form-item>
             </div>
             <div class="operations">
               <el-form-item>
-                <el-button @click="onSearch">重置</el-button>
-                <el-button type="primary main" @click="onSearch">查询</el-button>
+                <el-button @click="resetFilters">重置</el-button>
+                <el-button type="primary main" @click="doSearch">查询</el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
-        <el-tabs v-model="activedTabName" type="card" @tab-click="handleClick">
+        <el-tabs v-model="activedTabName" type="card" @tab-click="handleToggleTab">
+          <!--
           <div class="tab-operations">
             <el-button type="text" class="underline mini">批量导出简历</el-button>
           </div>
-          <el-tab-pane label="待处理" name="online">
+          -->
+          <el-tab-pane label="待处理" name="PENDING">
             <el-table
-              :data="onlineTableData">
+              :data="PENDINGTableData">
               <table-empty-placeholder slot="empty"/>
+              <!--
               <el-table-column
                 type="selection"
                 width="55">
               </el-table-column>
+              -->
               <el-table-column
-                prop="date"
+                prop="fullName"
                 label="姓名">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="workAge"
                 label="工作年限">
               </el-table-column>
               <el-table-column
-                prop="address"
                 label="求职状态">
+                <template slot-scope="scope">
+                  <span>{{ findLabel(options.jobSearchStatus, scope.row.jobSearchStatus) }}</span>
+                </template>
               </el-table-column>
               <el-table-column
-                prop="address"
                 label="所在地区">
+                <template slot-scope="scope">
+                  <span>{{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}</span>
+                </template>
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="completedPercent"
                 label="简历完整度">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="submittedTime"
                 label="投递时间">
               </el-table-column>
               <el-table-column
                 width="305"
                 label="操作">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small">查看</el-button>
+                  <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
                   <el-button type="text" size="small">通知面试/笔试</el-button>
                   <el-button type="text" size="small">不合格</el-button>
                   <el-button type="text" size="small">加入黑名单</el-button>
@@ -103,14 +113,13 @@
               @current-change="handleCurrentChange"
               :current-page="1"
               :page-sizes="[10, 20, 30, 40]"
-              :page-size="10"
+              :page-size="paginations.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
-            </el-pagination>
+              :total="total"/>
           </el-tab-pane>
-          <el-tab-pane label="处理中" name="pending">处理中</el-tab-pane>
-          <el-tab-pane label="录用" name="checking">录用</el-tab-pane>
-          <el-tab-pane label="不合格" name="invalid">不合格</el-tab-pane>
+          <el-tab-pane label="处理中" name="PROCESSING">处理中</el-tab-pane>
+          <el-tab-pane label="录用" name="OFFER">录用</el-tab-pane>
+          <el-tab-pane label="不合格" name="INVALID">不合格</el-tab-pane>
         </el-tabs>
       </board>
     </div>
@@ -120,21 +129,60 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
+import District from 'components/district.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
-import citiesConstant from '@/views/constants/cities';
+import dayjs from 'dayjs';
+import { mapState } from 'vuex';
+import { getResumes } from '@/apis/resume';
+import { getPositionDetail } from '@/apis/position';
+import { RootState } from '@/store/root-states';
+import { findLabel, inspectLabel } from '@/utils/transformer';
+
+const resumeStatus = ['PENDING', 'PROCESSING', 'OFFER', 'INVALID', 'JOINED'];
+const DEFAULT_INDEX = 0;
 
 @Component({
   components: {
     Board,
-    TableEmptyPlaceholder
+    District,
+    TableEmptyPlaceholder,
   },
+  computed: mapState({
+    options(state: RootState) {
+      return state.constants.options;
+    },
+    districts(state: RootState) {
+      return state.constants.districts;
+    },
+  }),
 })
 export default class OccupationInfo extends Vue {
-  filters: object = {
-    occupationName: ''
+  findLabel: any = findLabel;
+
+  inspectLabel: any = inspectLabel;
+
+  occupationId: string = '';
+
+  selectedTimeRange: any = [];
+
+  filters = {
+    occupationName: '',
+    jobSearchStatus: '',
+    processedState: '',
+    submittedTimeMax: '',
+    submittedTimeMin: '',
+    province: '',
+    county: '',
   };
 
-  pickerOptions2: object = {
+  total: number = 0;
+
+  paginations: object = {
+    pageSize: 10,
+    pageNum: 1,
+  }
+
+  pickerOptions: object = {
     shortcuts: [{
       text: '昨天',
       onClick(picker: any) {
@@ -142,7 +190,7 @@ export default class OccupationInfo extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '今天',
       onClick(picker: any) {
@@ -150,7 +198,7 @@ export default class OccupationInfo extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '最近一周',
       onClick(picker: any) {
@@ -158,7 +206,7 @@ export default class OccupationInfo extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '最近一个月',
       onClick(picker: any) {
@@ -166,34 +214,95 @@ export default class OccupationInfo extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
         picker.$emit('pick', [start, end]);
-      }
-    }]
+      },
+    }],
   };
 
-  citiesConstant: any = citiesConstant;
+  PENDINGTableData: any = [];
+
+  PROCESSINGTableData: any = [];
+
+  OFFERTableData: any = [];
+
+  INVALIDTableData: any = [];
+
+  JOINEDTableData: any = [];
 
   showMoreFilters: boolean = false;
- 
-  onlineTableData: any = [
-    {
-      id: 1,
-      address: '1'
-    }
-  ];
 
-  activedTabName: string = 'online';
+  activedTabName: string = 'PENDING';
 
-  data: any = [];
+  positionDetail: any = {
+    positionName: '',
+    description: '',
+  }
 
-  querySearchAsync() {}
+  redirectToResumeDetail(id: number) {
+    this.$router.push({ path: `/resume/${id}` });
+  }
 
-  onSearch() {}
+  syncTimeRange(value: any) {
+    const [min, max] = value;
+    this.filters.submittedTimeMax = String(+dayjs(max));
+    this.filters.submittedTimeMin = String(+dayjs(min));
+  }
+
+  syncSelectedDistrict(value: any[]) {
+    this.filters.province = value[DEFAULT_INDEX];
+    this.filters.county = value[DEFAULT_INDEX + 1];
+  }
+
+  handleToggleTab(tabName: any) {
+    this.filters.processedState = String(resumeStatus.indexOf(tabName.name));
+    this.doSearch();
+  }
+
+  resetFilters() {
+    this.filters = {
+      occupationName: '',
+      jobSearchStatus: '',
+      processedState: '',
+      submittedTimeMax: '',
+      submittedTimeMin: '',
+      province: '',
+      county: '',
+    };
+  }
 
   gotoOccupationDetailUI(id: number) {
     this.$router.push({ path: `/occupation/${id}` });
   }
 
-  mounted() {
+  handleSizeChange(pageSize: number) {
+    this.doSearch({ pageSize });
+  }
+
+  handleCurrentChange(pageNum: number) {
+    this.doSearch({ pageNum });
+  }
+
+  async doSearch(option = {}) {
+    this.paginations = {
+      ...this.paginations,
+      ...option,
+    };
+    const payload: any = {
+      ...this.paginations,
+      ...this.filters,
+    };
+    const res = (await getResumes(this.occupationId, payload)).data;
+    (this as any)[`${this.activedTabName}TableData`] = res.list.map((i: any) => ({
+      ...i,
+      submittedTime: dayjs(i.submittedTime).format('YYYY-MM-DD'),
+    }));
+    this.total = res.total;
+  }
+
+  async created() {
+    this.occupationId = this.$route.params.id;
+    this.positionDetail = (await getPositionDetail(this.occupationId)).data;
+    console.log(this.positionDetail);
+    this.doSearch();
   }
 }
 </script>
@@ -215,7 +324,7 @@ export default class OccupationInfo extends Vue {
           .fields
             text-align left
           .operations
-            text-align right  
+            text-align right
         .tab-operations
           display flex
           justify-content space-between
@@ -252,7 +361,7 @@ export default class OccupationInfo extends Vue {
       overflow initial
     .el-form-item
       margin-right 20px
-      .el-form-item__content 
+      .el-form-item__content
         text-align left
         .el-input, .el-select, .el-cascader
           width 150px

@@ -1,7 +1,7 @@
 <template>
   <div class="account-basic">
-    <el-dialog center title="更换手机号" width="40%" 
-      :visible.sync="dialogChangeTelVisible" 
+    <el-dialog center title="更换手机号" width="40%"
+      :visible.sync="dialogChangeTelVisible"
       :close-on-click-modal="false">
       <el-form ref="formChangePhone" :model="changePhoneForm" :rules="rules" label-width="70px">
         <el-form-item label="手机号" prop="phone">
@@ -17,8 +17,8 @@
       </div>
     </el-dialog>
 
-    <el-dialog center title="更换绑定邮箱" width="40%" 
-      :visible.sync="dialogChangeMailVisible" 
+    <el-dialog center title="更换绑定邮箱" width="40%"
+      :visible.sync="dialogChangeMailVisible"
       :close-on-click-modal="false">
       <el-form ref="formChangeMail" :model="changeEmailForm" :rules="rules" label-width="80px">
         <el-form-item label="邮箱账号" prop="email">
@@ -31,8 +31,8 @@
       </div>
     </el-dialog>
 
-     <el-dialog center title="更换头像" width="30%" 
-      :visible.sync="dialogChangeAvatarVisible"  
+     <el-dialog center title="更换头像" width="30%"
+      :visible.sync="dialogChangeAvatarVisible"
       :close-on-click-modal="false">
        <el-upload
         class="avatar-uploader"
@@ -80,12 +80,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { mapState } from 'vuex';
-import { RootState } from '@/store/root-states';
 import Board from 'components/board.vue';
 import Captcha from 'components/captcha.vue';
-import { 
-  updatePhone, 
-  updateEmail, 
+import { RootState } from '@/store/root-states';
+import {
+  updatePhone,
+  updateEmail,
   updateAvatar,
   getAccountInfo,
 } from '@/apis/account';
@@ -108,9 +108,9 @@ export default class AccountBasic extends Vue {
 
   changePhoneForm: object = {
     phone: '',
-    vcode: ''
+    vcode: '',
   };
-  
+
   updateAvatar: string = updateAvatar;
 
   dialogChangeTelVisible: boolean = false;
@@ -130,7 +130,7 @@ export default class AccountBasic extends Vue {
     ],
     vcode: [
       { required: true, message: '请输入验证码', trigger: 'blur' },
-    ]
+    ],
   };
 
   async doChangePhone() {
@@ -141,7 +141,7 @@ export default class AccountBasic extends Vue {
         this.$message.success('手机号更换成功！');
         this.changePhoneForm = {
           phoneChangeBody: '',
-          vcode: ''
+          vcode: '',
         };
         this.dialogChangeMailVisible = false;
         this.initAndRefreshInfo();
@@ -174,7 +174,7 @@ export default class AccountBasic extends Vue {
   }
 
   created() {
-    this.initAndRefreshInfo();  
+    this.initAndRefreshInfo();
   }
 }
 </script>

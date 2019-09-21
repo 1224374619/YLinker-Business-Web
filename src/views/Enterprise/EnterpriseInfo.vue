@@ -26,7 +26,7 @@
             </li>
             <li>
               <span>企业性质：</span>
-              <span>{{ inspectLabel(enterpriseTypes, companyInfo.nature) }}</span>
+              <span>{{ findLabel(options.companyNature, companyInfo.nature) }}</span>
             </li>
             <li>
               <span>所属行业：</span>
@@ -34,7 +34,7 @@
             </li>
             <li>
               <span>企业地点：</span>
-              <span>{{ companyInfo.address.county }}</span>
+              <span>{{ inspectLabel(districts, [companyInfo.address.province, companyInfo.address.county]) }}</span>
             </li>
             <li>
               <span>企业介绍：</span>
@@ -43,7 +43,7 @@
             <li>
               <span>企业 LOGO：</span>
               <span>
-                <img :src="companyInfo.logoUrl" v-if="companyInfo.logoUrl"/>
+                <img class="logo" :src="companyInfo.logoUrl" v-if="companyInfo.logoUrl"/>
               </span>
             </li>
           </ul>
@@ -61,11 +61,9 @@
             </el-select>
           </el-form-item>
           <el-form-item label="企业性质" prop="nature">
-            <el-cascader
-              :options="enterpriseTypes"
-              v-model="companyInfo.nature"
-              placeholder="请选择企业性质">
-            </el-cascader>
+            <el-select v-model="companyInfo.nature" placeholder="请选择企业性质">
+              <el-option :value="item.code" :label="item.tag" v-for="(item) in options.companyNature" :key="item.code"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="所属行业" prop="industry">
             <el-cascader
@@ -75,7 +73,7 @@
             </el-cascader>
           </el-form-item>
           <el-form-item label="企业地址" prop="addressId">
-            <district class="inline-top-item" placeholder="请选择企业地址" @input="syncSelectedDistrict" />
+            <district class="inline-top-item" placeholder="请选择企业地址" :value="[companyInfo.address.province, companyInfo.address.county]" @input="syncSelectedDistrict" />
             <br>
             <el-input type="textarea" :rows="4" v-model="companyInfo.address.detail" placeholder="请输入内容"></el-input>
           </el-form-item>
@@ -111,7 +109,7 @@
               <div class="el-upload__tip" slot="tip">支持图片格式：png、jpg、jpeg，最大不超过 3M。</div>
               <div class="el-upload__tip" slot="tip">为了尽快通过审核，请上传真实合法且清晰的执照图片。</div>
             </el-upload>
-          </el-form-item>          
+          </el-form-item>
           <div class="operations">
             <el-button type="primary" class="main" @click="onSubmitBasicInfo">保存</el-button>
             <el-button @click="enterpriseInfoEditMode = false">取消</el-button>
@@ -192,25 +190,27 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Captcha from 'components/captcha.vue';
 import PasswordInput from 'components/password-input.vue';
-import { 
-  getCompanyInfo, 
+import District from 'components/district.vue';
+import { mapState } from 'vuex';
+import {
+  getCompanyInfo,
   uploadCompanyFile,
-  uploadCompanyLogo, 
+  uploadCompanyLogo,
   updateCompanyInfo,
   updateCompanyAuditInfo,
 } from '@/apis/company';
-import District from 'components/district.vue';
-import { 
+import {
   cascaderFormatter,
   inspectLabel,
+  findLabel,
   appendParent,
 } from '@/utils/transformer';
 import { RootState } from '@/store/root-states';
-import { mapState } from 'vuex';
 
 const companySizeOptions = [
-  "10 人以下", "10-100 人", "100-500 人", "500 人以上"
-]
+  '10 人以下', '10-100 人', '100-500 人', '500 人以上',
+];
+const DEFAULT_INDEX = 0;
 
 @Component({
   components: {
@@ -225,13 +225,23 @@ const companySizeOptions = [
     industryTypes(state: RootState) {
       return cascaderFormatter(state.constants.industryTypes);
     },
+    options(state: RootState) {
+      return state.constants.options;
+    },
+    districts(state: RootState) {
+      return state.constants.districts;
+    },
   }),
 })
 export default class EnterpriseInfo extends Vue {
   inspectLabel: any = inspectLabel;
+
   companySizeOptions: any = companySizeOptions;
 
+  findLabel: any = findLabel;
+
   uploadCompanyLogo: string = uploadCompanyLogo;
+
   uploadCompanyFile: string = uploadCompanyFile;
 
   auditTempFile: any[] = [];
@@ -260,13 +270,13 @@ export default class EnterpriseInfo extends Vue {
       companyName: '',
       enterpriseForm: '',
       licenseUrl: {
-        accessUrl: ''
+        accessUrl: '',
       },
       registeredAddress: '',
       uniformSocialCreditCode: '',
-    }
+    },
   }
-  
+
   enterpriseInfoEditMode: boolean = false;
 
   enterpriseRegisterInfoEditMode: boolean = false;
@@ -283,7 +293,7 @@ export default class EnterpriseInfo extends Vue {
     ],
     description: [
       { required: true, message: '请输入企业介绍', trigger: 'blur' },
-    ]
+    ],
   };
 
   auditInfoFormRules: object = {
@@ -310,19 +320,19 @@ export default class EnterpriseInfo extends Vue {
       this.$notify({
         title: '警告',
         message: '请先保存企业基本信息！',
-        type: 'warning'
+        type: 'warning',
       });
     } else {
       this.enterpriseRegisterInfoEditMode = true;
     }
   }
 
-   editEnterpriseInfo() {
+  editEnterpriseInfo() {
     if (this.enterpriseRegisterInfoEditMode) {
       this.$notify({
         title: '警告',
         message: '请先保存企业审核信息！',
-        type: 'warning'
+        type: 'warning',
       });
     } else {
       this.enterpriseInfoEditMode = true;
@@ -340,7 +350,7 @@ export default class EnterpriseInfo extends Vue {
           file: this.companyInfo.audit.file,
           registeredAddress: this.companyInfo.audit.registeredAddress,
           uniformSocialCreditCode: this.companyInfo.audit.uniformSocialCreditCode,
-        }
+        };
         await updateCompanyAuditInfo(payload);
         this.editSuccessfulAndreload();
       }
@@ -358,10 +368,10 @@ export default class EnterpriseInfo extends Vue {
           addressId: this.companyInfo.addressId,
           description: this.companyInfo.description,
           industry: this.companyInfo.industry[this.companyInfo.industry.length - 1],
-          nature: this.companyInfo.nature[this.companyInfo.nature.length - 1],
+          nature: this.companyInfo.nature,
           shortName: this.companyInfo.shortName,
-          size: this.companyInfo.size
-        }
+          size: this.companyInfo.size,
+        };
         await updateCompanyInfo(payload);
         this.editSuccessfulAndreload();
       }
@@ -369,13 +379,14 @@ export default class EnterpriseInfo extends Vue {
   }
 
   syncSelectedDistrict(value: any[]) {
-    this.companyInfo.addressId = value[value.length - 1];
+    this.companyInfo.address.province = value[DEFAULT_INDEX];
+    this.companyInfo.address.county = value[DEFAULT_INDEX + 1];
   }
 
   dealWithUploadLicense(response: any, file: any, fileList: any) {
     this.companyInfo.audit = {
       ...this.companyInfo.audit,
-      file: response.data
+      file: response.data,
     };
   }
 
@@ -386,7 +397,7 @@ export default class EnterpriseInfo extends Vue {
   editSuccessfulAndreload() {
     this.$message({
       message: '信息修改成功！',
-      type: 'success'
+      type: 'success',
     });
     this.enterpriseInfoEditMode = false;
     this.enterpriseRegisterInfoEditMode = false;
@@ -399,14 +410,13 @@ export default class EnterpriseInfo extends Vue {
       ...this.companyInfo,
       ...res,
       industry: appendParent(res.industry),
-      nature: appendParent(res.nature),
       audit: {
         ...res.audit,
         enterpriseForm: appendParent(res.audit.enterpriseForm),
-      }
+      },
     };
   }
-  
+
   created() {
     this.init();
   }
@@ -441,7 +451,7 @@ export default class EnterpriseInfo extends Vue {
         padding 10px
         .form-container
           .operations
-            text-align right 
+            text-align right
         .display
           ul
             list-style none
@@ -454,6 +464,8 @@ export default class EnterpriseInfo extends Vue {
               span:first-child
                 flex 0 0 130px
                 text-align right
+              img
+                max-height 100px
         .line
           width 100%
           height 1px

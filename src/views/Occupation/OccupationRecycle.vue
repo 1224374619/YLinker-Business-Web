@@ -82,17 +82,17 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
-import { 
-  getTrashPositions, 
+import dayjs from 'dayjs';
+import {
+  getTrashPositions,
   recoverTrashPosition,
   deleteTrashPositions,
 } from '@/apis/position';
-import dayjs from 'dayjs';
 
 @Component({
   components: {
     Board,
-    TableEmptyPlaceholder
+    TableEmptyPlaceholder,
   },
 })
 export default class OccupationreCycle extends Vue {
@@ -117,7 +117,7 @@ export default class OccupationreCycle extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '今天',
       onClick(picker: any) {
@@ -125,7 +125,7 @@ export default class OccupationreCycle extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '最近一周',
       onClick(picker: any) {
@@ -133,7 +133,7 @@ export default class OccupationreCycle extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '最近一个月',
       onClick(picker: any) {
@@ -141,10 +141,10 @@ export default class OccupationreCycle extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
         picker.$emit('pick', [start, end]);
-      }
-    }]
+      },
+    }],
   };
- 
+
   tableData: any = [];
 
   resetFilters() {
@@ -161,12 +161,12 @@ export default class OccupationreCycle extends Vue {
 
   async deleteOccupation(id: number) {
     this.$confirm('确认彻底删除？')
-      .then(async e => {
+      .then(async (e) => {
         await deleteTrashPositions(id);
         this.$message.success('职位删除成功！');
         this.doSearch();
       })
-      .catch(e => {});
+      .catch((e) => {});
   }
 
   handleSizeChange(pageSize: number) {
@@ -181,19 +181,19 @@ export default class OccupationreCycle extends Vue {
     this.paginations = {
       ...this.paginations,
       ...option,
-    }
-    let payload: any = {
+    };
+    const payload: any = {
       ...this.paginations,
       ...this.filters,
     };
     const res = (await getTrashPositions(payload)).data;
     this.tableData = res.list.map((i: any) => ({
       ...i,
-      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD') 
+      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD'),
     }));
     this.total = res.total;
   }
-  
+
   async created() {
     this.doSearch();
   }
@@ -211,17 +211,17 @@ export default class OccupationreCycle extends Vue {
       width 100%
       .pagination
         margin-top 15px
-        text-align right 
+        text-align right
       .filters .form
         margin 5px 10px 20px
         display flex
-        justify-content space-between 
+        justify-content space-between
 </style>
 <style lang="stylus">
   .occupation-recycle-container
     .el-form-item
       margin-right 20px
-      .el-form-item__content 
+      .el-form-item__content
         text-align left
         .el-input, .el-select, .el-cascader
           width 150px

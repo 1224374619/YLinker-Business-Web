@@ -45,7 +45,7 @@ export default class ContactUs extends Vue {
     address: '中国杭州',
     postNumber: '123123',
     tel: '123123123123',
-    email: 'ffff@alibaba-inc.com'
+    email: 'ffff@alibaba-inc.com',
   }
 
   rules: object = {
@@ -86,7 +86,7 @@ export default class ContactUs extends Vue {
       background-color white
       h1
         font-size 20px
-        text-align left 
+        text-align left
         margin 30px 0px 10px
       .form
         padding 10px

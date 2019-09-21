@@ -100,12 +100,12 @@ import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 @Component({
   components: {
     Board,
-    TableEmptyPlaceholder
+    TableEmptyPlaceholder,
   },
 })
 export default class OccupationInfo extends Vue {
   filters: object = {
-    occupationName: ''
+    occupationName: '',
   };
 
   onlineTableData: any = [];
@@ -135,10 +135,10 @@ export default class OccupationInfo extends Vue {
           display flex
           justify-content space-between
           .operations
-            text-align right 
+            text-align right
       .pagination
         margin-top 15px
-        text-align right 
+        text-align right
 </style>
 <style lang="stylus">
   .resume-blacklist

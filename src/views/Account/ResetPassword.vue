@@ -49,7 +49,7 @@ export default class AccountResetPassword extends Vue {
     password: '',
     confirmPassword: '',
     vcode: '',
-    agree: true
+    agree: true,
   };
 
   passwordDbConfirmValidator = (rule: any, value: any, callback: any) => {
@@ -76,9 +76,8 @@ export default class AccountResetPassword extends Vue {
       { validator: nonEmptyValidator, trigger: 'blur' },
     ],
   };
-  
+
   onSubmit() {
-    
     const ref: any = this.$refs.form;
     ref.validate(async (valid: boolean) => {
       if (valid) {
@@ -91,9 +90,9 @@ export default class AccountResetPassword extends Vue {
         });
         this.$message({
           message: '密码重置成功，请重新登录！',
-          type: 'success'
+          type: 'success',
         });
-      
+
         this.logout();
       }
     });

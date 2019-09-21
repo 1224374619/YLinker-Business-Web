@@ -4,4 +4,4 @@ export const nonEmptyValidator = (rule: any, value: any, callback: any) => {
   } else {
     callback();
   }
-}
+};

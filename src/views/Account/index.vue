@@ -59,7 +59,7 @@ export default class Account extends Vue {
   activedMenu: string = '/account/basic';
 
   subRoutes = subRoutes;
-  
+
   syncRoute(source: string) {
     this.currentRoute = source;
     this.activedMenu = this.currentRoute;
@@ -92,7 +92,7 @@ export default class Account extends Vue {
         background-color white
         margin-right 20px
         ul
-          text-align left 
+          text-align left
       main
         background-color white
         padding 30px 40px

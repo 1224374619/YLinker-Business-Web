@@ -23,7 +23,7 @@
             </el-cascader>
           </el-form-item>
           <el-form-item label="月薪范围" prop="salaryRange">
-            <el-select v-model="form.salaryRange" placeholder="请选择月薪范围" @change="syncSelectedSalary"> 
+            <el-select v-model="form.salaryRange" placeholder="请选择月薪范围" @change="syncSelectedSalary">
               <el-option :value="item.code" v-for="(item) in options.salaryRange" :key="item.code" :label="item.tag"></el-option>
             </el-select>
           </el-form-item>
@@ -134,14 +134,14 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
+import District from 'components/district.vue';
+import { mapState } from 'vuex';
 import citiesConstant from '@/views/constants/cities';
-import { 
-  getPositionDetail, 
+import {
+  getPositionDetail,
   updatePosition,
 } from '@/apis/position';
-import District from 'components/district.vue';
 import { RootState } from '@/store/root-states';
-import { mapState } from 'vuex';
 import { cascaderFormatter } from '@/utils/transformer';
 import { getEnterpriseUsers, getAccountInfoById } from '@/apis/account';
 
@@ -162,7 +162,7 @@ const DEFAULT_INDEX = 0;
 })
 export default class OccuptaionEdit extends Vue {
   loading: boolean = false;
-  
+
   candidatesHR: any[] = [];
 
   occupationId: number = null;
@@ -174,7 +174,7 @@ export default class OccuptaionEdit extends Vue {
       {
         value: '',
         key: '',
-      }
+      },
     ],
     mainArea: [],
     addressId: '',
@@ -195,7 +195,7 @@ export default class OccuptaionEdit extends Vue {
       detail: '',
       latitude: 0,
       longitude: 0,
-      province: 0
+      province: 0,
     },
     workAgeMax: 0,
     workAgeMin: 0,
@@ -206,14 +206,14 @@ export default class OccuptaionEdit extends Vue {
   dynamicTags: string[] = ['标签一', '标签二', '标签三'];
 
   inputVisible: boolean = false;
-    
+
   inputValue: string = '';
 
   rules: object = {
     positionName: [
       { required: true, message: '请输入职位名称', trigger: 'blur' },
     ],
-    jobType: [ 
+    jobType: [
       { required: true, message: '请选择工作性质', trigger: 'blur' },
     ],
     positionCatalog: [
@@ -244,9 +244,7 @@ export default class OccuptaionEdit extends Vue {
 
   findCode(collection: any, min: number, max: number) {
     if (collection) {
-      const _t =collection.filter((item: any) => {
-        return item.min === min && item.max === max;
-      })[DEFAULT_INDEX];
+      const _t = collection.filter((item: any) => item.min === min && item.max === max)[DEFAULT_INDEX];
       return _t ? _t.code : null;
     }
   }
@@ -273,13 +271,13 @@ export default class OccuptaionEdit extends Vue {
   }
 
   syncSelectedSalary(code : number) {
-    const _t =(this as any).options.salaryRange.filter((i: any) => i.code === code)[DEFAULT_INDEX];
+    const _t = (this as any).options.salaryRange.filter((i: any) => i.code === code)[DEFAULT_INDEX];
     this.form.salaryMin = _t.min;
     this.form.salaryMax = _t.max;
   }
 
   syncWorkingAge(code : number) {
-    const _t =(this as any).options.workAgeRange.filter((i: any) => i.code === code)[DEFAULT_INDEX];
+    const _t = (this as any).options.workAgeRange.filter((i: any) => i.code === code)[DEFAULT_INDEX];
     this.form.workAgeMin = _t.min;
     this.form.workAgeMax = _t.max;
   }
@@ -302,7 +300,7 @@ export default class OccuptaionEdit extends Vue {
     this.form.workAddress.province = value[DEFAULT_INDEX];
     if (value.length > 1) {
       this.form.workAddress.county = value[DEFAULT_INDEX + 1];
-    } 
+    }
   }
 
   showInput() {
@@ -316,7 +314,7 @@ export default class OccuptaionEdit extends Vue {
   };
 
   handleInputConfirm() {
-    let inputValue = this.inputValue;
+    const { inputValue } = this;
     if (inputValue) {
       this.dynamicTags.push(inputValue);
     }
@@ -325,26 +323,26 @@ export default class OccuptaionEdit extends Vue {
   }
 
   removeEmail(item: any) {
-    var index = this.form.addedEmails.indexOf(item)
+    const index = this.form.addedEmails.indexOf(item);
     if (index !== -1) {
-      this.form.addedEmails.splice(index, 1)
+      this.form.addedEmails.splice(index, 1);
     }
   };
 
   addEmail() {
     this.form.addedEmails.push({
       value: '',
-      key: Date.now()
+      key: Date.now(),
     });
   };
 
   @Watch('options', { immediate: true, deep: true })
   async function(val: string, oldVal: string) {
     this.form = {
-        ...this.form,
-        salaryRange: this.findCode((val as any).salaryRange, this.form.salaryMin, this.form.salaryMax),
-        workAgeRange: this.findCode((val as any).workAgeRange, this.form.workAgeMin, this.form.workAgeMax),
-      }
+      ...this.form,
+      salaryRange: this.findCode((val as any).salaryRange, this.form.salaryMin, this.form.salaryMax),
+      workAgeRange: this.findCode((val as any).workAgeRange, this.form.workAgeMin, this.form.workAgeMax),
+    };
   }
 
   async created() {
@@ -358,13 +356,13 @@ export default class OccuptaionEdit extends Vue {
         mainArea: [res.workAddress.province, res.workAddress.county],
         addedEmails: res.addedEmails.map((i: any) => ({
           value: i,
-          key: Date.now()
+          key: Date.now(),
         })),
-      }
+      };
       this.candidatesHR = [{
         ...(await getAccountInfoById(res.managerUid)).data,
-      }]
-    } 
+      }];
+    }
   }
 }
 </script>
@@ -381,13 +379,13 @@ export default class OccuptaionEdit extends Vue {
       justify-content center
       flex-direction column
       flex 1
-      position relative 
+      position relative
       background-color white
       .inline-top-item
         margin-bottom 10px
       h1
         font-size 20px
-        text-align left 
+        text-align left
         margin 30px 0px 10px
       .form
         padding 10px
@@ -422,4 +420,3 @@ export default class OccuptaionEdit extends Vue {
       .el-form-item__content
         text-align center
 </style>
-

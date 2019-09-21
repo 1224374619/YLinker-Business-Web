@@ -41,12 +41,12 @@ export default class ContactUs extends Vue {
       flex 0 0 70px
     .body
       flex 1
-      text-align left 
+      text-align left
       position relative
       background-color white
       h1
         font-size 20px
-        text-align left 
+        text-align left
         margin 30px 0px 10px
       .content
         padding 0 30px

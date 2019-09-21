@@ -1,13 +1,13 @@
+import qs from 'qs';
 import http from '@/utils/http';
 import { FunctionScheme } from './apis';
-import qs from 'qs';
 
-const devMode = process.env.VUE_APP_DEV_MODE ==='true';
+const devMode = process.env.VUE_APP_DEV_MODE === 'true';
 
-export const signin: FunctionScheme = params => http.post(devMode ? '/login?returnUrl=http://localhost:8080/api/company/brief' : '/login?returnUrl=/company/brief', 
-qs.stringify(params), {
-  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-});
+export const signin: FunctionScheme = params => http.post(devMode ? '/login?returnUrl=http://localhost:8080/api/company/brief' : '/login?returnUrl=/company/brief',
+  qs.stringify(params), {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  });
 
 export const logout: FunctionScheme = () => http.get('/logout?returnUrl=http://localhost:8080/login');
 
@@ -21,7 +21,7 @@ export const resetPassword: FunctionScheme = params => http.put('/account/passwo
 
 export const getAccountInfo: FunctionScheme = () => http.get('/account');
 
-export const getAccountInfoById: FunctionScheme = (id) => http.get(`/account/${id}`);
+export const getAccountInfoById: FunctionScheme = id => http.get(`/account/${id}`);
 
 export const updatePhone: FunctionScheme = params => http.put('/account/phone', params);
 
@@ -37,4 +37,4 @@ export const createEnterpriseUser: FunctionScheme = params => http.post('/admin/
 
 export const updateEnterpriseUser: FunctionScheme = (id: number, params: any) => http.put(`/admin/account/${id}`, params);
 
-export const deleteEnterpriseUser: FunctionScheme = (id) => http.delete(`/admin/account/${id}`);
+export const deleteEnterpriseUser: FunctionScheme = id => http.delete(`/admin/account/${id}`);

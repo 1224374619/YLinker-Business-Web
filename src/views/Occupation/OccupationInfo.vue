@@ -73,7 +73,7 @@
                   :picker-options="pickerOptions2">
                 </el-date-picker>
               </el-form-item>
-              
+
               <el-form-item label="上线方式">
                 <el-select v-model="value" placeholder="请选择">
                   <el-option value="1">手动</el-option>
@@ -95,7 +95,7 @@
                   :picker-options="pickerOptions2">
                 </el-date-picker>
               </el-form-item>
-              
+
               <el-form-item label="下线方式">
                 <el-select v-model="value" placeholder="请选择">
                   <el-option value="1">手动</el-option>
@@ -139,7 +139,7 @@
                 label="负责 HR">
               </el-table-column>
               <el-table-column
-                width="130"
+                width="170"
                 label="操作">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="gotoOccupationDetailUI(scope.row.id)">查看</el-button>
@@ -365,15 +365,15 @@ import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
 import District from 'components/district.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
+import dayjs from 'dayjs';
 import { getOccupationBoardStatistics } from '@/apis/board';
-import { 
-  getPositions, 
+import {
+  getPositions,
   getPositionOnline,
   getPositionOffline,
   refreshPosition,
 } from '@/apis/position';
 import { getEnterpriseUsers } from '@/apis/account';
-import dayjs from 'dayjs';
 
 const occupationTypes = ['OFFLINE', 'ONLINE', 'PENDING', 'EDITING', 'CHECKING', 'INVALID'];
 
@@ -381,7 +381,7 @@ const occupationTypes = ['OFFLINE', 'ONLINE', 'PENDING', 'EDITING', 'CHECKING', 
   components: {
     Board,
     District,
-    TableEmptyPlaceholder
+    TableEmptyPlaceholder,
   },
 })
 export default class OccupationInfo extends Vue {
@@ -394,7 +394,7 @@ export default class OccupationInfo extends Vue {
     auditingNum: 0,
     editingNum: 0,
     offlineNum: 0,
-    onlineNum: 0
+    onlineNum: 0,
   };
 
   total: number = 0;
@@ -411,7 +411,7 @@ export default class OccupationInfo extends Vue {
     managerUid: '',
     province: '',
     self: false,
-    state: 1
+    state: 1,
   };
 
   pickerOptions2: object = {
@@ -422,7 +422,7 @@ export default class OccupationInfo extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '今天',
       onClick(picker: any) {
@@ -430,7 +430,7 @@ export default class OccupationInfo extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '最近一周',
       onClick(picker: any) {
@@ -438,7 +438,7 @@ export default class OccupationInfo extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
         picker.$emit('pick', [start, end]);
-      }
+      },
     }, {
       text: '最近一个月',
       onClick(picker: any) {
@@ -446,12 +446,12 @@ export default class OccupationInfo extends Vue {
         const start = new Date();
         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
         picker.$emit('pick', [start, end]);
-      }
-    }]
+      },
+    }],
   };
 
   showMoreFilters: boolean = false;
- 
+
   OFFLINETableData: any = [];
 
   CHECKINGTableData: any = [];
@@ -493,7 +493,7 @@ export default class OccupationInfo extends Vue {
       managerUid: '',
       province: '',
       self: false,
-      state: 1
+      state: 1,
     };
   }
 
@@ -509,15 +509,15 @@ export default class OccupationInfo extends Vue {
     this.paginations = {
       ...this.paginations,
       ...option,
-    }
-    let payload: any = {
+    };
+    const payload: any = {
       ...this.paginations,
       ...this.filters,
     };
     const res = (await getPositions(payload)).data;
     (this as any)[`${this.activedTabName}TableData`] = res.list.map((i: any) => ({
       ...i,
-      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD') 
+      createdTime: dayjs(i.createdTime).format('YYYY-MM-DD'),
     }));
     this.total = res.total;
   }
@@ -538,7 +538,7 @@ export default class OccupationInfo extends Vue {
 
   syncSelectedDistrict(value: any[]) {
     this.filters.province = value[value.length - 1];
-    console.log(value)
+    console.log(value);
   }
 
   async created() {
@@ -566,7 +566,7 @@ export default class OccupationInfo extends Vue {
           .fields
             text-align left
           .operations
-            text-align right  
+            text-align right
         .tab-operations
           display flex
           justify-content space-between
@@ -621,7 +621,7 @@ export default class OccupationInfo extends Vue {
       overflow initial
     .el-form-item
       margin-right 20px
-      .el-form-item__content 
+      .el-form-item__content
         text-align left
         .el-input, .el-select, .el-cascader
           width 170px
