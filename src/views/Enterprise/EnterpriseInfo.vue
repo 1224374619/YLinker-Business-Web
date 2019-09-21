@@ -261,7 +261,6 @@ export default class EnterpriseInfo extends Vue {
     address: {
       county: '',
       detail: '',
-      id: '',
       latitude: '',
       longitude: '',
       province: '',
