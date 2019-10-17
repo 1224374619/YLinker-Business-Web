@@ -413,8 +413,9 @@ export default class EnterpriseInfo extends Vue {
       ...res,
       industry: appendParent(res.industry),
       audit: {
+        ...this.companyInfo.audit,
         ...res.audit,
-        enterpriseForm: appendParent(res.audit.enterpriseForm),
+        enterpriseForm: res.audit ? appendParent(res.audit.enterpriseForm) : '',
       },
     };
   }

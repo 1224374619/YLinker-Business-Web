@@ -73,7 +73,7 @@
         <board title="企业摘要" :seeMoreAction="() => this.$router.push({ path: '/enterprise/info' })">
           <div class="enterprise">
             <div class="enter-head">
-              <img :src="companyInfo.logoUrl" />
+              <img :src="companyInfo.logoUrl" v-if="companyInfo.logoUrl"/>
               <div>
                 <span>企业信息完整度</span>
                 <el-progress :percentage="companyInfo.completedPercent"></el-progress>

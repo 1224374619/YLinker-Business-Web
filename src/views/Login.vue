@@ -65,16 +65,23 @@ export default class Home extends Vue {
     const ref: any = this.$refs.form;
     ref.validate(async (valid: boolean) => {
       if (valid) {
-        const response = await signin({ ...this.form });
-        if (response) {   
-          // check company status;
-          const companyInfo = (await getCompanyBriefInfo()).data;
-          if (Object.keys(companyInfo).length === 0) { 
-            this.$router.push({ name: 'enterprise-info-update' });         
-          } else {
-            this.$router.push({ name: 'enterprise-info' });
+        try {
+          const response = await signin({ ...this.form });
+          if (response) {   
+            // check company status;
+            const companyInfo = (await getCompanyBriefInfo()).data;
+            if (Object.keys(companyInfo).length === 0) { 
+              this.$router.push({ name: 'enterprise-info-update' });         
+            } else {
+              this.$router.push({ name: 'enterprise-info' });
+            }
+            this.updateLoginStatus(true);
           }
-          this.updateLoginStatus(true);
+        } catch(e) {
+          this.$notify.error({
+            title: '错误',
+            message: e.response.data.message
+          });
         }
       }
     });

@@ -167,7 +167,7 @@
         </div>
       </div>
       <div class="operations">
-        <el-button>返回</el-button>
+        <el-button @click="returnBack">返回</el-button>
         <!--
         <el-button type="primary main">立即下载</el-button>
         <span>（10 银币）</span>
@@ -241,6 +241,10 @@ export default class ResumeDetail extends Vue {
     // fetch resume data;
     this.resumeId = Number(id);
     this.resumeDetail = (await getResumeDetail(id)).data;
+  }
+
+  returnBack() {
+    this.$router.go(-1);
   }
 }
 </script>

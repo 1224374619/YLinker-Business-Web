@@ -1,7 +1,7 @@
 <template>
   <div class="occupation-add">
     <div class="body">
-      <h1>新增职位</h1>
+      <h1>编辑职位</h1>
       <div class="form">
         <el-form ref="form" :rules="rules" :model="form" label-width="90px">
           <el-form-item label="职位 ID" >

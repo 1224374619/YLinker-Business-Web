@@ -96,13 +96,11 @@
                 label="投递时间">
               </el-table-column>
               <el-table-column
-                width="305"
+                width="165"
                 label="操作">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
-                  <el-button type="text" size="small">通知面试/笔试</el-button>
-                  <el-button type="text" size="small">不合格</el-button>
-                  <el-button type="text" size="small">加入黑名单</el-button>
+                  <el-button type="text" size="small" @click="confirmInterviewAction(scope.row.id)">通知面试/笔试</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -156,13 +154,12 @@
                 label="投递时间">
               </el-table-column>
               <el-table-column
-                width="305"
+                width="155"
                 label="操作">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
-                  <el-button type="text" size="small">通知面试/笔试</el-button>
-                  <el-button type="text" size="small">不合格</el-button>
-                  <el-button type="text" size="small">加入黑名单</el-button>
+                  <el-button type="text" size="small" @click="confirmUnfitAction(scope.row.id)">不合格</el-button>
+                  <el-button type="text" size="small" @click="confirmOfferAction(scope.row.id)">录用</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -216,13 +213,11 @@
                 label="投递时间">
               </el-table-column>
               <el-table-column
-                width="305"
+                width="140"
                 label="操作">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
-                  <el-button type="text" size="small">通知面试/笔试</el-button>
-                  <el-button type="text" size="small">不合格</el-button>
-                  <el-button type="text" size="small">加入黑名单</el-button>
+                  <el-button type="text" size="small" @click="confirmEmployAction(scope.row.id)">确认入职</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -276,13 +271,10 @@
                 label="投递时间">
               </el-table-column>
               <el-table-column
-                width="305"
+                width="70"
                 label="操作">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
-                  <el-button type="text" size="small">通知面试/笔试</el-button>
-                  <el-button type="text" size="small">不合格</el-button>
-                  <el-button type="text" size="small">加入黑名单</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -336,13 +328,10 @@
                 label="投递时间">
               </el-table-column>
               <el-table-column
-                width="305"
+                width="70"
                 label="操作">
                 <template slot-scope="scope">
                   <el-button type="text" size="small" @click="redirectToResumeDetail(scope.row.id)">查看</el-button>
-                  <el-button type="text" size="small">通知面试/笔试</el-button>
-                  <el-button type="text" size="small">不合格</el-button>
-                  <el-button type="text" size="small">加入黑名单</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -370,7 +359,13 @@ import District from 'components/district.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
 import dayjs from 'dayjs';
 import { mapState } from 'vuex';
-import { getResumes } from '@/apis/resume';
+import { 
+  getResumes, 
+  confirmInterview, 
+  confirmUnfit, 
+  confirmOffer, 
+  confirmEmploy,
+} from '@/apis/resume';
 import { getPositionDetail } from '@/apis/position';
 import { RootState } from '@/store/root-states';
 import { findLabel, inspectLabel } from '@/utils/transformer';
@@ -417,6 +412,30 @@ export default class OccupationInfo extends Vue {
   paginations: object = {
     pageSize: 10,
     pageNum: 1,
+  }
+
+  async confirmInterviewAction(positionId: number) {
+    await confirmInterview(this.occupationId, positionId);
+    this.$message.success('通知面试/笔试成功！');
+    this.doSearch();
+  }
+
+  async confirmUnfitAction(positionId: number) {
+    await confirmUnfit(this.occupationId, positionId);
+    this.$message.success('设置简历不合格成功！');
+    this.doSearch();
+  }
+
+  async confirmOfferAction(positionId: number) {
+    await confirmOffer(this.occupationId, positionId);
+    this.$message.success('设置发放 Offer 成功！');
+    this.doSearch();
+  }
+
+  async confirmEmployAction(positionId: number) {
+    await confirmEmploy(this.occupationId, positionId);
+    this.$message.success('设置已入职成功！');
+    this.doSearch();
   }
 
   pickerOptions: object = {
