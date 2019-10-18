@@ -8,7 +8,7 @@
             <span>{{ occupationBoardStatistics.onlineNum }}</span>
           </li>
           <li>
-            <span>编辑中</span>
+            <span>待上线</span>
             <span>{{ occupationBoardStatistics.editingNum }}</span>
           </li>
           <li>
@@ -159,7 +159,7 @@
               layout="total, sizes, prev, pager, next, jumper"
               :total="total"/>
           </el-tab-pane>
-          <el-tab-pane label="编辑中" name="EDITING">
+          <el-tab-pane label="待上线" name="EDITING">
             <el-table
               :data="EDITINGTableData">
               <table-empty-placeholder slot="empty"/>

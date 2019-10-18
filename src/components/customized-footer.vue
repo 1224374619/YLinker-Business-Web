@@ -65,8 +65,9 @@ export default class CustomizedFooter extends Vue {}
       color white
       padding 40px 0
       flex-direction row
-      justify-content space-around
+      justify-content space-between
       div
+        margin-right 30px
         text-align left
         span.title
           font-size 16px

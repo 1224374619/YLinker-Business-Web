@@ -58,16 +58,15 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { mapState } from 'vuex';
 import CustomizedFooter from 'components/customized-footer.vue';
 import CustomizedNav from 'components/customized-nav.vue';
 import Captcha from 'components/captcha.vue';
 import PasswordInput from 'components/password-input.vue';
-import citiesConstant from '@/views/constants/cities';
 import { getAllEnterpriseTypes } from '@/apis/constants';
 import { uploadCompanyFile, registerCompany } from '@/apis/company';
 import { cascaderFormatter } from '@/utils/transformer';
 import { RootState } from '@/store/root-states';
-import { mapState } from 'vuex';
 
 @Component({
   components: {
@@ -97,8 +96,6 @@ export default class EnterpriseInfoUpdate extends Vue {
     email: '',
     file: {},
   };
-
-  citiesConstant: any = citiesConstant;
 
   rules: object = {
     uniformSocialCreditCode: [
@@ -149,17 +146,15 @@ export default class EnterpriseInfoUpdate extends Vue {
             enterpriseForm: enterpriseForm[enterpriseForm.length - 1],
             file,
             registeredAddress,
-            uniformSocialCreditCode
+            uniformSocialCreditCode,
           },
           contact: {
             email,
             realName,
-          }
+          },
         });
         // redirect;
         this.$router.push('/enterprise/info');
-        console.log(this.form)
-        console.log(res)
       }
     });
   }
@@ -167,7 +162,7 @@ export default class EnterpriseInfoUpdate extends Vue {
   dealWithUploadLicense(response: any, file: any, fileList: any) {
     this.form = {
       ...this.form,
-      file: response.data
+      file: response.data,
     };
   }
 }

@@ -24,8 +24,8 @@
               <span><el-button type="text" @click="gotoOccupationPanel('ONLINE')">{{ occupationBoardStatistics.onlineNum }}</el-button></span>
             </li>
             <li>
-              <span>编辑中</span>
-              <span><el-button type="text" @click="gotoOccupationPanel('PENDING')">{{ occupationBoardStatistics.editingNum }}</el-button></span>
+              <span>待上线</span>
+              <span><el-button type="text" @click="gotoOccupationPanel('EDITING')">{{ occupationBoardStatistics.editingNum }}</el-button></span>
             </li>
             <li>
               <span>审核中</span>
@@ -33,7 +33,7 @@
             </li>
             <li>
               <span>审核未通过</span>
-              <span><el-button type="text" @click="gotoOccupationPanel('FAILED')">{{ occupationBoardStatistics.auditFailedNum }}</el-button></span>
+              <span><el-button type="text" @click="gotoOccupationPanel('INVALID')">{{ occupationBoardStatistics.auditFailedNum }}</el-button></span>
             </li>
             <li>
               <span>已下线</span>

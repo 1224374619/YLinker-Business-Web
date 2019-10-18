@@ -428,7 +428,7 @@ export default class OccupationInfo extends Vue {
 
   async confirmOfferAction(positionId: number) {
     await confirmOffer(this.occupationId, positionId);
-    this.$message.success('设置发放 Offer 成功！');
+    this.$message.success('设置录用成功成功！');
     this.doSearch();
   }
 

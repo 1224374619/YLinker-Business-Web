@@ -44,7 +44,7 @@
           </el-form-item>
           <el-form-item class="operations">
             <el-button @click="onReturnOccupationInfo">返回</el-button>
-            <el-button type="primary" class="main" @click="gotoOccupationEditUI()" v-if="form.state !== 1">编辑</el-button>
+            <el-button type="primary" class="main" @click="gotoOccupationEditUI()" v-if="![1, 4].includes(form.state)">编辑</el-button>
             <!-- <el-button type="primary" class="main" @click="onSubmit">上线</el-button> -->
           </el-form-item>
         </el-form>
@@ -89,7 +89,7 @@ export default class OccuptaionDetail extends Vue {
         key: '',
       },
     ],
-    state: '',
+    state: 1,
     addressId: '',
     degreeMin: '',
     description: '',

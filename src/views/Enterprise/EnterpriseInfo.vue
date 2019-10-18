@@ -72,7 +72,7 @@
               placeholder="请选择所属行业">
             </el-cascader>
           </el-form-item>
-          <el-form-item label="企业地址" prop="addressId">
+          <el-form-item label="企业地址" prop="address.province">
             <district class="inline-top-item" placeholder="请选择企业地址" :value="[companyInfo.address.province, companyInfo.address.county]" @input="syncSelectedDistrict" />
             <br>
             <el-input type="textarea" :rows="4" v-model="companyInfo.address.detail" placeholder="请输入内容"></el-input>
@@ -112,7 +112,7 @@
           </el-form-item>
           <div class="operations">
             <el-button type="primary" class="main" @click="onSubmitBasicInfo">保存</el-button>
-            <el-button @click="enterpriseInfoEditMode = false">取消</el-button>
+            <el-button @click="clearAndReload">取消</el-button>
           </div>
         </el-form>
         <span class="line"></span>
@@ -178,7 +178,7 @@
           </el-form-item>
           <div class="operations">
             <el-button type="primary" class="main" @click="onSubmitAuditInfo">保存</el-button>
-            <el-button @click="enterpriseRegisterInfoEditMode = false">取消</el-button>
+            <el-button @click="clearAndReload">取消</el-button>
           </div>
         </el-form>
       </div>
@@ -291,6 +291,9 @@ export default class EnterpriseInfo extends Vue {
     industry: [
       { required: true, message: '请选择所属行业', trigger: 'blur' },
     ],
+    'address.province': [
+      { required: true, message: '请选择企业地址', trigger: 'blur' },
+    ],
     description: [
       { required: true, message: '请输入企业介绍', trigger: 'blur' },
     ],
@@ -380,7 +383,9 @@ export default class EnterpriseInfo extends Vue {
 
   syncSelectedDistrict(value: any[]) {
     this.companyInfo.address.province = value[DEFAULT_INDEX];
-    this.companyInfo.address.county = value[DEFAULT_INDEX + 1];
+    if (value.length > 1) {
+      this.companyInfo.address.county = value[DEFAULT_INDEX + 1];
+    }
   }
 
   dealWithUploadLicense(response: any, file: any, fileList: any) {
@@ -399,6 +404,10 @@ export default class EnterpriseInfo extends Vue {
       message: '信息修改成功！',
       type: 'success',
     });
+    this.clearAndReload();
+  }
+
+  clearAndReload() {
     this.enterpriseInfoEditMode = false;
     this.enterpriseRegisterInfoEditMode = false;
     this.init();

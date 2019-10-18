@@ -5,7 +5,9 @@
         <span>{{ title }}</span>
         <span v-if="desc" class="desc">{{ desc }}</span>
       </div>
-      <el-button type="text" v-if="seeMoreAction" @click="seeMoreAction">更多 &gt;</el-button>
+      <el-button type="text" v-if="seeMoreAction" @click="seeMoreAction">
+        <span class="more">更多 &gt;</span>
+      </el-button>
     </div>
     <div class="body">
       <slot></slot>
@@ -53,6 +55,8 @@ export default class Board extends Vue {
     color #17376e
     font-weight bold
     font-size 16px
+    .more
+      font-size 13px
     .title
       display flex
       .desc

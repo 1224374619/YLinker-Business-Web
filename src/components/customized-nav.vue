@@ -73,7 +73,7 @@
             -->
             <el-dropdown placement="bottom-start" @command="handleMenuClick">
               <img :src="userInfo.avatarUrl || require('@/assets/images/default-avatar.jpg')" />
-              <el-dropdown-menu slot="dropdown">
+              <el-dropdown-menu slot="dropdown" style="width: 100px">
                 <el-dropdown-item command="/account/basic">账号管理</el-dropdown-item>
                 <el-dropdown-item command="/about/contact">联系我们</el-dropdown-item>
                 <el-dropdown-item divided command="logout">退出</el-dropdown-item>

@@ -53,11 +53,11 @@ export default class Home extends Vue {
 
   rules: object = {
     username: [
-      { validator: nonEmptyValidator, trigger: 'blur' },
-      { type: 'number', message: '手机号必须为数字', trigger: 'blur' },
+      { validator: nonEmptyValidator, trigger: 'manual' },
+      { type: 'number', message: '手机号必须为数字', trigger: 'manual' },
     ],
     password: [
-      { validator: nonEmptyValidator, trigger: 'blur' },
+      { validator: nonEmptyValidator, trigger: 'manual' },
     ],
   };
 
@@ -73,7 +73,7 @@ export default class Home extends Vue {
             if (Object.keys(companyInfo).length === 0) { 
               this.$router.push({ name: 'enterprise-info-update' });         
             } else {
-              this.$router.push({ name: 'enterprise-info' });
+              this.$router.push({ name: 'home' });
             }
             this.updateLoginStatus(true);
           }
