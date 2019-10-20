@@ -34,7 +34,7 @@
               <el-option :value="[item.min, item.max]" v-for="(item) in options.workAgeRange" :key="item.code" :label="item.tag"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="工作地址" prop="workAddress">
+          <el-form-item label="工作地址" prop="workAddress.province">
             <district class="inline-top-item" placeholder="请选择工作地址" @input="syncSelectedDistrict" />
             <br>
             <el-input type="textarea" :rows="4" v-model="form.workAddress.detail" placeholder="请输入内容"></el-input>
@@ -223,7 +223,7 @@ export default class OccuptaionAdd extends Vue {
     workAgeRange: [
       { required: true, message: '请选择工作年限', trigger: 'blur' },
     ],
-    addressId: [
+    'workAddress.province': [
       { required: true, message: '请选择工作地址', trigger: 'blur' },
     ],
     description: [
