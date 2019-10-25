@@ -11,23 +11,23 @@
             <span class="tag">{{ statusMapper[form.state] }}</span>
           </el-form-item>
           <el-form-item label="工作性质">
-             <span class="value">{{ form.jobType }}</span>
+             <span class="value">{{ options.jobType[form.jobType] && options.jobType[form.jobType]['tag'] }}</span>
           </el-form-item>
           <el-form-item label="职位分类">
-             <span class="value">{{ form.positionCatalog }}</span>
+             <span class="value">{{ inspectLabelBySingleCode(positionCatalogs, form.positionCatalog) }}</span>
           </el-form-item>
           <el-form-item label="月薪范围">
            <span class="value">{{ form.salaryMin }}-{{ form.salaryMax }}K</span>
           </el-form-item>
           <el-form-item label="最低学历">
-            <span class="value">{{ form.degreeMin }}</span>
+            <span class="value">{{ options.eduDegree[form.degreeMin] && options.eduDegree[form.degreeMin]['tag'] }}</span>
           </el-form-item>
           <el-form-item label="工作年限">
             <span class="value" v-if="form.workAgeMax">{{ form.workAgeMin }}-{{ form.workAgeMax }}年</span>
             <span class="value" v-else>{{ form.workAgeMin }}年</span>
           </el-form-item>
           <el-form-item label="工作地址">
-            <span class="value">{{ form.positionName }}</span>
+            <span class="value">{{ inspectLabel(districts, [form.workAddress.province, form.workAddress.county]) }}</span>
           </el-form-item>
           <el-form-item label="职位描述">
             <span class="value">{{ form.description }}</span>
@@ -70,16 +70,38 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { mapState } from 'vuex';
 import Board from 'components/board.vue';
 import { getPositionDetail } from '@/apis/position';
 import { getAccountInfoById } from '@/apis/account';
+import {
+  inspectLabel,
+  inspectLabelBySingleCode,
+  cascaderFormatter,
+} from '@/utils/transformer';
+import { RootState } from '@/store/root-states';
 
 @Component({
   components: {
     Board,
   },
+  computed: mapState({
+    options(state: RootState) {
+      return state.constants.options;
+    },
+    positionCatalogs(state: RootState) {
+      return cascaderFormatter(state.constants.positionCatalogs);
+    },
+    districts(state: RootState) {
+      return state.constants.districts;
+    },
+  }),
 })
 export default class OccuptaionDetail extends Vue {
+  inspectLabelBySingleCode: any = inspectLabelBySingleCode;
+
+  inspectLabel: any = inspectLabel;
+
   statusMapper = ['已下线', '已上线', '待上线', '编辑中', '审核中', '审核失败'];
 
   form: any = {
@@ -128,7 +150,6 @@ export default class OccuptaionDetail extends Vue {
     this.occupationId = Number(this.$route.params.id);
     if (this.occupationId) {
       const res = (await getPositionDetail(this.occupationId)).data;
-      console.log(res)
       this.form = {
         ...res,
         managerName: (await getAccountInfoById(res.managerUid)).data.realName,

@@ -29,7 +29,7 @@ export const findLabel = (collections: any, code: any) => {
 };
 
 export const inspectLabel = (collections: any, value: any, result: string[] = []): string => {
-  Object.keys(collections).forEach(key => {
+  Object.keys(collections).forEach((key) => {
     const item = collections[key];
     if (item.code && item.tag) {
       item.value = item.code;
@@ -51,4 +51,17 @@ export const appendParent = (value: any, division = 100): number[] => {
   t.unshift(value);
   t.unshift(value - (value % division));
   return t;
+};
+
+export const inspectLabelBySingleCode = (collections:any, value: any, division = 1000, result: string[] = []): string => {
+  collections.forEach((i: any) => {
+    if (value % i.value < division) {
+      if (i.childre) {
+        inspectLabelBySingleCode(i.children, value, division / 10, result);
+      } else {
+        result.push(i.label);
+      }
+    }
+  });
+  return result.join('-');
 };

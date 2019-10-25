@@ -9,6 +9,7 @@ import {
   getAllOptions,
 } from '@/apis/constants';
 import { getAccountInfo } from '@/apis/account';
+import { getCompanyBriefInfo } from '@/apis/company';
 
 Vue.use(Router);
 
@@ -215,6 +216,8 @@ router.beforeEach(async (to, from, next) => {
   const temp = ['login', 'register', 'reset-password', 'reset-result', 'user-license'];
   try {
     const userInfo = (await getAccountInfo()).data;
+    const companyInfo = (await getCompanyBriefInfo()).data;
+
     store.commit('SYNC_USER_INFO', userInfo);
     if (!(store.state.constants.initialized)) {
       store.commit('UPDATE_CONSTANTS', {
@@ -226,11 +229,21 @@ router.beforeEach(async (to, from, next) => {
       });
     }
 
-    if (temp.includes(toName)) {
-      next({ name: 'home' });
-    } else {
-      next();
+    // routing rules for specifc page;
+    if (to.name === 'enterprise-info-update') {
+      companyInfo.reviewedState === 0 ? next() : next({ name: 'home' });
     }
+
+    // status based routing;
+    if (companyInfo.reviewedState === 0) {
+      next({ name: 'enterprise-info-update' });
+    } else {
+      if (temp.includes(toName)) {
+        next({ name: 'home' });
+      } else {
+        next();
+      }
+    } 
   } catch (e) {
     if (temp.includes(toName)) {
       next();
