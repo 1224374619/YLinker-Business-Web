@@ -96,7 +96,7 @@ export default class Home extends Vue {
   };
 
   gotoCustomerSite() {
-    window.open('http://47.102.145.186/client/#/home');
+    window.open('http://47.102.145.186/client-zh/#/home');
   }
 }
 </script>

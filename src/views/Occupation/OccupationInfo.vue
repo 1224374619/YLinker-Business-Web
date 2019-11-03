@@ -124,14 +124,13 @@
               <el-table-column
                 label="职位性质">
                 <template slot-scope="scope">
-                  <span>{{scope.row.jobType}}</span>
+                  <span>{{ findLabel(options.jobType, scope.row.jobType) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="地区">
                 <template slot-scope="scope">
-                  <span>{{scope.row.county}}</span>
-                  <span>{{scope.row.province}}</span>
+                  {{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}
                 </template>
               </el-table-column>
               <el-table-column
@@ -170,14 +169,13 @@
               <el-table-column
                 label="职位性质">
                 <template slot-scope="scope">
-                  <span>{{scope.row.jobType}}</span>
+                  <span>{{ findLabel(options.jobType, scope.row.jobType) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="地区">
                 <template slot-scope="scope">
-                  <span>{{scope.row.county}}</span>
-                  <span>{{scope.row.province}}</span>
+                  {{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}
                 </template>
               </el-table-column>
               <el-table-column
@@ -215,14 +213,13 @@
               <el-table-column
                 label="职位性质">
                 <template slot-scope="scope">
-                  <span>{{scope.row.jobType}}</span>
+                  <span>{{ findLabel(options.jobType, scope.row.jobType) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="地区">
                 <template slot-scope="scope">
-                  <span>{{scope.row.county}}</span>
-                  <span>{{scope.row.province}}</span>
+                  {{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}
                 </template>
               </el-table-column>
               <el-table-column
@@ -259,14 +256,13 @@
               <el-table-column
                 label="职位性质">
                 <template slot-scope="scope">
-                  <span>{{scope.row.jobType}}</span>
+                  <span>{{ findLabel(options.jobType, scope.row.jobType) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="地区">
                 <template slot-scope="scope">
-                  <span>{{scope.row.county}}</span>
-                  <span>{{scope.row.province}}</span>
+                  {{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}
                 </template>
               </el-table-column>
               <el-table-column
@@ -303,14 +299,13 @@
               <el-table-column
                 label="职位性质">
                 <template slot-scope="scope">
-                  <span>{{scope.row.jobType}}</span>
+                  <span>{{ findLabel(options.jobType, scope.row.jobType) }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="地区">
                 <template slot-scope="scope">
-                  <span>{{scope.row.county}}</span>
-                  <span>{{scope.row.province}}</span>
+                  {{ inspectLabel(districts, [scope.row.province, scope.row.county]) }}
                 </template>
               </el-table-column>
               <el-table-column
@@ -362,6 +357,8 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { mapState } from 'vuex';
+import { RootState } from '@/store/root-states';
 import Board from 'components/board.vue';
 import District from 'components/district.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
@@ -374,6 +371,7 @@ import {
   refreshPosition,
 } from '@/apis/position';
 import { getEnterpriseUsers } from '@/apis/account';
+import { findLabel, inspectLabel } from '@/utils/transformer';
 
 const occupationTypes = ['OFFLINE', 'ONLINE', 'PENDING', 'EDITING', 'CHECKING', 'INVALID'];
 
@@ -383,8 +381,20 @@ const occupationTypes = ['OFFLINE', 'ONLINE', 'PENDING', 'EDITING', 'CHECKING', 
     District,
     TableEmptyPlaceholder,
   },
+  computed: mapState({
+    options(state: RootState) {
+      return state.constants.options;
+    },
+    districts(state: RootState) {
+      return state.constants.districts;
+    },
+  }),
 })
 export default class OccupationInfo extends Vue {
+  findLabel: any = findLabel;
+
+  inspectLabel: any = inspectLabel;
+
   loading: boolean = false;
 
   candidatesHR: any[] = [];

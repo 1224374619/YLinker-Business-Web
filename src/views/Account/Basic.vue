@@ -5,14 +5,14 @@
       :close-on-click-modal="false">
       <el-form ref="formChangePhone" :model="changePhoneForm" :rules="rules" label-width="70px">
         <el-form-item label="手机号" prop="phone">
-          <el-input v-model="changePhoneForm.phone" auto-complete="off"></el-input>
+          <el-input v-model="changePhoneForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item label="验证码" prop="vcode">
           <captcha v-model="changePhoneForm.vcode" :phoneNumber="changePhoneForm.phone" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogChangeTelVisible = false">取消</el-button>
+        <el-button @click="resetChangePhoneModal">取消</el-button>
         <el-button type="primary main" @click="doChangePhone">确定</el-button>
       </div>
     </el-dialog>
@@ -22,11 +22,11 @@
       :close-on-click-modal="false">
       <el-form ref="formChangeMail" :model="changeEmailForm" :rules="rules" label-width="80px">
         <el-form-item label="邮箱账号" prop="email">
-          <el-input v-model="changeEmailForm.email" auto-complete="off"></el-input>
+          <el-input v-model="changeEmailForm.email" auto-complete="off" placeholder="请输入邮箱"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogChangeMailVisible = false">取消</el-button>
+        <el-button @click="resetChangeMailModal">取消</el-button>
         <el-button type="primary main" @click="doChangeEmail">确定</el-button>
       </div>
     </el-dialog>
@@ -133,6 +133,16 @@ export default class AccountBasic extends Vue {
     ],
   };
 
+  resetChangePhoneModal() {
+    (this.$refs.formChangePhone as any).resetFields();
+    this.dialogChangeTelVisible = false;
+  }
+
+  resetChangeMailModal() {
+    (this.$refs.formChangeMail as any).resetFields();
+    this.dialogChangeMailVisible = false;
+  }
+
   async doChangePhone() {
     const ref: any = this.$refs.formChangePhone;
     ref.validate(async (valid: boolean) => {
@@ -171,6 +181,7 @@ export default class AccountBasic extends Vue {
 
   handleAvatarSuccess() {
     this.$message.success('头像更换成功！');
+    window.location.reload();
   }
 
   created() {
