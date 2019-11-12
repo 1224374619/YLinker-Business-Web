@@ -97,18 +97,26 @@
             </el-input>
           </el-form-item>
           <el-form-item label="企业 LOGO" prop="file">
-            <el-upload
-              class="upload"
-              :action="uploadCompanyLogo"
-              :file-list="logoTempFile"
-              :on-success="dealWithUploadLogo"
-              :with-credentials="true"
-              :limit="1"
-              list-type="picture">
-              <el-button size="small" type="primary">点击上传</el-button>
-              <div class="el-upload__tip" slot="tip">支持图片格式：png、jpg、jpeg，最大不超过 3M。</div>
-              <div class="el-upload__tip" slot="tip">为了尽快通过审核，请上传真实合法且清晰的执照图片。</div>
-            </el-upload>
+            <el-button size="small" type="primary" @click="showFileChooser">点击上传</el-button>
+            <div class="el-upload__tip">支持图片格式：png、jpg、jpeg，最大不超过 3M。</div>
+            <div class="el-upload__tip">为了尽快通过审核，请上传真实合法且清晰的执照图片。</div> 
+            <input
+              class="image-input"
+              ref="input"
+              type="file"
+              accept="image/*"
+              @change="setImage"
+            />
+            <el-dialog
+              title="裁切图片"
+              :visible.sync="lOGOUploadModalVisible"
+              width="30%">
+              <vue-cropper ref="cropper" :src="imgSrc"></vue-cropper>
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="showFileChooser">重新选择</el-button>
+                <el-button type="primary" @click="cropImage">确定</el-button>
+              </span>
+            </el-dialog>
           </el-form-item>
           <div class="operations">
             <el-button type="primary" class="main" @click="onSubmitBasicInfo">保存</el-button>
@@ -193,6 +201,8 @@ import PasswordInput from 'components/password-input.vue';
 import District from 'components/district.vue';
 import { mapState } from 'vuex';
 import { RootState } from '@/store/root-states';
+const VueCropper = require('vue-cropperjs');
+import 'cropperjs/dist/cropper.css';
 import {
   getCompanyInfo,
   uploadCompanyFile,
@@ -205,6 +215,7 @@ import {
   inspectLabel,
   findLabel,
   appendParent,
+  dataURItoBlob,
 } from '@/utils/transformer';
 
 
@@ -215,6 +226,7 @@ const DEFAULT_INDEX = 0;
 
 @Component({
   components: {
+    VueCropper,
     Captcha,
     PasswordInput,
     District,
@@ -235,13 +247,15 @@ const DEFAULT_INDEX = 0;
   }),
 })
 export default class EnterpriseInfo extends Vue {
+  imgSrc: string | ArrayBuffer = '';
+
+  lOGOUploadModalVisible: boolean = false;
+
   inspectLabel: any = inspectLabel;
 
   companySizeOptions: any = companySizeOptions;
 
   findLabel: any = findLabel;
-
-  uploadCompanyLogo: string = uploadCompanyLogo;
 
   uploadCompanyFile: string = uploadCompanyFile;
 
@@ -317,6 +331,38 @@ export default class EnterpriseInfo extends Vue {
       { required: true, message: '请上传证件原件照片', trigger: 'blur' },
     ],
   };
+
+  async cropImage() {
+    const ref: any = this.$refs.cropper;
+    const fileData = ref.getCroppedCanvas().toDataURL();
+    let formData = new FormData();
+    formData.append("file", new File([dataURItoBlob(fileData)], 'base64.jpg', { type: 'image/jpeg' }));
+    await uploadCompanyLogo(formData);
+    this.lOGOUploadModalVisible = false;
+    window.location.reload();
+  }
+
+  setImage(e: any) {
+    const file = e.target.files[0];
+    if (file.type.indexOf('image/') === -1) {
+      return;
+    }
+    if (typeof FileReader === 'function') {
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        const ref: any = this.$refs.cropper;
+        this.imgSrc = event.target.result;
+        ref.replace(event.target.result);
+      };
+      reader.readAsDataURL(file);
+      this.lOGOUploadModalVisible = true;
+    }
+  }
+
+  showFileChooser() {
+    const ref: any =  this.$refs.input;
+    ref.click();
+  }
 
   editEnterpriseRegisterInfo() {
     if (this.enterpriseInfoEditMode) {
@@ -395,10 +441,6 @@ export default class EnterpriseInfo extends Vue {
     };
   }
 
-  dealWithUploadLogo(response: any, file: any, fileList: any) {
-
-  }
-
   editSuccessfulAndreload() {
     this.$message({
       message: '信息修改成功！',
@@ -464,6 +506,8 @@ export default class EnterpriseInfo extends Vue {
         .form-container
           .operations
             text-align right
+          .image-input
+            display none
         .display
           ul
             list-style none

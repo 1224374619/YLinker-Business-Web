@@ -15,4 +15,8 @@ export const registerCompany: FunctionScheme = params => http.post('/company', p
 
 export const uploadCompanyFile: string = devMode ? '/api/company/audit/file' : '/backtestbusiness/company/audit/file';
 
-export const uploadCompanyLogo: string = devMode ? '/api/company/logo' : '/backtestbusiness/company/logo';
+export const uploadCompanyLogo: FunctionScheme = formData => http.post('/company/logo', formData, {
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+});

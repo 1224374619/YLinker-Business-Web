@@ -65,3 +65,18 @@ export const inspectLabelBySingleCode = (collections:any, value: any, division =
   });
   return result.join('-');
 };
+
+export const dataURItoBlob = (dataURI: any) => {
+  let byteString;
+  if (dataURI.split(',')[DEFAULT_INDEX].indexOf('base64') >= 0) {
+    byteString = atob(dataURI.split(',')[DEFAULT_INDEX + 1]);
+  } else {
+    byteString = unescape(dataURI.split(',')[DEFAULT_INDEX + 1]);
+  }
+  let mimeString = dataURI.split(',')[0].split(':')[DEFAULT_INDEX + 1].split(';')[DEFAULT_INDEX];
+  let ia = new Uint8Array(byteString.length);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ia], {type:mimeString});
+}
