@@ -201,7 +201,7 @@ import PasswordInput from 'components/password-input.vue';
 import District from 'components/district.vue';
 import { mapState } from 'vuex';
 import { RootState } from '@/store/root-states';
-const VueCropper = require('vue-cropperjs');
+import VueCropper from 'vue-cropperjs';
 import 'cropperjs/dist/cropper.css';
 import {
   getCompanyInfo,
