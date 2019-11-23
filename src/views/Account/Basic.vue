@@ -2,13 +2,14 @@
   <div class="account-basic">
     <el-dialog center title="更换手机号" width="40%"
       :visible.sync="dialogChangeTelVisible"
+      :destroy-on-close="true"
       :close-on-click-modal="false">
       <el-form ref="formChangePhone" :model="changePhoneForm" :rules="rules" label-width="70px">
         <el-form-item label="手机号" prop="phone">
           <el-input v-model="changePhoneForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item label="验证码" prop="vcode">
-          <captcha v-model="changePhoneForm.vcode" :phoneNumber="changePhoneForm.phone" />
+          <captcha v-model="changePhoneForm.vcode" :disabled="!changePhoneForm.phone" :phoneNumber="changePhoneForm.phone" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

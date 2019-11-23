@@ -208,6 +208,11 @@ const router = new Router({
       name: 'enterprise-info-update-result',
       component: () => import(/* webpackChunkName: "enterprise-info-update-result" */ './views/EnterpriseRegisterResult.vue'),
     },
+    {
+      path: '/enterprise/on-review',
+      name: 'enterprise-on-review',
+      component: () => import(/* webpackChunkName: "enterprise-info-update-result" */ './views/EnterpriseOnReview.vue'),
+    },
   ],
 });
 
@@ -217,7 +222,7 @@ router.beforeEach(async (to, from, next) => {
   try {
     const userInfo = (await getAccountInfo()).data;
     const companyInfo = (await getCompanyBriefInfo()).data;
-
+ 
     store.commit('SYNC_USER_INFO', userInfo);
     if (!(store.state.constants.initialized)) {
       store.commit('UPDATE_CONSTANTS', {
@@ -231,12 +236,17 @@ router.beforeEach(async (to, from, next) => {
 
     // routing rules for specifc page;
     if (to.name === 'enterprise-info-update') {
+      (Object.keys(companyInfo).length === 0) ? next() : next({ name: 'home' });
+    }
+    if (to.name === 'enterprise-on-review') {
       companyInfo.reviewedState === 0 ? next() : next({ name: 'home' });
     }
 
     // status based routing;
-    if (companyInfo.reviewedState === 0) {
+    if (Object.keys(companyInfo).length === 0) {
       next({ name: 'enterprise-info-update' });
+    } else if (companyInfo.reviewedState === 0) {
+      next({ name: 'enterprise-on-review' });
     } else {
       if (temp.includes(toName)) {
         next({ name: 'home' });

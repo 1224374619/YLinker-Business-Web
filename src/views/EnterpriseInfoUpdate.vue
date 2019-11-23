@@ -152,6 +152,7 @@ export default class EnterpriseInfoUpdate extends Vue {
             registeredAddress,
             uniformSocialCreditCode,
           },
+          contact: {}
           /*
           contact: {
             email,

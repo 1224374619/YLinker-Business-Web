@@ -70,6 +70,7 @@ export default class Home extends Vue {
           if (response) {   
             // check company status;
             const companyInfo = (await getCompanyBriefInfo()).data;
+            console.log(companyInfo)
             if (Object.keys(companyInfo).length === 0) { 
               this.$router.push({ name: 'enterprise-info-update' });         
             } else {

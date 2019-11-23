@@ -73,7 +73,7 @@ const subRoutes: routeTypeAdvanced[] = [{
   label: '企业人才库',
   icon: '&#xe61e;',
   isMenu: true
-}, {
+},*/ {
   label: '平台人才库',
   icon: '&#xe609;',
   path: '/resume/platform',
@@ -88,7 +88,7 @@ const subRoutes: routeTypeAdvanced[] = [{
     path: '/resume/platform/downloaded',
     label: '已下载简历',
   }]
-}, {
+},/* {
   path: '/resume/blacklist',
   label: '黑名单',
   icon: '&#xe604;',

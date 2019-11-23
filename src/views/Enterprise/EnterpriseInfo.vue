@@ -111,7 +111,7 @@
               title="裁切图片"
               :visible.sync="lOGOUploadModalVisible"
               width="30%">
-              <vue-cropper ref="cropper" :src="imgSrc"></vue-cropper>
+              <vue-cropper ref="cropper" :src="imgSrc" :aspectRatio="1"></vue-cropper>
               <span slot="footer" class="dialog-footer">
                 <el-button @click="showFileChooser">重新选择</el-button>
                 <el-button type="primary" @click="cropImage">确定</el-button>
