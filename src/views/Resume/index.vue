@@ -81,13 +81,13 @@ const subRoutes: routeTypeAdvanced[] = [{
   children: [{
     path: '/resume/platform',
     label: '人才列表',
-  }, {
+  },/* {
     path: '/resume/platform/collection',
     label: '收藏夹',
   }, {
     path: '/resume/platform/downloaded',
     label: '已下载简历',
-  }]
+  }*/]
 },/* {
   path: '/resume/blacklist',
   label: '黑名单',

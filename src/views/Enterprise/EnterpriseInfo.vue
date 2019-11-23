@@ -97,7 +97,8 @@
             </el-input>
           </el-form-item>
           <el-form-item label="企业 LOGO" prop="file">
-            <el-button size="small" type="primary" @click="showFileChooser">点击上传</el-button>
+            <img ref="preview-logo" class="logo" :src="companyInfo.logoUrl" v-if="companyInfo.logoUrl"/>
+            <el-button size="small" type="primary" @click="showFileChooser">点击更新</el-button>
             <div class="el-upload__tip">支持图片格式：png、jpg、jpeg，最大不超过 3M。</div>
             <div class="el-upload__tip">为了尽快通过审核，请上传真实合法且清晰的执照图片。</div> 
             <input
@@ -110,6 +111,8 @@
             <el-dialog
               title="裁切图片"
               :visible.sync="lOGOUploadModalVisible"
+              :close-on-click-modal="false"
+              :close-on-press-escape="false"
               width="30%">
               <vue-cropper ref="cropper" :src="imgSrc" :aspectRatio="1"></vue-cropper>
               <span slot="footer" class="dialog-footer">
@@ -335,11 +338,19 @@ export default class EnterpriseInfo extends Vue {
   async cropImage() {
     const ref: any = this.$refs.cropper;
     const fileData = ref.getCroppedCanvas().toDataURL();
+    
     let formData = new FormData();
-    formData.append("file", new File([dataURItoBlob(fileData)], 'base64.jpg', { type: 'image/jpeg' }));
-    await uploadCompanyLogo(formData);
-    this.lOGOUploadModalVisible = false;
-    window.location.reload();
+    const file = new File([dataURItoBlob(fileData)], 'base64.jpg', { type: 'image/jpeg' });
+    if (file.size > 3 * 1000 * 1000) {
+      this.$message.error('图片超过3M，请重新选择！');
+    } else {
+      formData.append("file", file);
+      const { logoUrl } = (await uploadCompanyLogo(formData)).data;
+      this.$message.success('企业 LOGO 更换成功！');
+      this.lOGOUploadModalVisible = false;
+      const ref: any = this.$refs['preview-logo'];
+      ref.setAttribute("src", logoUrl);
+    }
   }
 
   setImage(e: any) {
@@ -520,8 +531,10 @@ export default class EnterpriseInfo extends Vue {
               span:first-child
                 flex 0 0 130px
                 text-align right
-              img
-                max-height 100px
+        img
+          max-height 100px
+          margin-right 20px
+          vertical-align bottom
         .line
           width 100%
           height 1px
