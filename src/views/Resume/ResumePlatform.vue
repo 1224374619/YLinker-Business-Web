@@ -57,22 +57,19 @@
         </el-table-column>
         <el-table-column
           prop="date"
-          width="100"
           label="姓名">
         </el-table-column>
         <el-table-column
           prop="name"
-          width="60"
           label="性别">
         </el-table-column>
         <el-table-column
           prop="address"
-          width="60"
           label="年龄">
         </el-table-column>
         <el-table-column
           prop="address"
-          label="现居地址">
+          label="现居地">
         </el-table-column>
         <el-table-column
           prop="address"
