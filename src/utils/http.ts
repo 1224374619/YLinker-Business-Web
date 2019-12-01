@@ -8,7 +8,6 @@ const _axios = axios.create({
 });
 
 _axios.interceptors.response.use(response => response.data, (error) => {
-  console.log(error.response.config.url, error.response.status)
   if ((error.response.config.url === '/api/company/brief' || /\/api\/login\?.*/.test(error.response.config.url)) 
     && error.response.status === 400) {
     return Promise.resolve({data: {}});

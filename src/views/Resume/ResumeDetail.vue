@@ -290,7 +290,7 @@ export default class ResumeDetail extends Vue {
               color #333
               font-size 14px
               span
-                padding 0 20px
+                padding 0 8px
                 border-left solid 1px #999
                 &:first-child
                   padding-left 0

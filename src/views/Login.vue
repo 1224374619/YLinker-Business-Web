@@ -79,6 +79,7 @@ export default class Home extends Vue {
             this.updateLoginStatus(true);
           }
         } catch(e) {
+          console.log(e.response)
           this.$notify.error({
             title: '错误',
             message: e.response.data.message
