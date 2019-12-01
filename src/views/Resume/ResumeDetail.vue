@@ -8,11 +8,12 @@
             <p class="name">{{ resumeDetail.base.fullName }}</p>
             <p class="meta">
               <span>{{ findLabel(options.sex, resumeDetail.base.sex) }}</span>
-              <span>{{ resumeDetail.base.workAge ? `${resumeDetail.base.workAge}年经验` : '无经验' }}</span>
+              <span>开始工作年份：{{ resumeDetail.base.workAge ? `${dayjs(resumeDetail.base.workYear).format('YYYY')}` : '无经验' }}</span>
               <span>{{ resumeDetail.base.degree ? findLabel(options.eduDegree, resumeDetail.base.degree) : '未知' }}</span>
-              <span>{{ resumeDetail.base.age }}岁</span>
+              <span>生日：{{ dayjs(resumeDetail.base.birthday).format('YYYY-MM-DD') }}</span>
               <span>政治面貌：{{ findLabel(options.politicalStatus, resumeDetail.base.politicalStatus) }}</span>
               <span>{{ resumeDetail.base.overseasAge ? `${resumeDetail.base.overseasAge}年海外工作经验` : `无海外工作经验`}}</span>
+              <span>现居地：{{ inspectLabel(districts, [resumeDetail.base.province, resumeDetail.base.county]) }}</span>
             </p>
           </div>
           <!--
@@ -24,16 +25,16 @@
           <div class="content">
             <ul>
               <li>
-                <span>职业类型</span>
-                <span>{{ resumeDetail.target.positionCatalogs && resumeDetail.target.positionCatalogs.map(i => i.code).join(' | ') }}</span>
+                <span>职位类型</span>
+                <span>{{ resumeDetail.target.positionCatalogs && resumeDetail.target.positionCatalogs.map(i => i.tag).join(' | ') }}</span>
               </li>
               <li>
-                <span>工作城市</span>
+                <span>意向城市</span>
                 <span>{{ inspectLabel(districts, [resumeDetail.target.province, resumeDetail.target.county]) }}</span>
               </li>
               <li>
                 <span>企业行业</span>
-                <span>{{ resumeDetail.target.industries && resumeDetail.target.industries.map(i => i.code).join(' | ') }}</span>
+                <span>{{ resumeDetail.target.industries && resumeDetail.target.industries.map(i => i.tag).join(' | ') }}</span>
               </li>
               <li>
                 <span>薪资范围</span>
@@ -186,6 +187,7 @@ import { getResumeDetail, getResumeAwardCert, getResumeSkillCert } from '@/apis/
 import { RootState } from '@/store/root-states';
 import {
   inspectLabel,
+  inspectLabelBySingleCode,
   findLabel,
 } from '@/utils/transformer';
 
@@ -211,6 +213,8 @@ export default class ResumeDetail extends Vue {
   findLabel: any = findLabel;
 
   inspectLabel: any = inspectLabel;
+
+  inspectLabelBySingleCode: any = inspectLabelBySingleCode;
 
   dayjs: any = dayjs;
 
