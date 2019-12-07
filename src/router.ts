@@ -115,6 +115,11 @@ const router = new Router({
           component: () => import(/* webpackChunkName: "resume" */ './views/Resume/ResumeDetail.vue'),
         },
         {
+          path: 'talent/:id(\\d+)',
+          name: 'resume-talent-detail',
+          component: () => import(/* webpackChunkName: "resume" */ './views/Resume/ResumeTalentDetail.vue'),
+        },
+        {
           path: 'list/:id(\\d+)',
           name: 'resume-list',
           component: () => import(/* webpackChunkName: "resume" */ './views/Resume/ResumeList.vue'),

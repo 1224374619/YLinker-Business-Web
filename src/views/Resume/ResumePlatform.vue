@@ -1,47 +1,44 @@
 <template>
   <div class="resume-platform">
-    <board class="board" title="平台人才库" desc="暂不支持搜索及下载附件简历">
+    <board class="board" title="平台人才库" desc="当前仅支持在线简历">
       <div class="filters">
         <el-form :inline="true" :model="filters" class="form">
           <div class="fields">
             <el-form-item label="年龄">
-              <el-input class="mini" v-model="input"></el-input> <span>&nbsp;至&nbsp;</span>
-              <el-input class="mini" v-model="input"></el-input>
+              <el-input class="mini" v-model.number="filters.ageMin"></el-input> <span>&nbsp;至&nbsp;</span>
+              <el-input class="mini" v-model.number="filters.ageMax"></el-input>
             </el-form-item>
             <el-form-item label="最高学历">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option value="1">本科</el-option>
+              <el-select v-model="filters.degreeMin" placeholder="请选择最低学历">
+                <el-option :value="item.code" v-for="(item) in options.eduDegree" :key="'degree_' + item.code" :label="item.tag"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="工作年限">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option value="1">1-10</el-option>
+              <el-select v-model="filters.workAgeRange" placeholder="请选择工作年限" @change="syncWorkingAge">
+                <el-option :value="[item.min, item.max]" v-for="(item) in options.workAgeRange" :key="'workAge_' + item.code" :label="item.tag"></el-option>
               </el-select>
             </el-form-item>
           </div>
           <div class="fields">
             <el-form-item label="意向城市">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option value="1">上海</el-option>
-              </el-select>
+              <district class="inline-top-item" placeholder="请选择工作地址" :value="filters.targetCity" @input="syncSelectedDistrict" />
             </el-form-item>
             <el-form-item label="企业行业">
-              <el-select v-model="value" placeholder="请选择">
-                <el-option value="1">1-10</el-option>
-              </el-select>
+              <el-cascader
+              :options="industryTypes"
+              v-model="filters.industry"
+              placeholder="请选择所属行业">
+            </el-cascader>
             </el-form-item>
             <el-form-item label="职位类型">
-              <el-autocomplete
-                v-model="filters.occupationName"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="handleSelect"
-              ></el-autocomplete>
+              <el-select v-model="filters.jobType" placeholder="请选择工作性质">
+                <el-option :value="item.code" v-for="(item) in options.jobType" :key="'jobType_' + item.code" :label="item.tag"></el-option>
+              </el-select>
             </el-form-item>
             <div class="operations">
               <el-form-item>
-                <el-button @click="onSearch">重置</el-button>
-                <el-button type="primary main" @click="onSearch">查询</el-button>
+                <el-button @click="resetFilters">重置</el-button>
+                <el-button type="primary main" @click="doSearch">查询</el-button>
               </el-form-item>
             </div>
           </div>
@@ -49,6 +46,7 @@
       </div>
       <el-table
         @selection-change="handleExportResumes"
+        current-row-key="id"
         :data="tableData">
         <table-empty-placeholder slot="empty"/>
         <el-table-column
@@ -56,35 +54,39 @@
           width="55">
         </el-table-column>
         <el-table-column
-          prop="date"
+          width="100"
+          prop="fullName"
           label="姓名">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="sex"
+          width="80"
           label="性别">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="age"
+          width="80"
           label="年龄">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="residence"
           label="现居地">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="topDegree"
+          width="100"
           label="最高学历">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="targetPosition"
           label="意向职位">
         </el-table-column>
         <el-table-column
           class="operations"
           width="60"
           label="操作">
-          <template>
-            <el-button type="text" size="small" @click="inspectResumeDetail">查看</el-button>
+           <template slot-scope="scope">
+            <el-button type="text" size="small" @click="inspectResumeDetail(scope.row.id)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -95,9 +97,9 @@
         @current-change="handleCurrentChange"
         :current-page="1"
         :page-sizes="[10, 20, 30, 40]"
-        :page-size="10"
+        :page-size="paginations.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400">
+        :total="total">
       </el-pagination>
     </board>
   </div>
@@ -107,35 +109,128 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
+import { mapState } from 'vuex';
+import { RootState } from '@/store/root-states';
+import District from 'components/district.vue';
+import dayjs from 'dayjs';
+import {
+  cascaderFormatter,
+  inspectLabel,
+  findLabel,
+  appendParent,
+} from '@/utils/transformer';
+import { 
+  getTalentResumeDetail,
+  getTalentResumes
+} from '@/apis/resume';
+
+const DEFAULT_INDEX = 0;
+const filtersProto = {
+  ageMin: '',
+  ageMax: '',
+  degreeMin: '',
+  workAgeRange: '',
+  targetCity: [],
+  industry: [],
+  jobType: '',
+  workYear: '',
+  workAddress: {
+    province: '',
+    county: ''
+  }
+};
 
 @Component({
   components: {
     Board,
     TableEmptyPlaceholder,
+    District
   },
+  computed: mapState({
+    enterpriseTypes(state: RootState) {
+      return cascaderFormatter(state.constants.enterpriseForm);
+    },
+    industryTypes(state: RootState) {
+      return cascaderFormatter(state.constants.industryTypes);
+    },
+    options(state: RootState) {
+      return state.constants.options;
+    },
+    districts(state: RootState) {
+      return state.constants.districts;
+    },
+  }),
 })
 export default class ResumePlatform extends Vue {
+  
   filters: object = {
-    occupationName: '',
+    ...filtersProto,
   };
 
-  tableData: any = [{
-    address: 'f饭',
-  }];
+  resetFilters() {
+    this.filters = {
+      ...filtersProto,
+    }
+  }
 
-  activedTabName: string = 'online';
+  total: number = 0;
 
-  data: any = [];
+  paginations: object = {
+    pageSize: 10,
+    pageNum: 1,
+  }
 
-  onSearch() {}
+  tableData: any = [];
 
-  mounted() {
+  syncWorkingAge([min, max] : number[]) {
+    (this.filters as any).workYear = max - min;
+  }
+
+  syncSelectedDistrict(value: any[]) {
+    (this.filters as any).workAddress.province = value[DEFAULT_INDEX];
+    if (value.length > 1) {
+      (this.filters as any).workAddress.county = value[DEFAULT_INDEX + 1];
+    }
   }
 
   handleExportResumes() {}
 
-  inspectResumeDetail() {
-    this.$router.push({ path: '/resume/1' });
+  inspectResumeDetail(id) {
+    this.$router.push({ path: `/resume/talent/${id}` });
+  }
+
+  handleSizeChange(pageSize: number) {
+    this.doSearch({ pageSize });
+  }
+
+  handleCurrentChange(pageNum: number) {
+    this.doSearch({ pageNum });
+  }
+
+  async doSearch(option = {}) {
+    this.paginations = {
+      ...this.paginations,
+      ...option,
+    };
+
+    const _t = {};
+    for (let key in this.filters) {
+      if ((Array.isArray(this.filters[key]) && this.filters[key].length > 0) || 
+        (!Array.isArray(this.filters[key]) && this.filters[key])) {
+        _t[key] = this.filters[key];
+      }
+    }
+    const payload: any = {
+      ...this.paginations,
+      ..._t,
+    };
+    const res = (await getTalentResumes(payload)).data;
+    this.tableData = res.list;
+    this.total = res.total;
+  }
+
+  async created() {
+    this.doSearch();
   }
 }
 </script>

@@ -22,3 +22,8 @@ export const getResumeAttachment: FunctionScheme = id => http.get(`/resume/${id}
 export const getResumeSkillCert: FunctionScheme = (id, certId) => http.get(`/resume/${id}/skill/${certId}/cert/url`);
 
 export const getResumeStatistics: FunctionScheme = () => http.get('/resume/processedStats');
+
+export const getTalentResumeDetail: FunctionScheme = id => http.get(`/talentPlatform/resume/${id}`);
+
+export const getTalentResumes: FunctionScheme = (params) => http.post(`/talentPlatform/resume/search`, params);
+

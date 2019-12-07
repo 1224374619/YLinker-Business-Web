@@ -34,9 +34,9 @@
         <el-breadcrumb separator="/">
           <el-breadcrumb-item>您的位置：简历管理</el-breadcrumb-item>
           <template v-for="(route, index) in subRoutes">
-            <el-breadcrumb-item :key="index" :to="{ path: route.path }" v-if="currentRoute.includes(route.path)">{{ route.label }}</el-breadcrumb-item>
+            <el-breadcrumb-item :key="'main_' + index" :to="{ path: route.path }" v-if="currentRoute.includes(route.path)">{{ route.label }}</el-breadcrumb-item>
             <template v-for="(subRoute, subIndex) in route.children">
-              <el-breadcrumb-item :key="index + subIndex" :to="{ path: subRoute.path }" v-if="currentRoute === subRoute.path">{{ subRoute.label }}</el-breadcrumb-item>
+              <el-breadcrumb-item :key="'sub_' + index + subIndex" :to="{ path: subRoute.path }" v-if="currentRoute === subRoute.path">{{ subRoute.label }}</el-breadcrumb-item>
             </template>
           </template>
         </el-breadcrumb>
@@ -101,7 +101,7 @@ const subRoutes: routeTypeAdvanced[] = [{
     CustomizedNav,
   },
 })
-export default class Enterprise extends Vue {
+export default class Resume extends Vue {
   currentRoute: string = '';
 
   activedMenu: string = '/resume/info';

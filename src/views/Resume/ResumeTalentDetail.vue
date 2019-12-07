@@ -5,15 +5,15 @@
         <div class="head">
           <img :src="resumeDetail.avatarUrl"/>
           <div>
-            <p class="name">{{ resumeDetail.base.fullName }}</p>
+            <p class="name">{{ resumeDetail.fullName }}</p>
             <p class="meta">
-              <span>{{ findLabel(options.sex, resumeDetail.base.sex) }}</span>
-              <span>开始工作年份：{{ resumeDetail.base.workAge ? `${dayjs(resumeDetail.base.workYear).format('YYYY')}` : '无经验' }}</span>
-              <span>{{ resumeDetail.base.degree ? findLabel(options.eduDegree, resumeDetail.base.degree) : '未知' }}</span>
-              <span>生日：{{ dayjs(resumeDetail.base.birthday).format('YYYY-MM-DD') }}</span>
-              <span>政治面貌：{{ findLabel(options.politicalStatus, resumeDetail.base.politicalStatus) }}</span>
-              <span>{{ resumeDetail.base.overseasAge ? `${resumeDetail.base.overseasAge}年海外工作经验` : `无海外工作经验`}}</span>
-              <span>现居地：{{ inspectLabel(districts, [resumeDetail.base.province, resumeDetail.base.county]) }}</span>
+              <span>{{ resumeDetail.sex }}</span>
+              <span>开始工作年份：{{ resumeDetail.workBeginYear }}</span>
+              <span>{{ resumeDetail.topDegree }}</span>
+              <span>生日：{{ dayjs(resumeDetail.birthday).format('YYYY-MM-DD') }}</span>
+              <span>政治面貌：{{ resumeDetail.politicalStatus }}</span>
+              <span>海外工作经验：{{ resumeDetail.overseas }}</span>
+              <span>现居地：{{ resumeDetail.residence }}</span>
             </p>
           </div>
           <!--
@@ -26,48 +26,48 @@
             <ul>
               <li>
                 <span>职位类型</span>
-                <span>{{ resumeDetail.target.positionCatalogs && resumeDetail.target.positionCatalogs.map(i => i.tag).join(' | ') }}</span>
+                <span>{{ resumeDetail.targetPosition }}</span>
               </li>
               <li>
                 <span>意向城市</span>
-                <span>{{ inspectLabel(districts, [resumeDetail.target.province, resumeDetail.target.county]) }}</span>
+                <span>{{ resumeDetail.targetCity }}</span>
               </li>
               <li>
                 <span>企业行业</span>
-                <span>{{ resumeDetail.target.industries && resumeDetail.target.industries.map(i => i.tag).join(' | ') }}</span>
+                <span>{{ resumeDetail.targetIndustry }}</span>
               </li>
               <li>
                 <span>薪资范围</span>
-                <span>{{ resumeDetail.target.salaryMin }}-{{resumeDetail.target.salaryMax || '∞'}}千</span>
+                <span>{{ resumeDetail.targetSalary }}</span>
               </li>
               <li>
                 <span>求职状态</span>
-                <span>{{ findLabel(options.jobSearchStatus, resumeDetail.target.jobSearchStatus) }}</span>
+                <span>{{ resumeDetail.jobSearchStatus }}</span>
               </li>
               <li>
                 <span>工作类型</span>
-                <span>{{ findLabel(options.jobType, resumeDetail.target.jobType) }}</span>
+                <span>{{ resumeDetail.jobType }}</span>
               </li>
             </ul>
           </div>
         </div>
         <div class="section">
           <h3><span class="icon">&#xe605;</span>教育经历</h3>
-          <div class="content" v-for="(item, index) in resumeDetail.eduExpr" :key="100 + index">
+          <div class="content" v-for="(item, index) in resumeDetail.eduExpr" :key="index">
             <div class="grid">
               <span><b>{{ item.school }}</b></span>
               <span>{{ dayjs(item.beginTime).format('YYYY-MM-DD') }} - {{ item.endTime ? dayjs(item.endTime).format('YYYY-MM-DD') : '至今' }}</span>
             </div>
             <div class="meta">
               <span>{{ item.major }}</span>
-              <span>{{ findLabel(options.eduDegree, item.degree) }}</span>
+              <span>{{ item.degree }}</span>
               <span>{{ item.isUnified ? '统招' : '非统招'}}</span>
             </div>
           </div>
         </div>
         <div class="section">
           <h3><span class="icon">&#xe603;</span>工作经历</h3>
-          <div class="content" v-for="(item, index) in resumeDetail.workExpr" :key="200 + index">
+          <div class="content" v-for="(item, index) in resumeDetail.workExpr" :key="100 + index">
             <div class="grid">
               <span>
                 <div class="meta">
@@ -87,7 +87,7 @@
         </div>
         <div class="section">
           <h3><span class="icon">&#xe60f;</span>项目经历</h3>
-          <div class="content" v-for="(item, index) in resumeDetail.projects" :key="300 + index">
+          <div class="content" v-for="(item, index) in resumeDetail.projects" :key="200 + index">
             <div class="grid">
               <span>
                 <div class="meta">
@@ -107,7 +107,7 @@
         </div>
         <div class="section">
           <h3><span class="icon">&#xe608;</span>培训经历</h3>
-          <div class="content" v-for="(item, index) in resumeDetail.training" :key="400 + index">
+          <div class="content" v-for="(item, index) in resumeDetail.training" :key="300 + index">
             <div class="grid">
               <span><b>{{ item.lesson }}</b></span>
               <span>{{ item.institution }}</span>
@@ -117,7 +117,7 @@
         </div>
         <div class="section">
           <h3><span class="icon">&#xe613;</span>语言能力</h3>
-          <div class="content" v-for="(item, index) in resumeDetail.languages" :key="500 + index">
+          <div class="content" v-for="(item, index) in resumeDetail.languages" :key="400 + index">
             <div class="grid">
               <span><b>{{ item.language }}</b></span>
               <span>听说能力{{ findLabel(options.masterLevel, item.listenAndSpeak) }}</span>
@@ -127,7 +127,7 @@
         </div>
         <div class="section">
           <h3><span class="icon">&#xe615;</span>职称等级</h3>
-          <div class="content" v-for="(item, index) in resumeDetail.qualifications" :key="600 + index">
+          <div class="content" v-for="(item, index) in resumeDetail.qualifications" :key="500 + index">
             <div class="grid">
               <span><b>{{ item.qual }}</b></span>
             </div>
@@ -135,7 +135,7 @@
         </div>
         <div class="section">
           <h3><span class="icon">&#xe617;</span>专业技能</h3>
-          <div class="content" v-for="(item, index) in resumeDetail.skills" :key="700 + index">
+          <div class="content" v-for="(item, index) in resumeDetail.skills" :key="600 + index">
             <div class="grid">
               <span><b>{{ item.skill }}</b></span>
               <span>{{ findLabel(options.masterLevel, item.level) }}</span>
@@ -150,7 +150,7 @@
         </div>
         <div class="section">
           <h3><span class="icon">&#xe60d;</span>荣誉奖项</h3>
-          <div class="content" v-for="(item, index) in resumeDetail.awards" :key="800 + index">
+          <div class="content" v-for="(item, index) in resumeDetail.awards" :key="700 + index">
             <div class="grid">
               <span>{{ item.award }}</span>
               <span>{{ item.acquiredTime && dayjs(item.acquiredTime).format('YYYY-MM') }}</span>
@@ -162,7 +162,7 @@
           <h3><span class="icon">&#xe618;</span>自我评价</h3>
           <div class="content">
             <div class="textarea">
-              <span>{{ resumeDetail.evaluation.content}}</span>
+              <span>{{ resumeDetail.selfEvaluation }}</span>
             </div>
           </div>
         </div>
@@ -183,7 +183,12 @@ import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
 import { mapState } from 'vuex';
 import dayjs from 'dayjs';
-import { getResumeDetail, getResumeAwardCert, getResumeSkillCert } from '@/apis/resume';
+import { 
+  getResumeDetail, 
+  getResumeAwardCert, 
+  getResumeSkillCert,
+  getTalentResumeDetail,
+} from '@/apis/resume';
 import { RootState } from '@/store/root-states';
 import {
   inspectLabel,
@@ -207,7 +212,7 @@ import {
     },
   }),
 })
-export default class ResumeDetail extends Vue {
+export default class ResumeTalentDetail extends Vue {
   resumeId: number = 0;
 
   findLabel: any = findLabel;
@@ -219,10 +224,9 @@ export default class ResumeDetail extends Vue {
   dayjs: any = dayjs;
 
   resumeDetail: any = {
-    base: {},
-    target: {},
+    workExpr: [],
     eduExpr: [],
-    evaluation: {},
+    projectExpr: [],
   };
 
   async downloadAwardAttachment(id: number) {
@@ -241,10 +245,9 @@ export default class ResumeDetail extends Vue {
 
   async created() {
     const { id } = this.$route.params;
-
     // fetch resume data;
     this.resumeId = Number(id);
-    this.resumeDetail = (await getResumeDetail(id)).data;
+    this.resumeDetail = (await getTalentResumeDetail(id)).data;
   }
 
   returnBack() {
