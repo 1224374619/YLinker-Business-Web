@@ -66,11 +66,9 @@
                 </div>
               </div>
             </el-popover>
-            <!--
             <el-badge :value="12" class="item" v-popover:popover>
               <i @click="gotoNotiUI" class="el-icon-bell"></i>
             </el-badge>
-            -->
             <el-dropdown placement="bottom-start" @command="handleMenuClick">
               <img :src="userInfo.avatarUrl || require('@/assets/images/default-avatar.jpg')" />
               <el-dropdown-menu slot="dropdown" style="width: 100px">

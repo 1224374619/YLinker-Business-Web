@@ -47,7 +47,6 @@
         -->
       </div>
       <div class="right">
-        <!--
         <board title="系统通知" :seeMoreAction="gotoNotiUI">
           <div class="notification" @click="gotoNotiUI">
             <div class="noti-head">
@@ -69,7 +68,7 @@
               <span class="more">详情 &gt;</span>
             </div>
           </div>
-        </board>-->
+        </board>
         <board title="企业摘要" :seeMoreAction="() => this.$router.push({ path: '/enterprise/info' })">
           <div class="enterprise">
             <div class="enter-head">

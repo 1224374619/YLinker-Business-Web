@@ -35,7 +35,6 @@
             <div class="el-upload__tip warning" slot="tip">企业营业执照仅用审核，不会向第三方透露，请放心上传！</div>
           </el-upload>
         </el-form-item>
-        <!--
         <span class="line"></span>
         <p class="header">
           <span>联系人信息</span>
@@ -49,7 +48,6 @@
         <el-form-item label="联系邮箱" prop="email">
           <el-input v-model="form.email" placeholder="请输入联系人邮箱"></el-input>
         </el-form-item>
-        -->
         <el-form-item>
           <el-button class="full main" type="primary" @click="onSubmit">提交</el-button>
         </el-form-item>
@@ -113,7 +111,6 @@ export default class EnterpriseInfoUpdate extends Vue {
     registeredAddress: [
       { required: true, message: '请输入企业注册地', trigger: 'blur' },
     ],
-    /*
     realName: [
       { required: true, message: '请输入联系人姓名', trigger: 'blur' },
     ],
@@ -124,7 +121,6 @@ export default class EnterpriseInfoUpdate extends Vue {
     email: [
       { required: true, message: '请输入联系人邮箱', trigger: 'blur' },
     ],
-    */
     file: [
       { required: true, message: '请上传证件原件照片', trigger: 'blur' },
     ],
@@ -152,13 +148,10 @@ export default class EnterpriseInfoUpdate extends Vue {
             registeredAddress,
             uniformSocialCreditCode,
           },
-          contact: {}
-          /*
           contact: {
             email,
             realName,
           },
-          */
         });
         // redirect;
         this.$router.push('/enterprise/info');
