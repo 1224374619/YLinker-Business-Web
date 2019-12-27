@@ -296,7 +296,7 @@ export default class OccupationInfo extends Vue {
           span:last-child
             line-height 33px
             font-size 24px
-            color #17376e
+            color #a3292e
     .right
       width 240px
       ul
@@ -314,5 +314,5 @@ export default class OccupationInfo extends Vue {
             font-size 12px
           span:last-child
             font-size 14px
-            color #17376e
+            color #a3292e
 </style>

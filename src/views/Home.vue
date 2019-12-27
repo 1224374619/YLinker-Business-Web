@@ -179,7 +179,7 @@ export default class OccupationInfo extends Vue {
             span:last-child
               line-height 33px
               font-size 24px !important
-              color #17376e
+              color #a3292e
       .right
         flex 0 0 240px
         .notification

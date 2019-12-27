@@ -104,7 +104,7 @@ export default class ResumeCollection extends Vue {
           font-size 18px
           color #666
           span.keyword
-            color #17376e
+            color #a3292e
             font-weight bold
       .pagination
         margin-top 15px

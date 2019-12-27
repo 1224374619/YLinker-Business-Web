@@ -52,7 +52,7 @@ export default class Board extends Vue {
     justify-content space-between
     align-items center
     padding 0 20px
-    color #17376e
+    color #a3292e
     font-weight bold
     font-size 16px
     .more

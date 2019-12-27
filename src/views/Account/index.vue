@@ -101,7 +101,7 @@ export default class Account extends Vue {
 <style lang="stylus">
   .account
     li.el-menu-item.is-active
-      border-left solid 3px #1f368d
+      border-left solid 3px #a3292e
       background-color #D6E6FF
     .el-menu
       border none

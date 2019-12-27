@@ -608,7 +608,7 @@ export default class OccupationInfo extends Vue {
           span:last-child
             line-height 33px
             font-size 24px
-            color #17376e
+            color #a3292e
 </style>
 <style lang="stylus">
   .occupation-info-container

@@ -85,14 +85,13 @@ export default class CustomizedFooter extends Vue {}
               margin 10px 0
     .copyright
       font-size 14px
-      color #999
+      color white
       padding 10px 0
       margin auto
-      background-color #f0f0f0
+      background-color #a3292e
       p
         margin 10px 0
       &.full
         background-color #16376e
-        color white
         opacity .5
 </style>

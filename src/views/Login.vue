@@ -1,25 +1,30 @@
 <template>
   <div class="container">
     <div class="form">
-      <p class="header">
-        <span>企业用户登录</span>
-        <el-button type="text" @click="gotoCustomerSite">个人用户</el-button>
-      </p>
-      <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-        <el-form-item label="手机号" prop="username">
-          <el-input prefix-icon="el-icon-mobile-phone" v-model.number="form.username" placeholder="请输入登录手机号"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <password-input v-model="form.password" />
-        </el-form-item>
-        <el-form-item>
-          <el-button class="full main" type="primary" @click="onSignin">立即登录</el-button>
-        </el-form-item>
-      </el-form>
-      <p class="adjunctive">
-        <el-button type="text" @click="gotoRegisterUI">立即注册</el-button>
-        <el-button type="text" @click="gotoResetPwdUI">忘记密码？</el-button>
-      </p>
+      <div class="logo">
+        <img :src="require('@/assets/images/big-logo.png')" />
+      </div>
+      <div class="main">
+        <p class="header">
+          <span>企业用户登录</span>
+          <el-button type="text" @click="gotoCustomerSite">个人用户</el-button>
+        </p>
+        <el-form ref="form" :rules="rules" :model="form">
+          <el-form-item label="" prop="username">
+            <el-input prefix-icon="el-icon-mobile-phone" v-model.number="form.username" placeholder="请输入登录手机号"></el-input>
+          </el-form-item>
+          <el-form-item label="" prop="password">
+            <password-input v-model="form.password" />
+          </el-form-item>
+          <el-form-item>
+            <el-button class="full main" type="primary" @click="onSignin">立即登录</el-button>
+          </el-form-item>
+        </el-form>
+        <p class="adjunctive">
+          <el-button type="text" @click="gotoRegisterUI">立即注册</el-button>
+          <el-button type="text" @click="gotoResetPwdUI">忘记密码？</el-button>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -110,13 +115,21 @@ export default class Home extends Vue {
     align-items center
     justify-content center
     .form
-      padding 30px
-      width 504px
-      height 360px
+      display flex
+      width 880px
+      padding 20px 0
+      align-items center
+      justify-content center
+      height 520px
       background-color white
       border-radius 5px
       box-sizing border-box
       transform translate(0, -70px)
+      .logo
+        img
+          width 420px
+      .main
+        width 250px
       button.full
         width 100%
       p
@@ -127,7 +140,6 @@ export default class Home extends Vue {
           justify-content space-between
         &.adjunctive
           justify-content space-around
-          margin-left 80px
         span
           font-size 20px
 </style>

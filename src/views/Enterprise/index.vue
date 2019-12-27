@@ -105,7 +105,7 @@ export default class Enterprise extends Vue {
 <style lang="stylus">
   .enterprise
     li.el-menu-item.is-active
-      border-left solid 3px #1f368d
+      border-left solid 3px #a3292e
       background-color #d6e6ff
     .el-menu
       border none

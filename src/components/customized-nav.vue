@@ -145,7 +145,7 @@ export default class CustomizedNav extends Vue {
 <style lang="stylus" scoped>
   nav
     z-index 100
-    background-color #16376e
+    background-color #a3292e
     width 100%
     position fixed
     top 0
@@ -185,11 +185,11 @@ export default class CustomizedNav extends Vue {
             justify-content center
             &.router-link-active
               background-color white
-              color #16376e
+              color #a3292e
               span
                 width 80%
                 height 100%
-                border-bottom solid 3px #16376e
+                border-bottom solid 3px #a3292e
                 display flex
                 justify-content center
                 align-items center
@@ -244,7 +244,7 @@ export default class CustomizedNav extends Vue {
         transition all .3s
         font-size 12px
         &:hover
-          color #17376e
+          color #a3292e
           background #edf4ff
   .footer
     display flex

@@ -106,7 +106,7 @@ html, body
     width 100%
     flex 1
   .default-bg
-    background url('assets/images/background.jpg')
+    background-color #a3292e
 .el-tooltip
   span
     border-radius 50%

@@ -287,7 +287,7 @@ export default class ResumeTalentDetail extends Vue {
           p
             margin 0
             &.name
-              color #17376e
+              color #a3292e
               font-size 24px
             &.meta
               color #333
@@ -313,7 +313,7 @@ export default class ResumeTalentDetail extends Vue {
         &:last-child
           border none
         h3
-          color #17376e
+          color #a3292e
           font-size 18px
           margin 0
           text-align left

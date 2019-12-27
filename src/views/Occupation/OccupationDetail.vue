@@ -189,7 +189,7 @@ export default class OccuptaionDetail extends Vue {
               font-size 12px
             span:last-child
               font-size 14px
-              color #17376e
+              color #a3292e
       .form
         margin-top 20px
         padding 10px

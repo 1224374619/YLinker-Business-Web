@@ -21,6 +21,9 @@
           <el-button class="full main" type="primary" @click="onSubmit">重置密码</el-button>
         </el-form-item>
       </el-form>
+      <p class="adjunctive">
+        <el-button type="text" @click="gotoLoginUI">立即登录</el-button>
+      </p>
     </div>
   </div>
 </template>
@@ -111,7 +114,7 @@ export default class ResetPassword extends Vue {
     .form
       padding 30px
       width 504px
-      height 430px
+      height 480px
       background-color white
       border-radius 5px
       box-sizing border-box
