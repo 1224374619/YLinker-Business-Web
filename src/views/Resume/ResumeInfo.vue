@@ -221,6 +221,7 @@ export default class OccupationInfo extends Vue {
       self: false,
       state: 1,
     };
+    this.doSearch();
   }
 
   handleSizeChange(pageSize: number) {

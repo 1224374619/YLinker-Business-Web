@@ -32,17 +32,17 @@ import { RootState } from '@/store/root-states';
   }),
 })
 export default class District extends Vue {
-  selectedDistrict: string = '';
+  selectedDistrict: any = [];
 
   allDistricts: any[] = [];
 
   @Watch('selectedDistrict', { immediate: true, deep: true })
-  watchSelectedDistrict(val: string, oldVal: string) {
+  watchSelectedDistrict(val: any, oldVal: any) {
     this.$emit('input', this.selectedDistrict);
   }
 
   @Watch('value', { immediate: true, deep: true })
-  watchValue(val: string, oldVal: string) {
+  watchValue(val: any, oldVal: any) {
     this.selectedDistrict = val;
   }
 }

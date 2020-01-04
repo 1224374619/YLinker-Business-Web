@@ -90,7 +90,6 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Board from 'components/board.vue';
 import TableEmptyPlaceholder from 'components/table-empty-placeholder.vue';
-import citiesConstant from '@/views/constants/cities';
 
 @Component({
   components: {
@@ -138,8 +137,6 @@ export default class OccupationDraft extends Vue {
       },
     }],
   };
-
-  citiesConstant: any = citiesConstant;
 
   onlineTableData: any = [];
 

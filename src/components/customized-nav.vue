@@ -16,6 +16,9 @@
             <router-link to="/enterprise">
               <span>企业中心</span>
             </router-link>
+            <router-link to="/future">
+              <span>敬请期待</span>
+            </router-link>
           </div>
           <div class="btn-set" v-if="!hasLogin">
             <button @click="gotoLoginUI">登录</button>

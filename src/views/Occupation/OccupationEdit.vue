@@ -136,7 +136,6 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import District from 'components/district.vue';
 import { mapState } from 'vuex';
-import citiesConstant from '@/views/constants/cities';
 import {
   getPositionDetail,
   updatePosition,
@@ -208,8 +207,6 @@ export default class OccuptaionEdit extends Vue {
     workAgeMax: 0,
     workAgeMin: 0,
   };
-
-  citiesConstant: any = citiesConstant;
 
   dynamicTags: string[] = ['标签一', '标签二', '标签三'];
 

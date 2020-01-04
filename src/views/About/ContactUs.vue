@@ -41,11 +41,11 @@ export default class ContactUs extends Vue {
   };
 
   staticInfo: object = {
-    company: '阿里巴巴',
-    address: '中国杭州',
-    postNumber: '123123',
-    tel: '123123123123',
-    email: 'ffff@alibaba-inc.com',
+    company: '上海银领网络科技有限公司',
+    address: '上海市静安区江场三路26、28号207室',
+    postNumber: '200436',
+    tel: '021-56057115、15710193887',
+    email: 'Nicole.yin@yinlinkrc.com',
   }
 
   rules: object = {

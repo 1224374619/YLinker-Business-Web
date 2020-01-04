@@ -14,8 +14,8 @@
             <ul>
               <li>邮编：200436</li>
               <li>联系电话：021-56057115</li>
-              <li>邮箱：Nicole.yin@aliyun.com</li>
-              <li>地址：上海市静安区江场西路299弄15号1428室</li>
+              <li>邮箱：Nicole.yin@yinlinkrc.com</li>
+              <li>地址：上海市静安区江场三路26、28号207室</li>
             </ul>
           </div>
         </div>
@@ -30,12 +30,12 @@
           </div>
         </div>
       </div>
-      <div class="copyright full">
-        <p>Copyright © 2019 (银领人才网) All Right Reserved | 沪ICP备xxxxxxx号-1</p>
+      <div class="copyright homepage">
+        <p>Copyright © 2019 (银领人才网) | 沪ICP备19030136号-1 | <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010602005194">沪公网安备 31010602005194号</a></p>
       </div>
     </template>
-    <div class="copyright" v-else>
-      <p>Copyright © 2019 (银领人才网) All Right Reserved | 沪ICP备xxxxxxx号-1</p>
+    <div :class="{ 'copyright': true, 'landing-page': isLandingPage }" v-else>
+      <p>Copyright © 2019 (银领人才网) | 沪ICP备19030136号-1 |  <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010602005194">沪公网安备 31010602005194号</a></p>
     </div>
   </div>
 </template>
@@ -49,6 +49,10 @@ import { Vue, Component } from 'vue-property-decorator';
       type: Boolean,
       default: false,
     },
+    isLandingPage: {
+      type: Boolean,
+      default: false,
+    },
   },
 })
 export default class CustomizedFooter extends Vue {}
@@ -57,7 +61,7 @@ export default class CustomizedFooter extends Vue {}
 <style lang="stylus" scoped>
   .footer
     width 100%
-    background-color #16376e
+    background-color #6f6f6f
     .appendix
       display flex
       width 1280px
@@ -85,13 +89,19 @@ export default class CustomizedFooter extends Vue {}
               margin 10px 0
     .copyright
       font-size 14px
-      color white
+      color #b7b7b7
       padding 10px 0
       margin auto
-      background-color #a3292e
+      background-color #f0f0f0
+      a
+        color inherit
       p
         margin 10px 0
-      &.full
-        background-color #16376e
+      &.homepage
+        background-color #6f6f6f
+        color white
         opacity .5
+      &.landing-page
+        background-color #a3292e
+        color white
 </style>

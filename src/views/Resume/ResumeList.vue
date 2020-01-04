@@ -15,7 +15,7 @@
             </div>
             <div class="fields" v-if="showMoreFilters">
               <el-form-item label="地区">
-                <district placeholder="请选择地区" @input="syncSelectedDistrict" />
+                <district placeholder="请选择地区" @input="syncSelectedDistrict" v-model="selectedDistrict" />
               </el-form-item>
               <el-form-item label="处理状态">
                 <el-select v-model="filters.processedState" placeholder="请选择处理状态">
@@ -397,6 +397,8 @@ export default class OccupationInfo extends Vue {
 
   selectedTimeRange: any = [];
 
+  selectedDistrict: any = [];
+
   filters = {
     occupationName: '',
     jobSearchStatus: '',
@@ -514,6 +516,8 @@ export default class OccupationInfo extends Vue {
   }
 
   resetFilters() {
+    this.selectedDistrict = [];
+    this.selectedTimeRange = [];
     this.filters = {
       occupationName: '',
       jobSearchStatus: '',
@@ -523,6 +527,7 @@ export default class OccupationInfo extends Vue {
       province: '',
       county: '',
     };
+    this.doSearch();
   }
 
   gotoOccupationDetailUI(id: number) {

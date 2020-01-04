@@ -218,6 +218,11 @@ const router = new Router({
       name: 'enterprise-on-review',
       component: () => import(/* webpackChunkName: "enterprise-info-update-result" */ './views/EnterpriseOnReview.vue'),
     },
+    {
+      path: '/future',
+      name: 'future',
+      component: () => import(/* webpackChunkName: "enterprise-info-update-result" */ './views/Future.vue'),
+    },
   ],
 });
 

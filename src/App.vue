@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <customized-nav class="nav"/>
-    <div :class="{ 'full-screen': isFullScreen, 'default-bg': isDefaultBg, 'main-container': true }">
+    <div :class="{ 'full-screen': isLandingPage, 'default-bg': isDefaultBg, 'main-container': true }">
       <router-view />
     </div>
-    <customized-footer :showSimple="isSimpleFooter" />
+    <customized-footer :showSimple="isSimpleFooter" :isLandingPage="isLandingPage" />
   </div>
 </template>
 
@@ -20,15 +20,22 @@ import CustomizedNav from 'components/customized-nav.vue';
   },
 })
 export default class App extends Vue {
-  isFullScreen: boolean = false;
+  isLandingPage: boolean = false;
 
   isSimpleFooter: boolean = false;
 
   isDefaultBg: boolean = false;
 
+  created() {
+    this.$notify.info({
+      title: '消息',
+      message: '为获得更好的使用体验，推荐使用最新版 Chrome 浏览器访问本网站！'
+    });
+  }
+
   async updated() {
     if (this.$route.name) {
-      this.isFullScreen = [
+      this.isLandingPage = [
         // entering full screen;
         'login',
         'register',
@@ -36,10 +43,11 @@ export default class App extends Vue {
         'reset-result',
         'user-license',
         'enterprise-info-update-result',
+        'future',
       ].includes(this.$route.name);
       this.isSimpleFooter = !([
         // show full footers;
-        'home'
+        'home',
       ].includes(this.$route.name));
       this.isDefaultBg = [
         // show full footers;
@@ -48,6 +56,7 @@ export default class App extends Vue {
         'reset-password',
         'reset-result',
         'user-license',
+        'future',
         'enterprise-info-update-result',
       ].includes(this.$route.name);
     }
