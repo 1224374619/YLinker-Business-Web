@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div style="width:100%;height:30px;background:#f1f1f1;margin:0 0 20px 0">
+        <div><img style="height:30px;margin:0 0 0 0;float:left" :src="require('../assets/images/laba.png')" /><span style="font-family:PingFangSC-Regular;color: #373737;line-height:30px;float:left">【公告】 建议使用谷歌浏览器或360浏览器最新版极速模式访问，以获得更佳体验！</span></div>
+    </div>
     <el-breadcrumb separator="/" class="breadcrumb">
       <el-breadcrumb-item>您的位置：首页</el-breadcrumb-item>
     </el-breadcrumb>

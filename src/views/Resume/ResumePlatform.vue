@@ -21,18 +21,19 @@
           </div>
           <div class="fields">
             <el-form-item label="意向城市">
-              <district class="inline-top-item" placeholder="请选择工作地址" :value="filters.targetCity" @input="syncSelectedDistrict" />
+              <district class="inline-top-item" placeholder="请选择工作地址" v-model="filters.targetCitys" @input="syncSelectedDistrict" />
             </el-form-item>
             <el-form-item label="企业行业">
               <el-cascader
               :options="industryTypes"
               v-model="filters.industry"
+              class="inline-top-item"
               placeholder="请选择所属行业">
             </el-cascader>
             </el-form-item>
             <el-form-item label="职位类型">
-              <el-select v-model="filters.jobType" placeholder="请选择工作性质">
-                <el-option :value="item.code" v-for="(item) in options.jobType" :key="'jobType_' + item.code" :label="item.tag"></el-option>
+              <el-select v-model="filters.jobType" class="inline-top-item" placeholder="请选择工作性质">
+                <el-option  :value="item.code" v-for="(item) in options.jobType" :key="'jobType_' + item.code" :label="item.tag"></el-option>
               </el-select>
             </el-form-item>
             <div class="operations">
@@ -130,7 +131,7 @@ const filtersProto = {
   ageMax: '',
   degreeMin: '',
   workAgeRange: '',
-  targetCity: [],
+  targetCitys: [],
   industry: [],
   jobType: '',
   workYear: '',
@@ -249,6 +250,8 @@ export default class ResumePlatform extends Vue {
         .fields
           display flex
           text-align left
+          .inline-top-item
+            width 200px
         .operations
           text-align center
       .pagination

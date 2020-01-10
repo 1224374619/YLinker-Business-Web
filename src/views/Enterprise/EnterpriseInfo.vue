@@ -3,7 +3,7 @@
     <div class="body">
       <div class="head">
         <p>企业信息完整度</p>
-        <el-progress :text-inside="true" :stroke-width="15" :percentage="companyInfo.completedPercent"></el-progress>
+        <el-progress :text-inside="true" :stroke-width="15" :percentage="this.companyInfo.completedPercent"></el-progress>
       </div>
       <div class="form">
         <p class="header">
@@ -14,7 +14,7 @@
           <ul>
             <li>
               <span>企业名称：</span>
-              <span>{{ companyInfo.fullName }}</span>
+              <span>{{ this.companyInfo.fullName }}</span>
             </li>
             <li>
               <span>企业简称：</span>
@@ -151,7 +151,7 @@
             </li>
             <li>
               <span>证件原件照片：</span>
-              <span><img :src="companyInfo.audit.licenseUrl.accessUrl" /></span>
+              <!-- <span><img :src="companyInfo.audit.licenseUrl.accessUrl" /></span> -->
             </li>
           </ul>
         </div>
