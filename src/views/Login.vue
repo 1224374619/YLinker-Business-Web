@@ -142,4 +142,5 @@ export default class Home extends Vue {
           justify-content space-around
         span
           font-size 20px
+          line-height 50px
 </style>

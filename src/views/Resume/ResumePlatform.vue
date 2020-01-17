@@ -171,7 +171,8 @@ export default class ResumePlatform extends Vue {
   resetFilters() {
     this.filters = {
       ...filtersProto,
-    }
+    },
+    this.doSearch();
   }
 
   total: number = 0;

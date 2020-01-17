@@ -51,13 +51,14 @@
             </div>
           </el-form>
         </div>
-        <el-tabs v-model="activedTabName" type="card" @tab-click="handleToggleTab">
+        <el-tabs v-model="activedTabName"  @tab-click="handleToggleTab">
           <!--
           <div class="tab-operations">
             <el-button type="text" class="underline mini">批量导出简历</el-button>
           </div>
           -->
-          <el-tab-pane label="待处理" name="PENDING">
+          <!-- :label="`${collectNum = this.page.total}）`" -->
+          <el-tab-pane :label="tabName === 'PENDING'?`待处理(${this.total})`:'待处理'" name="PENDING">
             <el-table
               :data="PENDINGTableData">
               <table-empty-placeholder slot="empty"/>
@@ -115,7 +116,7 @@
               layout="total, sizes, prev, pager, next, jumper"
               :total="total"/>
           </el-tab-pane>
-          <el-tab-pane label="处理中" name="PROCESSING">
+          <el-tab-pane :label="tabName === 'PROCESSING'?`处理中(${this.total})`:'处理中'" name="PROCESSING">
             <el-table
               :data="PROCESSINGTableData">
               <table-empty-placeholder slot="empty"/>
@@ -172,9 +173,9 @@
               :page-sizes="[10, 20, 30, 40]"
               :page-size="paginations.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="total"/>
+              :total="total1"/>
           </el-tab-pane>
-          <el-tab-pane label="录用" name="OFFER">
+          <el-tab-pane :label="tabName === 'OFFER'?`录用(${this.total})`:'录用'" name="OFFER">
             <el-table
               :data="OFFERTableData">
               <table-empty-placeholder slot="empty"/>
@@ -230,9 +231,9 @@
               :page-sizes="[10, 20, 30, 40]"
               :page-size="paginations.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="total"/>
+              :total="total2"/>
           </el-tab-pane>
-          <el-tab-pane label="不合格" name="INVALID">
+          <el-tab-pane :label="tabName === 'INVALID'?`不合格(${this.total})`:'不合格'" name="INVALID">
             <el-table
               :data="INVALIDTableData">
               <table-empty-placeholder slot="empty"/>
@@ -287,9 +288,9 @@
               :page-sizes="[10, 20, 30, 40]"
               :page-size="paginations.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="total"/>
+              :total="total3"/>
           </el-tab-pane>
-          <el-tab-pane label="已入职" name="JOINED">
+          <el-tab-pane :label="tabName === 'JOINED'?`已入职(${this.total})`:'已入职'" name="JOINED">
             <el-table
               :data="JOINEDTableData">
               <table-empty-placeholder slot="empty"/>
@@ -344,7 +345,7 @@
               :page-sizes="[10, 20, 30, 40]"
               :page-size="paginations.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="total"/>
+              :total="total4"/>
           </el-tab-pane>
         </el-tabs>
       </board>
@@ -395,6 +396,8 @@ export default class OccupationInfo extends Vue {
 
   occupationId: string = '';
 
+  tabName: string = 'PENDING';
+
   selectedTimeRange: any = [];
 
   selectedDistrict: any = [];
@@ -402,7 +405,7 @@ export default class OccupationInfo extends Vue {
   filters = {
     occupationName: '',
     jobSearchStatus: '',
-    processedState: '',
+    processedState: 0,
     submittedTimeMax: '',
     submittedTimeMin: '',
     province: '',
@@ -410,6 +413,7 @@ export default class OccupationInfo extends Vue {
   };
 
   total: number = 0;
+
 
   paginations: object = {
     pageSize: 10,
@@ -511,6 +515,7 @@ export default class OccupationInfo extends Vue {
   }
 
   handleToggleTab(tabName: any) {
+    this.tabName = tabName.name;
     this.filters.processedState = String(resumeStatus.indexOf(tabName.name));
     this.doSearch();
   }
@@ -595,7 +600,7 @@ export default class OccupationInfo extends Vue {
           z-index 1
       .pagination
         margin 20px 20px 0 0
-        text-align right
+        text-align center
       ul
         margin 0
         list-style none

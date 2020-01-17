@@ -5,9 +5,9 @@
         <el-form-item label="姓名" prop="realName">
           <el-input v-model="addUserForm.realName" auto-complete="off" placeholder="请输入姓名"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <!-- <el-form-item label="密码" prop="password">
           <password-input v-model="addUserForm.password" :showPrefix="false" :placeholder="'请输入密码'" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="手机号" prop="phone">
           <el-input v-model="addUserForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>
         </el-form-item>
@@ -17,7 +17,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addUserDialogVisible = false">取消</el-button>
+        <el-button @click="notdoConfirmAddUser">取消</el-button>
         <el-button type="primary main" @click="doConfirmAddUser">确定</el-button>
       </div>
     </el-dialog>
@@ -136,7 +136,7 @@ export default class EnterpriseUser extends Vue {
 
   addUserForm: object = {
     realName: '',
-    password: '',
+    // password: '',
     phone: '',
     role: 'ROLE_ADMIN',
   };
@@ -153,9 +153,9 @@ export default class EnterpriseUser extends Vue {
     realName: [
       { required: true, message: '请输入职位名称', trigger: 'blur' },
     ],
-    password: [
-      { required: true, message: '请输入密码', trigger: 'blur' },
-    ],
+    // password: [
+    //   { required: true, message: '请输入密码', trigger: 'blur' },
+    // ],
     phone: [
       { required: true, message: '请输入手机号', trigger: 'blur' },
       { len: 11, message: '手机号必须为11位', trigger: 'blur' },
@@ -197,6 +197,17 @@ export default class EnterpriseUser extends Vue {
     });
   }
 
+  async notdoConfirmAddUser() {
+        this.addUserDialogVisible = false;
+        // reset;
+        this.addUserForm = {
+          realName: '',
+          password: '',
+          phone: '',
+          role: 'ROLE_ADMIN',
+        };
+      }
+  
   async doConfirmEditUser() {
     const { id, ...params } = this.editUserForm;
     await updateEnterpriseUser(id, params);

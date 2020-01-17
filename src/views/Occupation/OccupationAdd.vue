@@ -91,9 +91,10 @@
             :label="index === 0 ? '投递邮箱' : ''"
             :key="email.key"
             :prop="'addedEmails.' + index + '.value'"
-            :rules="{
-              required: true, message: '投递邮箱不能为空', trigger: 'blur'
-            }"
+            :rules="[
+              { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+              { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+            ]"
           >
             <el-input v-model="email.value" style="margin-right: 10px;" placeholder="请输入投递邮箱"></el-input>
             <el-button @click.prevent="addEmail()" v-if="index === form.addedEmails.length - 1">添加</el-button>
@@ -232,6 +233,14 @@ export default class OccuptaionAdd extends Vue {
     managerUid: [
       { required: true, message: '请选择负责 HR', trigger: 'blur' },
     ],
+    email: [
+          { required: true, message: "请填写邮箱", trigger: "change" },
+          {
+            pattern: /^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+\.)+(com|cn|net|com.cn|com.tw|com.hk)$/,
+            message: "邮箱格式错误",
+            trigger: ["change", "blur"]
+          }
+        ]
   };
 
   onSubmit(published: boolean = false) {

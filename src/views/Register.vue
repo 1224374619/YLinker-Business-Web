@@ -5,7 +5,7 @@
         <span>企业用户注册</span>
         <el-button type="text">个人用户</el-button>
       </p>
-      <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+      <el-form ref="form" :rules="rules" :model="form" label-width="60px">
         <el-form-item label="手机号" prop="phone">
           <el-input v-model.number="form.phone" placeholder="请输入登录手机号"></el-input>
         </el-form-item>
@@ -101,7 +101,7 @@ export default class Register extends Vue {
     justify-content center
     .form
       padding 30px
-      width 504px
+      width 524px
       height 480px
       background-color white
       border-radius 5px
@@ -120,6 +120,7 @@ export default class Register extends Vue {
           margin-left 80px
         span
           font-size 20px
+          line-height 50px
 </style>
 
 <style lang="stylus">

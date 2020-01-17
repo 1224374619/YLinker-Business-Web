@@ -144,7 +144,7 @@
             <div class="grid">
               <span>{{ item.cert || `${item.skill}证书` }}</span>
               <span>{{ item.acquiredTime && dayjs(item.acquiredTime).format('YYYY-MM') }}</span>
-              <span><el-button type="text" @click="downloadSkillAttachment(item.certId)">证书附件</el-button></span>
+              <span><el-button type="text" @click="downloadSkillAttachment(item.id)">证书附件</el-button></span>
             </div>
           </div>
         </div>
@@ -154,7 +154,7 @@
             <div class="grid">
               <span>{{ item.award }}</span>
               <span>{{ item.acquiredTime && dayjs(item.acquiredTime).format('YYYY-MM') }}</span>
-              <span><el-button type="text" @click="downloadAwardAttachment(item.certId)">奖项附件</el-button></span>
+              <span><el-button type="text" @click="downloadAwardAttachment(item.id)">奖项附件</el-button></span>
             </div>
           </div>
         </div>
@@ -330,6 +330,7 @@ export default class ResumeDetail extends Vue {
             font-size 14px
             text-align left
             margin 10px 0
+            word-wrap break-word
           .meta
             text-align left
             span

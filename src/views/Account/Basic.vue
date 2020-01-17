@@ -225,6 +225,7 @@ export default class AccountBasic extends Vue {
           img
             border-radius 50%
             width 100px
+            height 100px
       .form
         padding 20px
         width 520px
